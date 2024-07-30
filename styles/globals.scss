@@ -1,5 +1,9 @@
 /* pretendard web font cdn */
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import "reset.scss";
+
+$width-max-tablet: 744px;
+$width-max-mobile: 375px;
 
 :root {
   --font-family: "Pretendard", Pretendard, -apple-system, BlinkMacSystemFont,
@@ -55,22 +59,15 @@ body {
   font-family: var(--font-family);
   min-width: 100vw;
   min-height: 100vh;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 /* Tablet */
-@media screen and (max-width: 744px) {
+@media screen and (max-width: $width-max-tablet) {
 }
 
 /* Mobile */
-@media screen and (max-width: 375px) {
+@media screen and (max-width: $width-max-mobile) {
 }
