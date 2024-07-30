@@ -1,0 +1,19 @@
+@import "../../styles/globals.css";
+
+.footer-container {
+  height: 100px;
+}
+.footer-container-span {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.09px;
+  color: var(--color-gray-400);
+}
+.footer-container-span-container{
+    display: flex;
+    align-items: center;
+}
+.footer-container-img{
+    display: flex;
+    align-items: center;
+}

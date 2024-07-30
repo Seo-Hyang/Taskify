@@ -1,0 +1,108 @@
+@import "../../styles/globals.css";
+
+.landing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--color-black);
+}
+header {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.landing-login-txt {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.09px;
+  color: var(--color-white);
+}
+.top-section {
+  display: flex;
+  align-items: center;
+}
+.top-section-h1 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.09px;
+}
+.white {
+  color: var(--color-white);
+}
+.purple {
+  color: var(--color-violet);
+}
+.top-section-description {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21.48px;
+  color: var(--color-white);
+}
+.loginBtn {
+  height: 50px;
+  background-color: var(--color-violet);
+  color: var(--color-white);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21.48px;
+}
+.section-point {
+  width: 1200px;
+  height: 600px;
+}
+.section-point-container {
+  display: flex;
+  justify-content: flex-start;
+}
+.section-point-p {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26.25px;
+  color: var(--color-gray-400);
+}
+.section-point-h2 {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 64px;
+  color: var(--color-white);
+}
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+}
+.bottom-section-h1 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 33.41px;
+  color: var(--color-white);
+}
+.bottom-section-container {
+  display: flex;
+}
+.bottom-section-container-section {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  width: 378px;
+}
+.bottom-section-container-img {
+  height: 260px;
+  background-color: var(--color-black-300);
+}
+.bottom-section-container-txt {
+  height: 124px;
+  background-color: var(--color-black-800);
+}
+.bottom-section-container-h3 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 21.48px;
+  color: var(--color-white);
+}
+.bottom-section-container-span {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.09px;
+  color: var(--color-white);
+}
