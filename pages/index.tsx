@@ -5,20 +5,20 @@ export default function Home() {
     <>
       <ul>
         <li>
-          <Link href="@/pages/LandingPage.tsx">▷랜딩 페이지</Link>
+          <Link href="/LandingPage">▷랜딩 페이지</Link>
         </li>
         <li>
-          <Link href="Login">▷로그인</Link>
+          <Link href="/Login">▷로그인</Link>
         </li>
         <li>
-          <Link href="SignUp">▷회원가입</Link>
+          <Link href="/SignUp">▷회원가입</Link>
         </li>
         <li>
-          <Link href="DashBoard">▷대시보드</Link>
+          <Link href="/DashBoard">▷대시보드</Link>
         </li>
 
         <li>
-          <Link href="MyPage">▷마이 페이지</Link>
+          <Link href="/MyPage">▷마이 페이지</Link>
         </li>
       </ul>
     </>
