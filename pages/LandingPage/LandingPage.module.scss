@@ -1,11 +1,9 @@
-@import "../../styles/globals.css";
-
 .landing-container {
-  max-width: 1200px;
+  min-width: 1200px;
   margin: 0 auto;
   background-color: var(--color-black);
 }
-header {
+.header {
   width: 100%;
   height: 70px;
   display: flex;

@@ -13,7 +13,7 @@ export default function LandingPage() {
   return (
     <div className={styles["landing-container"]}>
 
-      <header>
+      <header className={styles.header}>
         <Image src={header} alt="로고" width="121" height="39" />
         <div className={styles["landing-login"]}>
         <span className={styles["landing-login-txt"]}>로그인</span>
