@@ -1,3 +1,7 @@
 export default function Button() {
-  return <div>버튼 컴포넌트</div>;
+  return (
+    <div>
+      <button>버튼</button>
+    </div>
+  );
 }
