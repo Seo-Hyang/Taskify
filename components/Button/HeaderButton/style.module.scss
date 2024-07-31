@@ -1,0 +1,74 @@
+.Button {
+  display: inline-flex;
+  color: var(--color-gray-500);
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-300);
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 116px;
+  height: 32px;
+  font-size: 14px;
+  gap: 4px;
+
+  background: var(--color-white);
+  transition: all 0.3s;
+
+  &:hover {
+    background: var(--color-violet-8); // 확인용
+  }
+}
+
+.noneSvg {
+  display: none;
+}
+
+.setting {
+  width: 88px;
+}
+
+.setting_svg {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  fill: var(--color-gray-500);
+}
+
+.invitation {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  fill: var(--color-gray-500);
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+  .Button {
+    width: 109px;
+    height: 36px;
+    font-size: 14px;
+  }
+  .setting {
+    width: 85px;
+  }
+}
+/* Mobile */
+@media screen and (max-width: 743px) {
+  .Button {
+    width: 73px;
+    height: 30px;
+    font-size: 12px;
+  }
+  .setting {
+    width: 49px;
+  }
+
+  .setting_svg {
+    display: none;
+  }
+
+  .invitation {
+    display: none;
+  }
+}
