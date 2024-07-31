@@ -1,0 +1,75 @@
+.Button {
+  display: inline-flex;
+  color: var(--color-white);
+  font-weight: 500;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 84px;
+  height: 32px;
+  font-size: 14px;
+
+  background: var(--color-violet);
+  transition: all 0.3s;
+
+  &:hover {
+    background: var(--color-blue); // 확인용
+  }
+}
+
+.invitation {
+  display: flex;
+  width: 105px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.noneSvg {
+  display: none;
+}
+
+.addboxSvg {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  fill: var(--color-white);
+}
+
+.cancled {
+  color: var(--color-violet);
+  background: var(--color-white);
+  border: solid 1px var(--color-gray-300);
+  &:hover {
+    background: var(--color-violet-8);
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 375px) {
+  .Button {
+    width: 84px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .cancled {
+    width: 52px;
+    height: 28px;
+  }
+
+  .invitation {
+    width: 86px;
+    height: 28px;
+    gap: 6px;
+  }
+
+  .addboxSvg {
+    width: 14px;
+    height: 14px;
+  }
+}
