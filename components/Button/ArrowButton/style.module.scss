@@ -1,0 +1,54 @@
+.Button {
+  display: inline-flex;
+  outline: none;
+  border-radius: 0 4px 4px 0;
+  border: solid 1px var(--color-gray-300);
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+
+  background: var(--color-white);
+
+  &:hover {
+    transition: 0.5s;
+    background: var(--color-violet-8); // 확인용
+  }
+
+  &:active {
+    background: var(--color-red); // 확인용
+  }
+
+  &:disabled {
+    background: var(--color-gray-400);
+    cursor: not-allowed;
+  }
+}
+
+.Arrowleft {
+  border-radius: 4px 0 0 4px;
+}
+
+.ArrowRightSvg {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  fill: var(--color-gray-300);
+}
+
+.ArrowLeftSvg {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  fill: var(--color-gray-300);
+  transform: rotate(180deg);
+}
+
+/* Mobile */
+@media screen and (max-width: 743px) {
+  .Button {
+    width: 36px;
+  }
+}
