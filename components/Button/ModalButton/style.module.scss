@@ -1,0 +1,63 @@
+.Button {
+  display: inline-flex;
+  color: var(--color-white);
+  font-weight: 500;
+  outline: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 48px;
+  font-size: 16px;
+
+  background: var(--color-violet);
+  transition: all 0.3s;
+
+  &:hover {
+    background: var(--color-blue); // 확인용
+  }
+}
+
+.cancled {
+  color: var(--color-gray-500);
+  background: var(--color-white);
+  border: solid 1px var(--color-gray-300);
+  &:hover {
+    background: var(--color-violet-8);
+  }
+}
+
+.comment {
+  color: var(--color-violet);
+  background: var(--color-white);
+  border: solid 1px var(--color-gray-300);
+  width: 83px;
+  height: 32px;
+  font-size: 12px;
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--color-violet-8);
+  }
+}
+
+/* Tablet */
+@media screen and (min-width: 1199px) {
+  .comment {
+    width: 77px;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 743px) {
+  .Button {
+    width: 138px;
+    height: 42px;
+  }
+
+  .comment {
+    height: 28px;
+  }
+}

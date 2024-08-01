@@ -1,0 +1,76 @@
+.Button {
+  display: inline-flex;
+  border-radius: 8px;
+  border: solid 1px var(--color-gray-300);
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: 332px;
+  height: 70px;
+  font-weight: 600;
+  font-size: 16px;
+  gap: 12px;
+  background: var(--color-white);
+  transition: all 0.3s;
+}
+
+.plus_icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-violet-8);
+}
+
+.plus_icon_svg {
+  width: 9px;
+  height: 9px;
+  display: flex;
+  fill: var(--color-violet);
+}
+
+.add_todo {
+  width: 314px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.add_column {
+  width: 354px;
+  height: 70px;
+  border-radius: 8px;
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+  .Button {
+    width: 247px;
+    height: 68px;
+  }
+  .add_todo {
+    width: 90%;
+    height: 40px;
+    border-radius: 6px;
+  }
+  .add_column {
+    display: none;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 743px) {
+  .Button {
+    width: 260px;
+    height: 58px;
+  }
+  .add_todo {
+    width: 90%;
+    height: 32px;
+    border-radius: 6px;
+  }
+  .add_column {
+    display: none;
+  }
+}
