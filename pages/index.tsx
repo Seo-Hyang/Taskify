@@ -19,9 +19,8 @@ export default function Home() {
         <li>
           <Link href="/DashBoard">▷대시보드</Link>
         </li>
-
         <li>
-          <Link href="/MyPage">▷마이 페이지</Link>
+          <Link href="/MyPage/MyPage">▷마이 페이지</Link>
         </li>
       </ul>
     </>
