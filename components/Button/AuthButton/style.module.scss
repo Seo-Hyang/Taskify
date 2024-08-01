@@ -20,7 +20,7 @@
   }
 
   &:active {
-    background: var(--color-red); // 확인용
+    background: var(--color-violet-100); // 확인용
   }
 
   &:disabled {
@@ -36,7 +36,7 @@
 }
 
 /* Mobile */
-@media screen and (max-width: 743px) {
+@media screen and (max-width: var(--width-max-mobile)) {
   .Button {
     width: 352px;
   }
