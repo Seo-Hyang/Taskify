@@ -1,5 +1,5 @@
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
-import styles from "./ToDoModa.module.scss";
+import styles from "./ToDoModal.module.scss";
 import Close from "@/public/icons/close_icon.svg";
 import More_vert from "@/public/icons/more_vert_icon.svg";
 import useWindowSize from "@/hooks/useDevice";
