@@ -58,8 +58,6 @@ body {
   background-color: var(--background-color-basic);
   color: var(--text-color-basic);
   font-family: var(--font-family);
-  min-width: 100vw;
-  min-height: 100vh;
   &:hover {
     text-decoration: none;
   }

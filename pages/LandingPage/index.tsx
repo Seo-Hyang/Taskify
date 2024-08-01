@@ -12,16 +12,18 @@ import Image from "next/image";
 import AuthButton from "@/components/Button/AuthButton/AuthButton";
 import { TABLET_MAX_WIDTH, MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
+import Link from "next/link";
 
 export default function LandingPage() {
   const {width}=useWindowSize();
   return (
     <div className={styles.landing}>
       <header className={styles.header}>
-        {width >=TABLET_MAX_WIDTH ? <Header width="121" height="39" /> : <Header_mobile width="23.63" height="27.13" />}
+        <Link href="/LandingPage">{width >=TABLET_MAX_WIDTH ? <Header width="121" height="39" /> : <Header_mobile width="23.63" height="27.13" />}</Link>
         <div className={styles["landing-login"]}>
-          <span className={styles["landing-login-txt"]}>로그인</span>
-          <span className={styles["landing-login-txt"]}>회원가입</span>
+          <Link href="/Login"><span className={styles["landing-login-txt"]}>로그인</span></Link>
+          {/* 로그인 되어있을 때 /dashboard/{dashboardid} */}
+          <Link href="/SignUp"><span className={styles["landing-login-txt"]}>회원가입</span></Link>
         </div>
       </header>
 
@@ -34,13 +36,12 @@ export default function LandingPage() {
         <span className={styles["top-section-description"]}>
           스마트하게 나의 일정을 관리해보자!
         </span>
-        <AuthButton landing={true} className={styles.loginBtn}>로그인하기</AuthButton>
+        <Link href="/Login" className={styles["loginBtn-link"]}><AuthButton landing={true} className={styles.loginBtn}>로그인하기</AuthButton></Link>
       </div>
 
-      <div className={styles["landing-container"]}>
+     <div className={styles["landing-container"]}>
 
       <div className={styles["section-point-div"]}>
-
         <section className={styles["section-point"]}>
           <div className={styles["section-point-container-div"]}>
             <p className={styles["section-point-p"]}>Point 1</p>
@@ -137,7 +138,7 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer /> 
     </div>
   );
 }

@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 80px 0 16px;
+  padding: 15px 80px;
 }
 .landing-login {
   display: flex;
@@ -55,9 +55,16 @@
   color: var(--color-white);
   margin-bottom: 66px;
 }
-.loginBtn {
+.loginBtn-link {
   margin-bottom: 184px;
+}
+.loginBtn {
   padding: 15px 101px;
+}
+.landing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width:100%;
 }
 .section-point-div {
   display: flex;
@@ -65,11 +72,10 @@
   row-gap: 90px;
 }
 .section-point {
-  height: 100%;
+  height: 600px;
   background-color: var(--color-black-800);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   padding-left: 60px;
 }
 .section-point-container-div {
@@ -128,6 +134,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px 8px 0 0;
+  padding: 0 39px;
 }
 .bottom-section-container-txt {
   height: 124px;
@@ -152,10 +159,6 @@
   color: var(--color-white);
 }
 @media screen and (min-width: 1200px) {
-  .landing-container {
-    width: 1200px;
-    margin: 0 auto;
-  }
   .bottom-section-container-section {
     width: 378px;
   }
@@ -184,6 +187,7 @@
   .section-point {
     flex-direction: column;
     row-gap: 200px;
+    height:100%;
   }
   .section-point-container-div {
     padding-top: 63px;
@@ -198,19 +202,15 @@
   .section_2 {
     margin: 0 auto;
   }
-  .bottom-section {
-    padding: 0 183px;
-  }
   .bottom-section-h1 {
     text-align: center;
     white-space: nowrap;
+    padding: 0 160px;
   }
   .bottom-section-container {
     flex-direction: column;
     gap: 48px;
-  }
-  .bottom-section-container-section {
-    min-width: 378px;
+    padding: 0 143px;
   }
 }
 
@@ -256,6 +256,7 @@
     row-gap: 194px;
     padding-left: 0;
     align-items: center;
+    height:100%;
   }
   .section-point-container-div {
     padding-top: 60px;
@@ -280,14 +281,12 @@
     height: 250px;
     margin: 0 auto;
   }
-  .bottom-section {
-    padding: 0 16px;
-  }
   .bottom-section-h1 {
     text-align: center;
     white-space: nowrap;
     font-size: 22px;
     line-height: 26.25px;
+    padding: 0 36px;
   }
   .bottom-section-container {
     flex-direction: column;
