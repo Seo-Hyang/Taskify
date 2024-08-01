@@ -23,6 +23,9 @@ export default function Home() {
         <li>
           <Link href="/MyPage">▷마이 페이지</Link>
         </li>
+        <li>
+          <Link href="/ModalTest">▷모달 테스트 페이지</Link>
+        </li>
       </ul>
     </>
   );
