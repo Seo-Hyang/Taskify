@@ -3,11 +3,12 @@ import React from "react";
 import styles from "./_MyPage.module.scss";
 import Image from "next/image";
 import Head from "next/head";
+import SideMenu from "@/components/SideMenu/SideMenu";
 
-// image import
-import HeaderLogo from "@/public/images/logo/logo.svg";
-import Management from "@/public/images/management.svg";
-import Invite from "@/public/invite.svg";
+// 컴포넌트 import
+import Header from "@/components/Header/Header";
+
+// 이미지 import
 
 export default function MyPage() {
   return (
@@ -15,15 +16,15 @@ export default function MyPage() {
       <Head>
         <title>Taskify-마이페이지</title>
       </Head>
-      <div className={styles.header}>
-        <div>
-          <HeaderLogo width={108} height={33} alt="로고" />
+
+      <main>
+        <SideMenu />
+        <div className={styles.sideNav}>
+          <div className={styles.header}>
+            <Header>계정관리</Header>
+          </div>
         </div>
-        <div>
-          <Invite alt="초대 버튼" width={88} height={40} />
-          <Management alt="관리 버튼" width={88} height={40} />
-        </div>
-      </div>
+      </main>
     </>
   );
 }
