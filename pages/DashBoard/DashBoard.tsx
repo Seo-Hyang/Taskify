@@ -1,7 +1,7 @@
 import styles from "@/pages/DashBoard/style.module.scss";
 import Header from "@/components/Header/Header";
 import SideMenu from "@/components/SideMenu/SideMenu";
-import Column from "@/components/DashboardColumns/DashboardColumns";
+import DashboardColumn from "@/components/DashboardColumns/DashboardColumns";
 import AddButton from "@/components/Button/AddButton/AddButton";
 import Head from "next/head";
 
@@ -20,8 +20,8 @@ export default function DashBoard() {
         </Header>
       </section>
       <section className={styles.dashboardContainer}>
-        <Column cardCounts={3}>To Do</Column>
-        <Column>On Progress</Column>
+        <DashboardColumn cardCounts={3}>To Do</DashboardColumn>
+        <DashboardColumn>On Progress</DashboardColumn>
         <div className={styles.add_newColumn}>
           <AddButton addColumn={true}>새로운 칼럼 추가하기</AddButton>
         </div>

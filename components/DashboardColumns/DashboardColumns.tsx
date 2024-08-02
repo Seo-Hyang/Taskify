@@ -1,4 +1,4 @@
-import styles from "@/components/Column/style.module.scss";
+import styles from "@/components/DashboardColumns/style.module.scss";
 import Card from "@/components/Card/Card";
 import AddButton from "@/components/Button/AddButton/AddButton";
 
