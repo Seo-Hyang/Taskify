@@ -1,3 +1,11 @@
-export default function Input() {
-  return <div>입력 컴포넌트</div>;
+import styles from "./style.module.scss";
+
+function Input({ className = "", children, ...rest }) {
+  return (
+    <input className={`${styles.Input} ${className}`} {...rest}>
+      {children}
+    </input>
+  );
 }
+
+export default Input;
