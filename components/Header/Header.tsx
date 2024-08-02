@@ -9,7 +9,7 @@ export default function Header({
   children,
   userNickname = "",
   members = [],
-  isOwner = "false",
+  isOwner = false,
 }) {
   const { width } = useWindowSize();
   return (
