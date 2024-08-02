@@ -1,6 +1,6 @@
 .todo-create{
     width:584px;
-    height:966px;
+    height:100%;
     padding:32px;
     border-radius: 16px;
     color: var(--color-black-500);
@@ -40,7 +40,6 @@
 .todo-create-button-container{
     display: flex;
     column-gap: 8px;
-    margin-bottom: 32px;
 }
 
 @media screen and (min-width: 744px) and (max-width: 1199px){
