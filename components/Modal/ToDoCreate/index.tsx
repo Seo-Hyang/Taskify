@@ -11,11 +11,11 @@ export default function ToDoCreate() {
           <input></input>
         </div>
         <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>제목*</label>
+          <label className={styles["todo-create-auth-label"]}>제목 *</label>
           <input></input>
         </div>
         <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>설명*</label>
+          <label className={styles["todo-create-auth-label"]}>설명 *</label>
           <input></input>
         </div>
         <div className={styles["todo-create-input-auth"]}>

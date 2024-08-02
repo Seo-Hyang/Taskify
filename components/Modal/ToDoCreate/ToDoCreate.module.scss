@@ -4,6 +4,7 @@
     padding:32px;
     border-radius: 16px;
     color: var(--color-black-500);
+    background-color: var(--color-white);
 }
 .todo-create-h1{
     font-size: 24px;
@@ -40,4 +41,14 @@
     display: flex;
     column-gap: 8px;
     margin-bottom: 32px;
+}
+
+@media screen and (min-width: 744px) and (max-width: 1199px){
+.todo-create{
+    padding: 24px 16px 0 16px;
+}
+}
+
+@media screen and (max-width: 743px){
+
 }
