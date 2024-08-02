@@ -1,15 +1,13 @@
 // 기본 import
 import React from "react";
 import styles from "./_SideMenu.module.scss";
-import Image from "next/image";
-import Head from "next/head";
 
 // 컴포넌트 import
 import ArrowButton from "../Button/ArrowButton/ArrowButton";
 
 // 이미지 import
 import Logo from "@/public/images/logo/logo.svg";
-import Vector from "@/public/images/Vector.svg";
+import AddIcon from "@/public/images/addIcon.svg";
 
 export default function SideMenu() {
   return (
@@ -21,7 +19,7 @@ export default function SideMenu() {
           </div>
           <div className={styles.addDashBoard}>
             <span style={{ display: "block" }}>Dash Boards</span>
-            <Vector />
+            <AddIcon />
           </div>
           <div className={styles.sideMenuContent}>content</div>
           <div>
