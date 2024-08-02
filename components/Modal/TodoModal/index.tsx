@@ -3,13 +3,13 @@ import styles from "./ToDoModal.module.scss";
 import Close from "@/public/icons/close_icon.svg";
 import More_vert from "@/public/icons/more_vert_icon.svg";
 import useWindowSize from "@/hooks/useDevice";
-import { TABLET_MAX_WIDTH } from "@/constants/screensize";
+import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 
 export default function ToDoModal() {
     const {width}=useWindowSize();
   return (
     <div className={styles["todo-modal"]}>
-        {width < TABLET_MAX_WIDTH ? 
+        {width <= MOBILE_MAX_WIDTH ? 
         <>
          <div className={styles["todo-top-icon"]}> 
         <More_vert width="28" height="28" />
