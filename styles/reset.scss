@@ -273,7 +273,6 @@ img {
 
 h1 {
   font-size: 2em;
-  margin: 0.67em 0;
 }
 
 hr {
@@ -303,13 +302,14 @@ a {
   background-color: transparent;
   color: inherit;
   text-decoration: none;
+  display: inline-flex;
 }
 
 a:hover,
 a:focus,
 a:active {
   outline: 0;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 b,
