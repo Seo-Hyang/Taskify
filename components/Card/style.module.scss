@@ -10,19 +10,19 @@
   display: inline-flex;
   flex-direction: column;
   gap: 8px;
-}
 
-.card_imgContainer {
-  display: none;
-}
+  .card_imgContainer {
+    display: none;
+  }
 
-.card_img {
-  display: block;
-  height: 160px;
-  width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-  background-color: var(--color-red); //확인용 색상
+  .card_img {
+    display: flex;
+    height: 160px;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    background-color: var(--color-red); //확인용 색상
+  }
 }
 
 .card_title {
@@ -43,16 +43,16 @@
   display: flex;
   gap: 6px;
   margin-top: 10px;
-}
 
-.calender_svg {
-  width: 16px;
-  height: 16px;
-  fill: var(--color-gray-500);
-}
+  .calender_svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--color-gray-500);
+  }
 
-.card_date {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-gray-500);
+  .card_date {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-gray-500);
+  }
 }
