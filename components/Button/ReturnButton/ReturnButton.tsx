@@ -9,18 +9,19 @@ import { Children } from "react";
 interface ReturnButtonProps {
   w: string;
   h: string;
-  b: any;
+  b: string;
   children?: string;
 }
 
-/** returnButton 컴포넌트 사용 방법
+/** returnButton 컴포넌트 사용 방법 :
  * 컴포넌트의 프롭(w, h, b)으로 각각 width, height, border 속성 값을 전달하고
- * children으로 왼쪽 화살표[<] 뒤에 들어갈 내용 입력 
- * ex. <ReturnButton w="84px" h="26px" b="none">
-          돌아가기
-        </ReturnButton>
+ * children으로 왼쪽 화살표[<] 뒤에 들어갈 내용 입력
+ */
 
-  결과 : < 돌아가기
+/** 사용 예시 :
+ * <ReturnButton w="84px" h="26px" b="none">
+ *    돌아가기
+ * </ReturnButton>
  */
 
 export default function ReturnButton({
