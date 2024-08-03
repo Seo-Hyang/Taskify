@@ -21,6 +21,11 @@
   align-items: center;
   column-gap: 24px;
 }
+.todo-button{
+  border: none;
+  background-color: unset;
+  display: inline-flex;
+}
 .todo-column {
   display: flex;
   justify-content: space-between;
