@@ -13,7 +13,7 @@
   width: 670px;
   height: 366px;
   padding: 24px;
-  margin-bottom: 24px;
+  margin: 29px 0 24px;
   border-radius: 16px;
   background-color: var(--color-white);
 }
@@ -34,10 +34,17 @@
 }
 
 .inputName {
-  display: block;
+  display: inline-block;
   height: 26px;
   padding: 2px 0;
   margin-bottom: 8px;
+}
+
+.noti {
+  display: inline-block;
+  font-size: 16px;
+  color: var(--color-red);
+  margin-left: 10px;
 }
 
 .width {
@@ -79,7 +86,7 @@
   width: 670px;
   height: 466px;
   padding: 24px;
-  margin-bottom: 24px;
+  margin-bottom: 80px;
   border-radius: 16px;
   background-color: var(--color-white);
 }
@@ -87,6 +94,6 @@
 .passwordInputContainer {
   display: flex;
   width: 100%;
+  height: 284px;
   flex-direction: column;
-  gap: 16px;
 }
