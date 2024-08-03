@@ -38,6 +38,7 @@ export default function ColumnDashboard() {
 
   return (
     <div className={styles["column-dashboard"]}>
+      <div className={styles["column-dashboard-container"]}>
       <h1 className={styles["column-dashboard-h1"]}>새로운 대시보드</h1>
       <div className={styles["column-dashboard-name-container"]}>
         <div className={styles["column-dashboard-input-container"]}>
@@ -57,6 +58,7 @@ export default function ColumnDashboard() {
         <ModalButton isComment={true} onClick={handleSubmit}>
           생성
         </ModalButton>
+      </div>
       </div>
     </div>
   );

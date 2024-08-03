@@ -5,15 +5,32 @@ import useWindowSize from "@/hooks/useDevice";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import Dropdown from "@/components/Dropdown";
 
-export default function ToDoModal() {
+export default function ToDoModal({ isOpen, onClose }: modalprops) {
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const openModal = () => setIsModalOpen(true);
+  // const closeModal = () => setIsModalOpen(false);
+
+  // return (
+  //   <div className={styles.app}>
+  //     <button className={styles.openModalButton} onClick={openModal}>
+  //       <OpenModalButton width="24" height="24" alt="Open Modal" />
+  //     </button>
+  //     <Modal isOpen={isModalOpen} onClose={closeModal} />
+  //   </div>
+  // 모달이 필요한 컴포넌트에 적용하기(예시));
+
   const { width } = useWindowSize();
+
+  // if (!isOpen) return null;
+
   return (
     <div className={styles["todo-modal"]}>
       {width <= MOBILE_MAX_WIDTH ? (
         <>
           <div className={styles["todo-top-icon"]}>
             <Dropdown />
-            <button className={styles["todo-button"]}>
+            <button className={styles["todo-button"]} onClick={onClose}>
               <Close width="32" height="32" alt="닫기" />
             </button>
           </div>
@@ -37,10 +54,12 @@ export default function ToDoModal() {
         <div>
           <section className={styles["todo-chip-container"]}>
             <div className={styles["todo-chip-container-state"]}>todo</div>
+            {/* chip 넣기 */}
             <div className={styles["todo-chip-container-line"]}></div>
             <div className={styles["todo-chip-container-tag-container"]}>
               <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
               <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              {/* chip 넣기 */}
             </div>
           </section>
 

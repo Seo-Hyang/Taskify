@@ -2,12 +2,14 @@
   width: 584px;
   height: 100%;
   padding: 32px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 24px;
   color: var(--color-black-500);
   background-color: var(--color-white);
   border-radius: 16px;
+}
+.column-dashboard-container{
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
 }
 .column-dashboard-h1 {
   font-size: 24px;
