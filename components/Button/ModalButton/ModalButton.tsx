@@ -12,12 +12,13 @@ export default function ModalButton({
   children,
   isCancled = false,
   isComment = false,
+  className=""
 }) {
   return (
     <button
       className={`${styles.Button} ${isCancled && styles.cancled} ${
         isComment && styles.comment
-      }`}
+      } ${className}`}
     >
       {children}
     </button>
