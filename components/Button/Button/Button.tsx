@@ -1,19 +1,19 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, CSSProperties } from "react";
 
 // interface : 함수 프롭 타입 지정
 interface ButtonProps {
-  w: string;
-  h: string;
-  c: string;
-  br: string;
-  bc: string;
-  m: string;
+  w?: string;
+  h?: string;
+  c?: string;
+  br?: string;
+  bc?: string;
+  m?: string;
   children: ReactNode;
 }
 
 // 기본 스타일 객체
 const baseStyles = {
-  textAlign: "center",
+  textAlign: "center" as CSSProperties["textAlign"],
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
