@@ -1,5 +1,5 @@
 // 기본 import
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./_MyPage.module.scss";
 import Head from "next/head";
 import SideMenu from "@/components/SideMenu/SideMenu";
@@ -13,10 +13,22 @@ import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 import AddPicture from "@/public/images/AddPicture.svg";
 
 export default function MyPage() {
-  const iconStyle = {
-    width: "50px",
-    height: "50px",
-  };
+  const [currentPassword, setCurrentPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (
+      currentPassword.length > 0 &&
+      newPassword.length > 0 &&
+      confirmNewPassword.length > 0
+    ) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [currentPassword, newPassword, confirmNewPassword]);
 
   return (
     <>
