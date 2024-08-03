@@ -13,9 +13,16 @@
 @media screen and (max-width: 1199px) {
   .dashboardContainer {
     margin-left: 160px;
+    display: flex;
+    flex-direction: column;
   }
 }
 
 /*Mobile*/
-@media screen and (max-width: 67px) {
+@media screen and (max-width: 743px) {
+  .dashboardContainer {
+    margin-left: 67px;
+    display: flex;
+    flex-direction: column;
+  }
 }
