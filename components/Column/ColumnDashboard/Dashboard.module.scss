@@ -1,6 +1,6 @@
 .column-dashboard {
   width: 584px;
-  height: 344px;
+  height: 100%;
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@
   column-gap: 8px;
   align-items: center;
 }
-.column-dashboard-color-button{
+.column-dashboard-color-button {
   display: inline-flex;
   border: none;
   background-color: unset;
@@ -44,6 +44,9 @@
   height: 30px;
   padding: 3px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .green {
   background-color: var(--color-green);
@@ -65,11 +68,15 @@
   column-gap: 8px;
 }
 
-@media screen and (max-width:743px) {
-  .column-dashboard-h1{
+@media screen and (max-width: 743px) {
+  .column-dashboard{
+    width:327px;
+    padding:20px 16px;
+  }
+  .column-dashboard-h1 {
     font-size: 20px;
   }
-  .column-dashboard-label{
-    font-size:16px;
+  .column-dashboard-label {
+    font-size: 16px;
   }
 }
