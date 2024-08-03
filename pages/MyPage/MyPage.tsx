@@ -6,6 +6,7 @@ import SideMenu from "@/components/SideMenu/SideMenu";
 
 // 컴포넌트 import
 import Header from "@/components/Header/Header";
+import Button from "@/components/Button/Button/Button";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 
 // 이미지 import
@@ -51,6 +52,9 @@ export default function MyPage() {
                 <div className={styles.profileInputContainer}>
                   <div>
                     <span className={styles.inputName}>이메일</span>
+                    <h3 className={styles.noti}>
+                      *이메일은 변경 불가 항목입니다.
+                    </h3>
                     <input className={styles.Input} placeholder="e-mail" />
                   </div>
                   <div>
@@ -58,7 +62,10 @@ export default function MyPage() {
                     <input className={styles.Input} placeholder="nickname" />
                   </div>
                 </div>
-                <div className={styles.submitButton}>저장</div>
+                <Button h="50px" m="24px 0 0">
+                  저장
+                </Button>
+                {/*<div className={styles.submitButton}>저장</div>*/}
               </div>
             </div>
           </div>
@@ -91,7 +98,10 @@ export default function MyPage() {
                     />
                   </div>
                 </div>
-                <div className={styles.submitButton}>변경</div>
+                <Button h="50px" m="24px 0 0">
+                  변경
+                </Button>
+                {/*<div className={styles.submitButton}>변경</div>*/}
               </div>
             </div>
           </div>
