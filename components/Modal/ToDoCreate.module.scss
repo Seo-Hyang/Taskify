@@ -1,0 +1,75 @@
+.todo-create {
+  width: 584px;
+  height: 100%;
+  padding: 32px;
+  border-radius: 16px;
+  color: var(--color-black-500);
+  background-color: var(--color-white);
+}
+.todo-create-h1 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+.todo-create-input-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+  margin: 32px 0;
+}
+.todo-create-input-container {
+  display: flex;
+  column-gap: 32px;
+}
+.todo-create-input-auth {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+.todo-create-label {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21.48px;
+}
+.todo-create-auth-label {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 26px;
+}
+.todo-create-input-img {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+.todo-create-button-container {
+  display: flex;
+  column-gap: 8px;
+}
+
+@media screen and (min-width: 744px) and (max-width: 1199px) {
+  .todo-create {
+    padding: 24px 16px;
+  }
+}
+
+@media screen and (max-width: 743px) {
+  .todo-create {
+    padding: 28px 20px;
+    width: 100%;
+  }
+  .todo-create-input-container {
+    flex-direction: column;
+    row-gap: 32px;
+  }
+  .todo-create-auth-label,
+  .todo-create-label {
+    line-height: 19.09px;
+    font-size: 16px;
+  }
+  .todo-create-button {
+    width: 100%;
+    height: 42px;
+    padding: 12px 56px;
+    font-size: 14px;
+  }
+}

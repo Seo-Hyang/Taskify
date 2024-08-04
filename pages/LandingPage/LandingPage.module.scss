@@ -24,6 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 180px;
 }
 .top-section-h1-container {
   font-weight: 700;
@@ -54,9 +55,6 @@
   line-height: 21.48px;
   color: var(--color-white);
   margin-bottom: 66px;
-}
-.loginBtn-link {
-  margin-bottom: 184px;
 }
 .loginBtn {
   padding: 15px 101px;
@@ -122,6 +120,7 @@
   display: flex;
   gap: 33px;
   margin-bottom: 160px;
+  align-items: center;
 }
 .bottom-section-container-section {
   display: flex;
@@ -166,7 +165,7 @@
 
 @media screen and (min-width: 744px) and (max-width: 1199px) {
   .header {
-    padding: 0 40px;
+    padding: 15px 40px;
   }
   .topImg {
     width: 537px;
@@ -212,15 +211,23 @@
     gap: 48px;
     padding: 0 143px;
   }
+  .bottom-section-container-section {
+    width: 378px;
+  }
 }
 
 @media screen and (max-width: 743px) {
   .header {
-    padding: 0 24px;
+    padding: 15px 24px;
   }
   .topImg {
-    width: 287px;
-    height: 168px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+  }
+  .top-section {
+    margin-top: 42px;
+    margin-bottom: 76px;
   }
   .top-section-h1-container {
     flex-direction: column;
@@ -243,7 +250,6 @@
   }
   .loginBtn {
     padding: 12px 87px;
-    margin-bottom: 80px;
   }
   .landing-container {
     padding: 0 16px;
@@ -273,13 +279,15 @@
     line-height: 50px;
   }
   .section_1 {
-    width: 296px;
-    height: 248px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
   .section_2 {
-    width: 217px;
-    height: 250px;
     margin: 0 auto;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
   .bottom-section-h1 {
     text-align: center;

@@ -8,16 +8,27 @@ import styles from "@/components/Button/ModalButton/style.module.scss";
  취소 수정
  */
 
+interface ModalButtonProps {
+  children: React.ReactNode;
+  isCancled?: boolean;
+  isComment?: boolean;
+  className?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
 export default function ModalButton({
   children,
   isCancled = false,
   isComment = false,
-}) {
+  className = "",
+  onClick,
+}: ModalButtonProps) {
   return (
     <button
       className={`${styles.Button} ${isCancled && styles.cancled} ${
         isComment && styles.comment
-      }`}
+      } ${className}`}
+      onClick={onClick}
     >
       {children}
     </button>
