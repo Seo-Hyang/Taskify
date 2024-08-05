@@ -17,19 +17,27 @@ export default function MyPage() {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [isPasswordChangeDisabled, setisPasswordChangeDisabled] =
+    useState<boolean>(true);
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] =
+    useState<boolean>(true);
 
   useEffect(() => {
+    if (profileNickname.length > 0) {
+      setIsSaveButtonDisabled(false);
+    } else {
+      setIsSaveButtonDisabled(true);
+    }
     if (
       currentPassword.length > 0 &&
       newPassword.length > 0 &&
       confirmNewPassword.length > 0
     ) {
-      setIsButtonDisabled(false);
+      setisPasswordChangeDisabled(false);
     } else {
-      setIsButtonDisabled(true);
+      setisPasswordChangeDisabled(true);
     }
-  }, [currentPassword, newPassword, confirmNewPassword]);
+  }, [currentPassword, newPassword, confirmNewPassword, profileNickname]);
 
   return (
     <>
@@ -72,13 +80,17 @@ export default function MyPage() {
                   </div>
                   <div>
                     <span className={styles.inputName}>닉네임</span>
-                    <input className={styles.Input} placeholder="nickname" />
+                    <input
+                      className={styles.Input}
+                      placeholder="nickname"
+                      value={profileNickname}
+                      onChange={(e) => setProfileNickname(e.target.value)}
+                    />
                   </div>
                 </div>
-                <Button h="50px" m="24px 0 0" disabled={isButtonDisabled}>
+                <Button h="50px" m="24px 0 0" disabled={isSaveButtonDisabled}>
                   저장
                 </Button>
-                {/*<div className={styles.submitButton}>저장</div>*/}
               </div>
             </div>
           </div>
@@ -117,10 +129,13 @@ export default function MyPage() {
                     />
                   </div>
                 </div>
-                <Button h="50px" m="24px 0 0" disabled={isButtonDisabled}>
+                <Button
+                  h="50px"
+                  m="24px 0 0"
+                  disabled={isPasswordChangeDisabled}
+                >
                   변경
                 </Button>
-                {/*<div className={styles.submitButton}>변경</div>*/}
               </div>
             </div>
           </div>

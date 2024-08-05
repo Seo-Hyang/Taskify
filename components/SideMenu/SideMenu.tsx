@@ -6,7 +6,7 @@ import styles from "./_SideMenu.module.scss";
 import ArrowButton from "../Button/ArrowButton/ArrowButton";
 
 // 이미지 import
-import Logo from "@/public/images/logo/logo.svg";
+import Logo from "@/public/images/logo/large.svg";
 import AddIcon from "@/public/images/addIcon.svg";
 
 export default function SideMenu() {
