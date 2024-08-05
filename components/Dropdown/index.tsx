@@ -14,10 +14,12 @@ export default function Dropdown() {
 
   const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setActiveButton("edit");
+    // 수정 모달 띄우기
   };
 
   const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setActiveButton("delete");
+    // 삭제 모달 띄우기
   };
 
   const handleOutsideClick = (e: MouseEvent) => {

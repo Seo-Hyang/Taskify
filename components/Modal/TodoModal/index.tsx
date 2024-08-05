@@ -59,7 +59,11 @@ export default function ToDoModal({ isOpen, onClose }: modalprops) {
             <div className={styles["todo-chip-container-tag-container"]}>
               <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
               <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
-              {/* chip 넣기 */}
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              {/* tag 넣기 */}
             </div>
           </section>
 
@@ -94,11 +98,17 @@ export default function ToDoModal({ isOpen, onClose }: modalprops) {
               >
                 댓글 내용
               </span>
-              <div
-                className={`${styles["todo-user-comment-auth-container"]} ${styles["edit-container"]}`}
-              >
-                <span>수정</span>
-                <span>삭제</span>
+              <div className={styles["edit-container"]}>
+                <button className={styles["todo-user-button"]}>
+                  <span className={styles["todo-user-comment-auth-container"]}>
+                    수정
+                  </span>
+                </button>
+                <button className={styles["todo-user-button"]}>
+                  <span className={styles["todo-user-comment-auth-container"]}>
+                    삭제
+                  </span>
+                </button>
               </div>
             </div>
           </section>

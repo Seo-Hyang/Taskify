@@ -6,7 +6,7 @@
   background-color: var(--color-white);
   border-radius: 16px;
 }
-.column-dashboard-container{
+.column-dashboard-container {
   display: flex;
   flex-direction: column;
   row-gap: 24px;
@@ -31,39 +31,23 @@
   font-weight: 500;
   line-height: 26px;
 }
-.column-dashboard-color-container {
+.column-dashboard-color-picker {
+  width: 100% !important;
+}
+.column-dashboard-color-picker > div {
   display: flex;
-  column-gap: 8px;
-  align-items: center;
+  border-width: 0 !important;
+  padding: 15px 9px !important;
 }
-.column-dashboard-color-button {
-  display: inline-flex;
-  border: none;
-  background-color: unset;
+.column-dashboard-color-picker > div > span > div{
+  margin: 0 !important;
+  margin-left:6px !important;
 }
-.column-dashboard-color {
-  width: 30px;
-  height: 30px;
-  padding: 3px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.column-dashboard-color-picker > div > div:nth-child(11){
+  margin-left:6px !important;
 }
-.green {
-  background-color: var(--color-green);
-}
-.purple {
-  background-color: var(--color-purple);
-}
-.orange {
-  background-color: var(--color-orange);
-}
-.blue {
-  background-color: var(--color-blue);
-}
-.pink {
-  background-color: var(--color-pink);
+.column-dashboard-color-picker > div > div > input{
+  height:30px !important;
 }
 .column-dashboard-button-container {
   display: flex;
@@ -71,9 +55,9 @@
 }
 
 @media screen and (max-width: 743px) {
-  .column-dashboard{
-    width:327px;
-    padding:20px 16px;
+  .column-dashboard {
+    width: 327px;
+    padding: 20px 16px;
   }
   .column-dashboard-h1 {
     font-size: 20px;
