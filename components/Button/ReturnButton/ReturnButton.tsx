@@ -1,5 +1,6 @@
 // 기본 import
 import React from "react";
+import stylesCss from "@/components/Button/ReturnButton/ReturnButton.module.scss";
 
 // 이미지 import
 import LeftArrow from "@/public/images/leftArrow.svg";
@@ -7,9 +8,10 @@ import { Children } from "react";
 
 // 함수 프롭 타입 지정
 interface ReturnButtonProps {
-  w: string;
-  h: string;
-  b: string;
+  w?: string;
+  h?: string;
+  b?: string;
+  f?: string;
   children?: string;
 }
 
@@ -28,6 +30,7 @@ export default function ReturnButton({
   w = "84px",
   h = "26px",
   b = "none",
+  f = "16px",
   children,
 }: ReturnButtonProps) {
   // 스타일 객체 정의
@@ -39,7 +42,7 @@ export default function ReturnButton({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      fontSize: "16px",
+      fontSize: f,
     },
     icon: {
       marginRight: "8px",
@@ -47,11 +50,11 @@ export default function ReturnButton({
   };
 
   return (
-    <div style={styles.returnButtonContainer}>
-      <div style={styles.icon}>
+    <div className={stylesCss.returnButtonContainer}>
+      <div className={stylesCss.icon}>
         <LeftArrow />
       </div>
-      <div>{children}</div>
+      <div className={stylesCss.font}>{children}</div>
     </div>
   );
 }
