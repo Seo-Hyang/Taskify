@@ -6,31 +6,53 @@
   left: 0;
   bottom: 0;
   background: var(--color-white);
-  padding: 8px 8px 97px;
+  padding: 20px 8px;
   border-right: 1px solid var(--color-gray-300);
 }
 
-.sideMenuLogo {
-  width: 108px;
-  height: 33px;
+.sideMenuContentHeader {
+  height: 90px;
+
+  .sideMenuLogo {
+    width: 108px;
+    height: 33px;
+  }
+
+  .sideMenu_LogoSmall {
+    display: none;
+  }
+}
+
+.addDashBoard {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gray-500);
+
+  .dashboard_name {
+    display: block;
+  }
 }
 
 .sideMenuContentBox {
   height: 766px;
-}
-
-.sideMenuContentHeader {
-  margin-bottom: 56px;
-}
-
-.addDashBoard {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .sideMenuContent {
-  padding: 16px 0 32px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arrowButtons {
+  margin-top: 20px;
 }
 
 /*Tablet*/
@@ -44,5 +66,21 @@
 @media screen and (max-width: 743px) {
   .sideMenuContainer {
     width: 67px;
+  }
+  .sideMenuContentHeader {
+    height: 50px;
+    .sideMenuLogo {
+      display: none;
+    }
+    .sideMenu_LogoSmall {
+      display: flex;
+    }
+  }
+  .dashboard_name {
+    display: none;
+  }
+
+  .arrowButtons {
+    display: none;
   }
 }
