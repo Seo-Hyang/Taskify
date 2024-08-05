@@ -17,16 +17,14 @@ const DatePicker: React.FC = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
 
   return (
-    <div className={styles['calendar-container']}>
+    <div className={styles["calendar-container"]}>
       <CalendarIcon width="22" height="22" />
       <ReactDatePicker
         selected={startDate}
         onChange={(date: Date | null) => setStartDate(date)}
         dateFormat="yyyy.MM.dd HH:mm"
         showTimeSelect
-        timeFormat="HH:mm"
         timeIntervals={30}
-        placeholderText="Select a date and time"
         className={styles["calendar-container-input"]}
       />
     </div>
@@ -78,8 +76,16 @@ export default function ToDoCreate() {
       <div className={styles["todo-create-input-section"]}>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-label"]}>담당자</label>
-          <input></input>
-          <Arrow_drop onClick={toggleDropdown} />
+          <div
+            className={`${styles["todo-create-input"]} ${styles["todo-create-input-div"]}`}
+          >
+            <input></input>
+            <div className={styles["toggle-item-container"]}>
+              <div className={styles["toggle-assin-item-img"]}></div>
+              <span className={styles["toggle-assing-item"]}></span>
+            </div>
+            <Arrow_drop onClick={toggleDropdown} width="26" height="26" />
+          </div>
           {isOpen && <div>assignee-id</div>}
         </div>
         <div className={styles["todo-create-input-auth"]}>

@@ -1,29 +1,11 @@
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import styles from "./Dashboard.module.scss";
 import Check_icon from "@/public/icons/check_icon.svg";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import {TwitterPicker} from "react-color";
 
 export default function ColumnDashboard() {
-  const [selectedColor, setSelectedColor] = useState("green");
-
-  const handleColorSelect = (colorName: string) => {
-    setSelectedColor(colorName);
-  };
-
-  const selectColorButton = (colorName: string) => {
-    return (
-      <button
-        className={styles["column-dashboard-color-button"]}
-        onClick={() => handleColorSelect(colorName)}
-      >
-        <div
-          className={`${styles["column-dashboard-color"]} ${styles[colorName]}`}
-        >
-          {selectedColor === colorName && <Check_icon width="24" height="24" />}
-        </div>
-      </button>
-    );
-  };
+  const [color, setColor] = useState("#000");
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -31,9 +13,18 @@ export default function ColumnDashboard() {
     // const formData=(e)=>{
     //   return{
     //     title:,
-    //     color:selectedColor,
+    //     color:setColor,
     //   };
     // };
+  };
+
+  const ColorButton: React.FC = () => {
+    const handleChangeComplete = (color: any) => {
+      setColor(color.hex);
+    };
+    return (
+      <TwitterPicker color={color} onChangeComplete={handleChangeComplete} className={styles["column-dashboard-color-picker"]} />
+    );
   };
 
   return (
@@ -47,12 +38,7 @@ export default function ColumnDashboard() {
           </label>
           <input></input>
         </div>
-        <div className={styles["column-dashboard-color-container"]}>
-          {/* 색상은 팔레트로? */}
-          {["green", "purple", "orange", "blue", "pink"].map((colorName) =>
-            selectColorButton(colorName)
-          )}
-        </div>
+          <ColorButton />
       </div>
       <div className={styles["column-dashboard-button-container"]}>
         <ModalButton isCancled={true}>취소</ModalButton>

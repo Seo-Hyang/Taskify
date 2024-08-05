@@ -59,7 +59,11 @@ export default function ToDoModal({ isOpen, onClose }: modalprops) {
             <div className={styles["todo-chip-container-tag-container"]}>
               <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
               <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
-              {/* chip 넣기 */}
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
+              {/* tag 넣기 */}
             </div>
           </section>
 
