@@ -1,4 +1,5 @@
 import React, { ReactNode, CSSProperties } from "react";
+import ButtonStyle from "@/components/Button/Button/Button.module.scss";
 
 // interface : 함수 프롭 타입 지정
 interface ButtonProps {
@@ -8,6 +9,7 @@ interface ButtonProps {
   br?: string;
   bc?: string;
   m?: string;
+  disabled?: boolean;
   children: ReactNode;
 }
 
@@ -42,8 +44,9 @@ export default function Button({
   c = "var(--color-white)",
   br = "8px",
   bc = "var(--color-violet)",
-  children,
   m = "24px 0 0",
+  disabled = false,
+  children,
 }: ButtonProps) {
   // 스타일 객체 지정
   const styles = {
@@ -52,13 +55,16 @@ export default function Button({
     height: h,
     color: c,
     borderRadius: br,
-    backgroundColor: bc,
+    backgroundColor: disabled ? "var(--color-gray-400)" : bc,
     margin: m,
+    opacity: disabled ? 0.6 : 1,
   };
 
   return (
     <>
-      <div style={styles}>{children}</div>
+      <button style={styles} disabled={disabled} className={ButtonStyle.button}>
+        {children}
+      </button>
     </>
   );
 }

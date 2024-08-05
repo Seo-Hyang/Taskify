@@ -1,5 +1,5 @@
 // 기본 import
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./_MyPage.module.scss";
 import Head from "next/head";
 import SideMenu from "@/components/SideMenu/SideMenu";
@@ -13,10 +13,31 @@ import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 import AddPicture from "@/public/images/AddPicture.svg";
 
 export default function MyPage() {
-  const iconStyle = {
-    width: "50px",
-    height: "50px",
-  };
+  const [profileNickname, setProfileNickname] = useState<string>("");
+  const [currentPassword, setCurrentPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [isPasswordChangeDisabled, setisPasswordChangeDisabled] =
+    useState<boolean>(true);
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] =
+    useState<boolean>(true);
+
+  useEffect(() => {
+    if (profileNickname.length > 0) {
+      setIsSaveButtonDisabled(false);
+    } else {
+      setIsSaveButtonDisabled(true);
+    }
+    if (
+      currentPassword.length > 0 &&
+      newPassword.length > 0 &&
+      confirmNewPassword.length > 0
+    ) {
+      setisPasswordChangeDisabled(false);
+    } else {
+      setisPasswordChangeDisabled(true);
+    }
+  }, [currentPassword, newPassword, confirmNewPassword, profileNickname]);
 
   return (
     <>
@@ -59,13 +80,17 @@ export default function MyPage() {
                   </div>
                   <div>
                     <span className={styles.inputName}>닉네임</span>
-                    <input className={styles.Input} placeholder="nickname" />
+                    <input
+                      className={styles.Input}
+                      placeholder="nickname"
+                      value={profileNickname}
+                      onChange={(e) => setProfileNickname(e.target.value)}
+                    />
                   </div>
                 </div>
-                <Button h="50px" m="24px 0 0">
+                <Button h="50px" m="24px 0 0" disabled={isSaveButtonDisabled}>
                   저장
                 </Button>
-                {/*<div className={styles.submitButton}>저장</div>*/}
               </div>
             </div>
           </div>
@@ -81,6 +106,8 @@ export default function MyPage() {
                     <input
                       className={styles.Input}
                       placeholder="현재 비밀번호 입력"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                   </div>
                   <div>
@@ -88,6 +115,8 @@ export default function MyPage() {
                     <input
                       className={styles.Input}
                       placeholder="새 비밀번호 입력"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                     />
                   </div>
                   <div>
@@ -95,13 +124,18 @@ export default function MyPage() {
                     <input
                       className={styles.Input}
                       placeholder="새 비밀번호 입력"
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
                     />
                   </div>
                 </div>
-                <Button h="50px" m="24px 0 0">
+                <Button
+                  h="50px"
+                  m="24px 0 0"
+                  disabled={isPasswordChangeDisabled}
+                >
                   변경
                 </Button>
-                {/*<div className={styles.submitButton}>변경</div>*/}
               </div>
             </div>
           </div>
