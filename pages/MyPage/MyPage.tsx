@@ -9,9 +9,6 @@ import Header from "@/components/Header/Header";
 import Button from "@/components/Button/Button/Button";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 
-// 이미지 import
-import AddPicture from "@/public/images/AddPicture.svg";
-
 export default function MyPage() {
   const [profileNickname, setProfileNickname] = useState<string>("");
   const [currentPassword, setCurrentPassword] = useState<string>("");
@@ -58,25 +55,25 @@ export default function MyPage() {
 
         <div className={styles.userManagementContainer}>
           {/* 돌아가기 버튼 */}
-          <ReturnButton w="84px" h="26px" b="none">
-            돌아가기
-          </ReturnButton>
+          <ReturnButton>돌아가기</ReturnButton>
 
           {/* 프로필 설정 박스 */}
           <div className={styles.profileContainer}>
             <span className={styles.profileHeader}>프로필</span>
             <div className={styles.profileBox}>
-              <div className={styles.profilePicture}>
-                <AddPicture />
-              </div>
-              <div className={styles.width}>
+              <div className={styles.profilePicture}></div>
+              <div className={styles.profileContent}>
                 <div className={styles.profileInputContainer}>
                   <div>
                     <span className={styles.inputName}>이메일</span>
                     <h3 className={styles.noti}>
                       *이메일은 변경 불가 항목입니다.
                     </h3>
-                    <input className={styles.Input} placeholder="e-mail" />
+                    <input
+                      className={styles.Input}
+                      placeholder="e-mail"
+                      disabled
+                    />
                   </div>
                   <div>
                     <span className={styles.inputName}>닉네임</span>
@@ -88,7 +85,12 @@ export default function MyPage() {
                     />
                   </div>
                 </div>
-                <Button h="50px" m="24px 0 0" disabled={isSaveButtonDisabled}>
+                <Button
+                  w="100%"
+                  h="50px"
+                  m="24px 0 0 0"
+                  disabled={isSaveButtonDisabled}
+                >
                   저장
                 </Button>
               </div>
@@ -98,7 +100,7 @@ export default function MyPage() {
           {/* 비밀번호 변경 박스 */}
           <div className={styles.passwordContainer}>
             <span className={styles.profileHeader}>비밀번호 변경</span>
-            <div className={styles.profileBox}>
+            <div>
               <div className={styles.width}>
                 <div className={styles.passwordInputContainer}>
                   <div>
@@ -108,6 +110,7 @@ export default function MyPage() {
                       placeholder="현재 비밀번호 입력"
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
+                      type="password"
                     />
                   </div>
                   <div>
@@ -117,6 +120,7 @@ export default function MyPage() {
                       placeholder="새 비밀번호 입력"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
+                      type="password"
                     />
                   </div>
                   <div>
@@ -126,6 +130,7 @@ export default function MyPage() {
                       placeholder="새 비밀번호 입력"
                       value={confirmNewPassword}
                       onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      type="password"
                     />
                   </div>
                 </div>

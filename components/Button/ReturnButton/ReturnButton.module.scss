@@ -1,0 +1,21 @@
+.font {
+  font-size: 16px;
+
+  @media (max-width: 743px) {
+    font-size: 14px;
+  }
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.returnButtonContainer {
+  width: 84px;
+  height: 26px;
+
+  @media (max-width: 743px) {
+    width: 75px;
+    height: 24px;
+  }
+}
