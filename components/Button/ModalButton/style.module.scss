@@ -42,12 +42,14 @@
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
+  .Button{
+    width:100%;
+  }
 }
 
 /* Mobile */
 @media screen and (max-width: 743px) {
   .Button {
-    width: 138px;
-    height: 42px;
+    width: 100%;
   }
 }

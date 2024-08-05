@@ -21,6 +21,11 @@
   align-items: center;
   column-gap: 24px;
 }
+.todo-button{
+  border: none;
+  background-color: unset;
+  display: inline-flex;
+}
 .todo-column {
   display: flex;
   justify-content: space-between;
@@ -137,9 +142,6 @@
   color: var(--color-black-500);
 }
 
-@media screen and (min-width: 1200px) {
-}
-
 @media screen and (min-width: 744px) and (max-width: 1199px) {
 .todo-modal{
     padding: 24px 32px;
@@ -149,6 +151,7 @@
 @media screen and (max-width: 743px) {
   .todo-modal{
     padding:16px;
+    width:100%;
   }
   .todo-top-icon{
     justify-content: flex-end;
