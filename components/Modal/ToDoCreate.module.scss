@@ -36,6 +36,22 @@
   font-weight: 500;
   line-height: 26px;
 }
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px
+  ;
+}
+.tag {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 4px;
+  padding:2px 6px;
+}
+
 .todo-create-input-img {
   display: flex;
   flex-direction: column;
@@ -60,6 +76,9 @@
   .todo-create-input-container {
     flex-direction: column;
     row-gap: 32px;
+  }
+  .todo-create-input-section {
+    margin: 24px 0;
   }
   .todo-create-auth-label,
   .todo-create-label {

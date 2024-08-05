@@ -1,20 +1,32 @@
 import styles from "../ToDoCreate.module.scss";
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
+import Arrow_drop from "@/public/icons/arrow_drop.svg";
+import { useState } from "react";
 
 export default function ToDoEdit() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className={styles["todo-create"]}>
       <h1 className={styles["todo-create-h1"]}>할일 수정</h1>
       <div className={styles["todo-create-input-section"]}>
         <div className={styles["todo-create-input-container"]}>
-      <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-label"]}>상태</label>
-          <input></input>
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-label"]}>담당자</label>
-          <input></input>
-        </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-label"]}>상태</label>
+            <input></input>
+            <Arrow_drop onClick={toggleDropdown} />
+            {/* 상태 - columnId */}
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-label"]}>담당자</label>
+            <input></input>
+            <Arrow_drop onClick={toggleDropdown} />
+            {/* 담당자 - assignee-id */}
+          </div>
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>제목 *</label>

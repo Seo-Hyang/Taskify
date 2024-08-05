@@ -48,6 +48,7 @@ export default function ColumnDashboard() {
           <input></input>
         </div>
         <div className={styles["column-dashboard-color-container"]}>
+          {/* 색상은 팔레트로? */}
           {["green", "purple", "orange", "blue", "pink"].map((colorName) =>
             selectColorButton(colorName)
           )}

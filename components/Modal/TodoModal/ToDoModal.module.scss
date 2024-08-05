@@ -92,6 +92,11 @@
   line-height: 16.71px;
   color: var(--color-black-500);
 }
+.todo-user-button{
+  display: inline-flex;
+  background-color: unset;
+  border: none;
+}
 .name {
   font-weight: 600;
 }

@@ -94,11 +94,17 @@ export default function ToDoModal({ isOpen, onClose }: modalprops) {
               >
                 댓글 내용
               </span>
-              <div
-                className={`${styles["todo-user-comment-auth-container"]} ${styles["edit-container"]}`}
-              >
-                <span>수정</span>
-                <span>삭제</span>
+              <div className={styles["edit-container"]}>
+                <button className={styles["todo-user-button"]}>
+                  <span className={styles["todo-user-comment-auth-container"]}>
+                    수정
+                  </span>
+                </button>
+                <button className={styles["todo-user-button"]}>
+                  <span className={styles["todo-user-comment-auth-container"]}>
+                    삭제
+                  </span>
+                </button>
               </div>
             </div>
           </section>
