@@ -36,6 +36,17 @@
   font-weight: 500;
   line-height: 26px;
 }
+.calendar-container{
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  padding:9px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--color-gray-300);
+}
+.calendar-container-input{
+  border: none;
+}
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -51,7 +62,6 @@
   border-radius: 4px;
   padding:2px 6px;
 }
-
 .todo-create-input-img {
   display: flex;
   flex-direction: column;

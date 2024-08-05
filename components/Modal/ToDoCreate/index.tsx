@@ -2,13 +2,36 @@ import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import styles from "../ToDoCreate.module.scss";
 import FileInput from "@/components/FileInput";
 import Arrow_drop from "@/public/icons/arrow_drop.svg";
+import CalendarIcon from "@/public/icons/calendar_today_icon.svg";
 import { ChangeEvent, useState } from "react";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface Tag {
   text: string;
   backgroundColor: string;
   color: string;
 }
+
+const DatePicker: React.FC = () => {
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+
+  return (
+    <div className={styles['calendar-container']}>
+      <CalendarIcon width="22" height="22" />
+      <ReactDatePicker
+        selected={startDate}
+        onChange={(date: Date | null) => setStartDate(date)}
+        dateFormat="yyyy.MM.dd HH:mm"
+        showTimeSelect
+        timeFormat="HH:mm"
+        timeIntervals={30}
+        placeholderText="Select a date and time"
+        className={styles["calendar-container-input"]}
+      />
+    </div>
+  );
+};
 
 export default function ToDoCreate() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +54,8 @@ export default function ToDoCreate() {
         const { background, color } = getRandomColor();
         setTags([
           ...tags,
-          { text: newTag, backgroundColor: background, color: color }]);
+          { text: newTag, backgroundColor: background, color: color },
+        ]);
         setIsTag("");
       }
     }
@@ -68,7 +92,7 @@ export default function ToDoCreate() {
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>마감일</label>
-          <input></input>
+          <DatePicker />
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>태그</label>
@@ -80,16 +104,16 @@ export default function ToDoCreate() {
           ></input>
           <div className={styles["tag-list"]}>
             {tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className={styles.tag}
-                  style={{
-                    backgroundColor: tag.backgroundColor,
-                    color: tag.color,
-                  }}
-                >
-                  {tag.text}
-                </span>
+              <span
+                key={index}
+                className={styles.tag}
+                style={{
+                  backgroundColor: tag.backgroundColor,
+                  color: tag.color,
+                }}
+              >
+                {tag.text}
+              </span>
             ))}
           </div>
         </div>
