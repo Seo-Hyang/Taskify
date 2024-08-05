@@ -13,6 +13,7 @@ import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 import AddPicture from "@/public/images/AddPicture.svg";
 
 export default function MyPage() {
+  const [profileNickname, setProfileNickname] = useState<string>("");
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
@@ -74,7 +75,7 @@ export default function MyPage() {
                     <input className={styles.Input} placeholder="nickname" />
                   </div>
                 </div>
-                <Button h="50px" m="24px 0 0">
+                <Button h="50px" m="24px 0 0" disabled={isButtonDisabled}>
                   저장
                 </Button>
                 {/*<div className={styles.submitButton}>저장</div>*/}
@@ -93,6 +94,8 @@ export default function MyPage() {
                     <input
                       className={styles.Input}
                       placeholder="현재 비밀번호 입력"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                   </div>
                   <div>
@@ -100,6 +103,8 @@ export default function MyPage() {
                     <input
                       className={styles.Input}
                       placeholder="새 비밀번호 입력"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                     />
                   </div>
                   <div>
@@ -107,10 +112,12 @@ export default function MyPage() {
                     <input
                       className={styles.Input}
                       placeholder="새 비밀번호 입력"
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
                     />
                   </div>
                 </div>
-                <Button h="50px" m="24px 0 0">
+                <Button h="50px" m="24px 0 0" disabled={isButtonDisabled}>
                   변경
                 </Button>
                 {/*<div className={styles.submitButton}>변경</div>*/}
