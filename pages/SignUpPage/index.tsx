@@ -6,7 +6,8 @@ import InputItem from "@/components/Input/InputItem";
 import PasswordInput from "@/components/Input/PasswordInput";
 import { SignupInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
-import axios from "axios";
+import instance from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 interface FormState {
   email: string;
@@ -22,12 +23,9 @@ interface ErrorState {
   passwordConfirmation?: string;
 }
 
-// TODO: instance 위치 수정하기
-export const instance = axios.create({
-  baseURL: "https://sp-taskify-api.vercel.app/7-1",
-});
-
 function SignUpPage() {
+  const router = useRouter();
+
   const [formState, setFormState] = useState<FormState>({
     email: "",
     nickname: "",
@@ -61,13 +59,11 @@ function SignUpPage() {
 
     const { email, nickname, password } = formState;
 
-    console.log({ email, password });
     const data = await instance.post("/users", {
       email,
       nickname,
       password,
     });
-    console.log({ data });
 
     const newErrors = {
       email: getErrorMessage("email", formState.email),
@@ -81,59 +77,8 @@ function SignUpPage() {
     };
 
     setErrors(newErrors);
-    // async function handleSubmit(e) {
-    //   e.preventDefault();
 
-    //   if (values.password !== values.passwordRepeat) {
-    //     // toast("warn", "비밀번호가 일치하지 않습니다.");
-    //     alert("비밀번호가 일치하지 않습니다.");
-    //     return;
-    //   }
-    //   const { name, email, password } = values;
-    //   console.log({ name, email, password });
-    //   // api를 요청하는 코드: fetch vs axios
-    //   // fetch: 자바스크립트 기본 제공해주는 함수
-    //   // axios: 설치해야 됨
-    //   // await axios.post("/users", { name, email, password });
-
-    //   // API 로 회원정보를 저장할거야
-    //   // https://sp-taskify-api.vercel.app/7-1/users
-    //   const data = await instance.post("/users", {
-    //     email,
-    //     nickname: name,
-    //     password,
-    //   });
-    //   console.log({ data });
-    // const response = await fetch(
-    //   "https://sp-taskify-api.vercel.app/7-1/users",
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       accept: "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       email,
-    //       nickname: name,
-    //       password,
-    //     }),
-    //   }
-    // );
-    // const data = await response.json();
-    // console.log({ data });
-    // if (response.ok) {
-    //   console.log({ data });
-    //   return data;
-    // } else {
-    //   console.log(response);
-    // }
-
-    /**
-     * @TODO
-     * 서버에 회원을 생성한다
-     * 회원 생성이 성공하면 로그인을 시도한다
-     * 로그인이 성공하면 `/me`로 이동한다
-     */
+    router.push("/LoginPage");
   };
 
   return (

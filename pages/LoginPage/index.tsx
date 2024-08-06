@@ -6,8 +6,8 @@ import InputItem from "@/components/Input/InputItem";
 import PasswordInput from "@/components/Input/PasswordInput";
 import { LoginInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
-// TODO: import 위치 수정하기
-import { instance } from "../SignUpPage";
+import instance from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 interface FormState {
   email: string;
@@ -20,6 +20,8 @@ interface ErrorState {
 }
 
 function LoginPage() {
+  const router = useRouter();
+
   const [formState, setFormState] = useState<FormState>({
     email: "",
     password: "",
@@ -52,24 +54,12 @@ function LoginPage() {
 
     setErrors(newErrors);
 
-    console.log({ email, password });
     const data = await instance.post("/auth/login", {
       email,
       password,
     });
-    console.log({ data });
-    // const response = await fetch(
-    //   "https://sp-taskify-api.vercel.app/7-1/auth/login",
-    //   {
-    //     method: "POST",
-    //     body: JSON.stringify({
-    //       email,
-    //       password,
-    //     }),
-    //   }
-    // );
-    // const data = await response.json();
-    // console.log({ data });
+
+    router.push("/DashBoard/DashBoard");
   };
 
   return (
