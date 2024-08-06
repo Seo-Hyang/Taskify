@@ -8,12 +8,12 @@ export default function HeaderButton({
   isInvitation = false,
 }) {
   return (
-    <button className={`${styles.Button} ${setting && styles.setting}`}>
+    <button className={`${styles.Button} ${setting ? styles.setting : ""}`}>
       <SETTINGSVG
-        className={`${styles.noneSvg} ${setting && styles.setting_svg}`}
+        className={`${styles.noneSvg} ${setting ? styles.setting_svg : ""}`}
       />
       <AddBox
-        className={`${styles.noneSvg} ${isInvitation && styles.invitation}`}
+        className={`${styles.noneSvg} ${isInvitation ? styles.invitation : ""}`}
       />
       {children}
     </button>
