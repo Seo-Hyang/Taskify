@@ -11,10 +11,10 @@ export default function Home() {
           <Link href="/LandingPage">▷랜딩 페이지</Link>
         </li>
         <li>
-          <Link href="/Login">▷로그인</Link>
+          <Link href="/LoginPage">▷로그인</Link>
         </li>
         <li>
-          <Link href="/SignUp">▷회원가입</Link>
+          <Link href="/SignUpPage">▷회원가입</Link>
         </li>
         <li>
           <Link href="/DashBoard/DashBoard">▷대시보드</Link>
