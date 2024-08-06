@@ -53,8 +53,11 @@ export default function ToDoModal({ isOpen, onClose }: modalprops) {
       <div className={styles["todo-column"]}>
         <div>
           <section className={styles["todo-chip-container"]}>
-            <div className={styles["todo-chip-container-state"]}>todo</div>
+            <div className={styles["todo-chip-container-state"]}>
+            <div className={styles["todo-chip-circle"]}></div>
+            <div className={styles["todo-chip"]}>todo</div>
             {/* chip 넣기 */}
+            </div>
             <div className={styles["todo-chip-container-line"]}></div>
             <div className={styles["todo-chip-container-tag-container"]}>
               <div className={styles["todo-chip-container-tag"]}>프로젝트</div>
@@ -120,7 +123,7 @@ export default function ToDoModal({ isOpen, onClose }: modalprops) {
           >
             <h2 className={styles["todo-user-top"]}>담당자</h2>
             <div className={styles["todo-user-img-container"]}>
-              <div>프로필 이미지</div>
+              <div className={styles["todo-user-img"]}></div>
               <span className={styles["todo-user-name"]}>이름</span>
             </div>
           </div>
