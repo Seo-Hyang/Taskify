@@ -43,6 +43,8 @@ export default function ToDoCreate() {
   const [file, setFile] = useState<File | null>(null);
   const [values, setValues] = useState({
     assigneeUserId: "",
+    dashboardId: "",
+    columnId: "",
     title: "",
     description: "",
     dueDate: "",
@@ -97,20 +99,30 @@ export default function ToDoCreate() {
     return colors[randomIndex];
   };
 
-  const handleFileChange = (file: File | null) => {
+  const handleFileChange = (file: File | null, imgUrl?: string) => {
     setFile(file);
     setValues({
       ...values,
-      imageUrl: file ? URL.createObjectURL(file) : "",
+      imageUrl: imgUrl || "",
     });
   };
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    const { assigneeUserId, title, description, dueDate, tags, imageUrl } =
-      values;
+    const {
+      assigneeUserId,
+      dashboardId,
+      columnId,
+      title,
+      description,
+      dueDate,
+      tags,
+      imageUrl,
+    } = values;
     await axios.post("/cards", {
       assigneeUserId,
+      dashboardId,
+      columnId,
       title,
       description,
       dueDate,

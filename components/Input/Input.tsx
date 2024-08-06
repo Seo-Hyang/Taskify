@@ -2,11 +2,11 @@ import styles from "./style.module.scss";
 
 interface Props {
   className?: string;
-  placeholder: string;
+  placeholder?: string;
   type?: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 

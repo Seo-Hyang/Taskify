@@ -2,13 +2,35 @@ import styles from "../ToDoCreate.module.scss";
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import Arrow_drop from "@/public/icons/arrow_drop.svg";
 import Check_icon from "@/public/icons/check_icon.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "@/lib/axios";
+import Input from "@/components/Input/Input";
+import FileInput from "@/components/FileImage";
+import { useRouter } from "next/router";
 
 export default function ToDoEdit() {
+  const router=useRouter();
   const [isColumnOpen, setIsColumnOpen] = useState(false);
   const [isAssignOpen, setIsAssignOpen] = useState(false);
   const [isColuumnSelected, setIsColuumnSelected] = useState();
   const [isAssignSelected, setIsAssignSelected] = useState();
+  const [columnId,setColumnId]=useState<number>();
+  const [assigneeUserId,setAssigneerUserId]=useState();
+  const [title,setTitle]=useState<string>("");
+  const [description,setDescription]=useState<string>("");
+  const [date,setDate]=useState<string>("");
+  const [tags,setTags]=useState<string[]>([]);
+  const [imgUrl,setImgUrl]=useState<string>("");
+  const [values, setValues] = useState({
+    assigneeUserId: "",
+    dashboardId: "",
+    columnId: "",
+    title: "",
+    description: "",
+    dueDate: "",
+    tags: tags,
+    imageUrl: "",
+  });
 
   const toggleColumnDropdown = () => {
     setIsColumnOpen(!isColumnOpen);
@@ -17,6 +39,52 @@ export default function ToDoEdit() {
   const toggleAssignDropdown = () => {
     setIsAssignOpen(isAssignOpen);
   };
+
+  // get통해 input 값 가져오기
+  // useEffect(()=>{
+  //   const fetchEditData=async ()=>{
+  //     try{
+  //       const response=await axios.get(`/cards/${cardId}`);
+  //       // cardId는 어디서..?
+  //       const {columnId,assigneeUserId,title,description,date,tags,imgUrl}=response.data;
+  //       setColumnId(columnId);
+  //       setAssigneerUserId(assigneeUserId);
+  //       setTitle(title);
+  //       setDescription(description);
+  //       setDate(date);
+  //       setTags(tags);
+  //       setImgUrl(imgUrl);
+  //     }catch(error){
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchEditData();
+  // },[cardId]);
+
+// async function handleSubmit(e:any){
+//   e.preventDefault();
+//   const {
+//     assigneeUserId,
+//     dashboardId,
+//     columnId,
+//     title,
+//     description,
+//     dueDate,
+//     tags,
+//     imageUrl,
+//   } = values;
+//   await axios.put(`'cards/${cardId}`, {
+//     assigneeUserId,
+//     dashboardId,
+//     columnId,
+//     title,
+//     description,
+//     dueDate,
+//     tags,
+//     imageUrl,
+//   });
+//   router.push("/DashBoard");
+// }
 
   return (
     <div className={styles["todo-create"]}>
@@ -80,23 +148,26 @@ export default function ToDoEdit() {
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>제목 *</label>
-          <input></input>
+          <Input value={title} onChange={(e) => setTitle(e.target.value)}/>
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>설명 *</label>
-          <input></input>
+          <Input value={description} onChange={(e) => setDescription(e.target.value)}/>
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>마감일</label>
-          <input></input>
+          <Input value={date} onChange={(e) => setDate(e.target.value)}/>
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>태그</label>
-          <input></input>
-          {/* 전의 태그 값 그대로 들고오기 */}
+          <Input value={tags} onChange={(e) => setTags(e.target.value)}/>
         </div>
         <div className={styles["todo-create-input-img"]}>
           <label className={styles["todo-create-auth-label"]}>이미지</label>
+          <FileInput name="image" onChange={(file)=>console.log(file)}
+            initialImageUrl={imgUrl}
+            columnId={columnId}
+            />
         </div>
       </div>
 
