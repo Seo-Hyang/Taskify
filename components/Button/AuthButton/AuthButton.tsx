@@ -8,7 +8,9 @@ export default function AuthButton({
 }) {
   return (
     <button
-      className={`${styles.Button} ${landing && styles.landing} ${className}`}
+      className={`${styles.Button} ${
+        landing ? styles.landing : ""
+      } ${className}`}
       disabled={disabled}
     >
       {children}

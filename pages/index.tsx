@@ -5,7 +5,7 @@ export default function Home() {
     <>
       <ul>
         <li>
-          <Link href="/Test">▷테스트 페이지</Link>
+          <Link href="/ButtonTest">▷테스트 페이지</Link>
         </li>
         <li>
           <Link href="/LandingPage">▷랜딩 페이지</Link>

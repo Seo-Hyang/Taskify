@@ -3,10 +3,10 @@ import RIGHTARROWSVG from "@/public/icons/arrow_forward_icon.svg";
 
 export default function ArrowButton({ rightArrow = false, leftArrow = false }) {
   return (
-    <button className={`${styles.Button} ${leftArrow && styles.Arrowleft}`}>
+    <button className={`${styles.Button} ${leftArrow ? styles.Arrowleft : ""}`}>
       <RIGHTARROWSVG
-        className={`${rightArrow && styles.ArrowRightSvg} ${
-          leftArrow && styles.ArrowLeftSvg
+        className={`${rightArrow ? styles.ArrowRightSvg : ""} ${
+          leftArrow ? styles.ArrowLeftSvg : ""
         }`}
       />
     </button>
