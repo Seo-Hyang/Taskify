@@ -19,3 +19,14 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
     }
   }
 };
+
+export function getTodoModal(columnId:string){
+const url=`/cards?size=10&columnId=${columnId}`;
+const options={
+  method:"GET",
+  headers:{
+    "Context-type":"application/json",
+  },
+};
+return fetchRequest(url,options);
+}

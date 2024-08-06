@@ -4,26 +4,23 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
 import Input from "@/components/Input/Input";
 import { useRouter } from "next/router";
-import axios from "@/lib/axios";
-
-interface colorProps {
-  name: string;
-}
+import { postDashboardAdd } from "@/lib/columnApi";
 
 export default function ColumnDashboard() {
   const router = useRouter();
-  const [color, setColor] = useState("#000");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [values, setValues] = useState({
-    title: "",
-    color: color,
+  const [values,setValues]=useState({
+    title:"",
+    color:"#000"
   });
 
-  useEffect(() => {
-    const { title } = values;
-    setIsDisabled(!title);
-  }, [values]);
 
+  // title 없으면 버튼 비활성화
+  useEffect(() => {
+    setIsDisabled(!values.title);
+  }, [values.title]);
+
+  // title input
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues((prevValues) => ({
@@ -32,8 +29,8 @@ export default function ColumnDashboard() {
     }));
   };
 
+  // color input
   const handleColorChangeComplete = (color: any) => {
-    setColor(color.hex);
     setValues((prevValues) => ({
       ...prevValues,
       color: color.hex,
@@ -42,13 +39,13 @@ export default function ColumnDashboard() {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const { title, color } = values;
-    await axios.post("/dashboards", {
-      title,
-      color,
-    });
-    router.push("/dashBoard/{dashboardid}");
-    // 소문자
+    try{
+      await postDashboardAdd(values.title,values.color);
+      console.log(values.title,values.color);
+      router.push("/dashBoard/{dashboardid}");
+    }catch(err){
+      console.error("대시보드 생성에 실패했습니다.");
+    }
   };
 
   return (
@@ -70,7 +67,7 @@ export default function ColumnDashboard() {
             />
           </div>
           <TwitterPicker
-            color={color}
+            color={values.color}
             onChangeComplete={handleColorChangeComplete}
             className={styles["column-dashboard-color-picker"]}
           />

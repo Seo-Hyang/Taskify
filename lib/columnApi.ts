@@ -3,7 +3,7 @@ import instance from "./axios";
 
 interface RequestOptions {
   method: string;
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
   data?: string | object;
 }
 
@@ -19,6 +19,19 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
     }
   }
 };
+
+// 대시보드 생성
+export function postDashboardAdd(title: string, color: string) {
+  const url = `/dashboards`;
+  const options = {
+    method: "POST",
+    data: {
+      title,
+      color,
+    },
+  };
+  return fetchRequest(url, options);
+}
 
 // 칼럼 목록 조회 (같은 title 있는지)
 export function getColumnAdd(dashboardId: string) {
@@ -66,7 +79,7 @@ export function putcolumnDelete(columnId: string) {
     headers: {
       "Content-type": "application/json",
     },
-    data:{columnId},
+    data: { columnId },
   };
   return fetchRequest(url, options);
 }
