@@ -1,9 +1,14 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import styles from "./FileInput.module.scss";
+import styles from "./FileImage.module.scss";
 import File_input from "@/public/icons/file_input.svg";
 import File_input_img from "@/public/icons/file_input_img.svg";
 
-export default function FileInput() {
+interface FIleInputProps {
+  name: string;
+  onChange: (file: File | null) => void;
+}
+
+export default function FileInput({ name, onChange }: FIleInputProps) {
   const [currentImage, setCurrentImage] = useState<File | null>(null);
   const [prevImage, setPrevImage] = useState<string | undefined>(undefined);
 
@@ -21,21 +26,15 @@ export default function FileInput() {
 
   const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setCurrentImage(file);
-    } else {
-      setCurrentImage(null);
-    }
-  };
-
-  const handleFileChange = () => {
-    console.log("이미지 재선택");
+    setCurrentImage(file ?? null);
+    onChange(file ?? null);
   };
 
   return (
     <div className={styles["file-input-container"]}>
       <input
         type="file"
+        name={name}
         className={styles["file-input"]}
         onChange={handleFileInput}
         id="file-input"
@@ -44,7 +43,6 @@ export default function FileInput() {
         {prevImage ? (
           <div
             className={styles["file-input-preview-input"]}
-            onClick={handleFileChange}
           >
             <File_input_img
               width="30"
@@ -57,9 +55,7 @@ export default function FileInput() {
         )}
       </label>
       {prevImage && (
-        <div
-          className={styles["file-input-preview"]}
-        >
+        <div className={styles["file-input-preview"]}>
           <img
             src={prevImage}
             alt="선택된 이미지"
