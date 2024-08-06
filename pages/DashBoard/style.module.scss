@@ -1,0 +1,28 @@
+.dashboardContainer {
+  margin-left: 300px;
+  display: flex;
+  flex-direction: row;
+}
+
+.add_newColumn {
+  margin-left: 12px;
+  margin-top: 50px;
+}
+
+/*Tablet*/
+@media screen and (max-width: 1199px) {
+  .dashboardContainer {
+    margin-left: 160px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/*Mobile*/
+@media screen and (max-width: 743px) {
+  .dashboardContainer {
+    margin-left: 67px;
+    display: flex;
+    flex-direction: column;
+  }
+}

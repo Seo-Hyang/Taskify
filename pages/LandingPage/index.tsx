@@ -1,16 +1,16 @@
 import styles from "./LandingPage.module.scss";
-import Header from "@/public/images/logo/header.svg";
+import Header from "@/public/images/logo/header_logo.svg";
+// 고치기 & 사진 화질도
 import Top_Image from "@/public/images/card_image4.png";
 import Landing_section1 from "@/public/images/landing_section1.png";
 import Landing_section2 from "@/public/images/landing_section2.png";
-import Landing_section3 from "@/public/images/landing_section3.png";
+import Landing_section3 from "@/public/images/landing3.png";
 import Landing_section4 from "@/public/images/landing_section4.png";
 import Landing_section5 from "@/public/images/landing_section5.png";
 import Header_mobile from "@/public/icons/header_mobile.svg";
 import Footer from "@/components/Footer/Footer";
-import Image from "next/image";
 import AuthButton from "@/components/Button/AuthButton/AuthButton";
-import { TABLET_MAX_WIDTH, MOBILE_MAX_WIDTH } from "@/constants/screensize";
+import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
 import Link from "next/link";
 
@@ -20,7 +20,7 @@ export default function LandingPage() {
     <div className={styles.landing}>
       <header className={styles.header}>
         <Link href="/LandingPage">
-          {width >= TABLET_MAX_WIDTH ? (
+          {width > MOBILE_MAX_WIDTH ? (
             <Header width="121" height="39" />
           ) : (
             <Header_mobile width="23.63" height="27.13" />
@@ -38,8 +38,8 @@ export default function LandingPage() {
       </header>
 
       <div className={styles["top-section"]}>
-        <Image
-          src={Top_Image}
+        <img
+          src={Top_Image.src}
           alt="상단 이미지"
           width="722"
           height="422"
@@ -68,8 +68,8 @@ export default function LandingPage() {
                 일의 우선순위를 <br /> 관리하세요
               </h2>
             </div>
-            <Image
-              src={Landing_section1}
+            <img
+              src={Landing_section1.src}
               alt="우선순위"
               width="594"
               height="494"
@@ -84,8 +84,8 @@ export default function LandingPage() {
                 해야 할 일을 <br /> 등록하세요
               </h2>
             </div>
-            <Image
-              src={Landing_section2}
+            <img
+              src={Landing_section2.src}
               alt="할 일 생성"
               width="436"
               height="502"
@@ -101,8 +101,8 @@ export default function LandingPage() {
           <div className={styles["bottom-section-container"]}>
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
-                  src={Landing_section3}
+                <img
+                  src={Landing_section3.src}
                   alt="대시보드"
                   width="300"
                   height="123"
@@ -121,8 +121,8 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
-                  src={Landing_section4}
+                <img
+                  src={Landing_section4.src}
                   alt="초대"
                   width="300"
                   height="230"
@@ -139,8 +139,8 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
-                  src={Landing_section5}
+                <img
+                  src={Landing_section5.src}
                   alt="구성원"
                   width="300"
                   height="195.48"

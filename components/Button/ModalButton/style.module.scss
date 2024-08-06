@@ -8,9 +8,10 @@
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  width: 120px;
-  height: 48px;
+  width: 256px;
+  height: 54px;
   font-size: 16px;
+  padding: 14px 46px;
 
   background: var(--color-violet);
   transition: all 0.3s;
@@ -30,13 +31,9 @@
 }
 
 .comment {
-  color: var(--color-violet);
-  background: var(--color-white);
-  border: solid 1px var(--color-gray-300);
-  width: 83px;
-  height: 32px;
-  font-size: 12px;
-  border-radius: 4px;
+  color: var(--color-white);
+  background: var(--color-violet);
+  font-weight: 600;
 
   &:hover {
     background: var(--color-violet-8);
@@ -44,20 +41,15 @@
 }
 
 /* Tablet */
-@media screen and (min-width: 1199px) {
-  .comment {
-    width: 77px;
+@media screen and (max-width: 1199px) {
+  .Button{
+    width:100%;
   }
 }
 
 /* Mobile */
 @media screen and (max-width: 743px) {
   .Button {
-    width: 138px;
-    height: 42px;
-  }
-
-  .comment {
-    height: 28px;
+    width: 100%;
   }
 }

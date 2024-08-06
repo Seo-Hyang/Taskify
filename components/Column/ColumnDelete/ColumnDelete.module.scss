@@ -1,0 +1,39 @@
+.column-delete{
+    width:568px;
+    height:100%;
+    padding:24px;
+    border-radius: 16px;
+    background-color: var(--color-white);
+}
+.column-delete-container{
+    display: flex;
+    flex-direction: column;
+    row-gap:40px;
+}
+.column-delete-h1{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 32px;
+    text-align: center;
+}
+.column-delete-button-container{
+    display: flex;
+    column-gap: 8px;
+}
+
+@media screen and (max-width:743px) {
+    .column-delete{
+        width:327px;
+        padding: 24px 16px;
+    }
+    .column-delete-container{
+        row-gap:32px;
+    }
+    .column-delete-h1{
+        font-size: 16px;
+        line-height: 26px;
+    }
+    .column-delete-button-container{
+        column-gap: 7px;
+    }
+}

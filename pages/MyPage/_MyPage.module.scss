@@ -1,7 +1,172 @@
-// 상단 네이게이션 바
-.header {
-  width: 100%;
-  height: 70px;
+.userManagementContainer {
+  margin-left: 300px;
+  padding: 20px 0 0 20px;
+
+  // Tablet Size
+  @media (max-width: 1199px) {
+    margin-left: 160px;
+    padding: 16px 0 0 16px;
+  }
+
+  // Mobile Size
+  @media (max-width: 743px) {
+    margin-left: 67px;
+    padding: 12px;
+    overflow: scroll;
+  }
+}
+
+.returnButton {
+  font-size: 16px;
+  border: none;
+  background-color: var(--color-gray-100);
+}
+
+// 유저 프로필 박스
+.profileContainer {
+  width: 672px;
+  height: 366px;
+  padding: 24px;
+  margin: 29px 0 24px;
+  border-radius: 16px;
+  background-color: var(--color-white);
+
+  // Tablet Size
+  @media (max-width: 1199px) {
+    width: 548px;
+    height: 366px;
+  }
+
+  //Mobile Size
+  @media (max-width: 743px) {
+    width: 284px;
+    height: 496px;
+    padding: 16px;
+    margin: 6px 0 16px;
+  }
+}
+
+.profileBox {
   display: flex;
-  justify-content: space-between;
+  width: 100%;
+
+  @media (max-width: 743px) {
+    flex-direction: column;
+  }
+}
+
+.profileHeader {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  height: 32px;
+  line-height: 32px;
+  margin-bottom: 24px;
+
+  @media (max-width: 743px) {
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+}
+
+.profilePicture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 182px;
+  height: 182px;
+  border: none;
+  background-image: url("/images/addPicture.svg");
+  background-repeat: no-repeat;
+
+  // Mobile Size
+  @media (max-width: 743px) {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.profileContent {
+  width: 400px;
+  margin: 0 0 0 42px;
+
+  // Tablet Size
+  @media (max-width: 1199px) {
+    width: 276px;
+  }
+
+  // Mobile Size
+  @media (max-width: 743px) {
+    margin: 40px 0 0 0;
+    width: 252px;
+  }
+}
+
+.inputName {
+  display: inline-block;
+  height: 26px;
+  padding: 2px 0;
+  margin-bottom: 8px;
+  font-size: 16px;
+
+  @media (max-width: 743px) {
+    font-size: 14px;
+  }
+}
+
+.noti {
+  display: inline-block;
+  font-size: 16px;
+  color: var(--color-red);
+  margin-left: 10px;
+
+  @media (max-width: 743px) {
+    font-size: 14px;
+  }
+}
+
+.profileInputContainer {
+  display: flex;
+  height: 184px;
+  flex-direction: column;
+}
+
+.Input {
+  width: 100%;
+  height: 50px;
+  padding: 12px 0 12px 16px;
+  border-radius: 8px;
+  border-color: var(--color-gray-300);
+  margin-bottom: 16px;
+}
+
+// 유저 비밀번호 변경 박스
+.passwordContainer {
+  width: 672px;
+  height: 466px;
+  padding: 24px;
+  margin-bottom: 80px;
+  border-radius: 16px;
+  background-color: var(--color-white);
+
+  // Tablet Size
+  @media (max-width: 1199px) {
+    width: 548px;
+    height: 466px;
+  }
+
+  //Mobile Size
+  @media (max-width: 743px) {
+    width: 284px;
+    height: 454px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+}
+
+.passwordInputContainer {
+  display: flex;
+  width: 100%;
+  height: 284px;
+  flex-direction: column;
 }

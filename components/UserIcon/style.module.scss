@@ -14,3 +14,19 @@
   font-weight: 600;
   color: var(--color-white);
 }
+
+.cardIcon {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  border: none;
+}
+
+/*Mobile*/
+@media screen and (max-width: 743px) {
+  .cardIcon {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+  }
+}
