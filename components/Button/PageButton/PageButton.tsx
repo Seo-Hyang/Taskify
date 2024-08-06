@@ -17,12 +17,12 @@ export default function PageButton({
 }) {
   return (
     <button
-      className={`${styles.Button} ${isCancled && styles.cancled} ${
-        isInvitation && styles.invitation
+      className={`${styles.Button} ${isCancled ? styles.cancled : ""} ${
+        isInvitation ? styles.invitation : ""
       }`}
     >
       <AddBox
-        className={`${styles.noneSvg} ${isInvitation && styles.addboxSvg}`}
+        className={`${styles.noneSvg} ${isInvitation ? styles.addboxSvg : ""}`}
       />
       {children}
     </button>

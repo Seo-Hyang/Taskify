@@ -25,8 +25,8 @@ export default function ModalButton({
 }: ModalButtonProps) {
   return (
     <button
-      className={`${styles.Button} ${isCancled && styles.cancled} ${
-        isComment && styles.comment
+      className={`${styles.Button} ${isCancled ? styles.cancled : ""} ${
+        isComment ? styles.comment : ""
       } ${className}`}
       onClick={onClick}
     >

@@ -18,9 +18,9 @@ export default function ArrowButton({
 }: ArrowButtonProps) {
   return (
     <button
-      className={`${styles.Button} ${addBoard && styles.add_board} ${
-        addTodo && styles.add_todo
-      } ${addColumn && styles.add_column}`}
+      className={`${styles.Button} ${addBoard ? styles.add_board : ""} ${
+        addTodo ? styles.add_todo : ""
+      } ${addColumn ? styles.add_column : ""}`}
     >
       {children}
       <div className={styles.plus_icon}>

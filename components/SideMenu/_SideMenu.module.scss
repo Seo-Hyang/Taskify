@@ -14,7 +14,6 @@
   height: 90px;
 
   .sideMenuLogo {
-    width: 108px;
     height: 33px;
   }
 
@@ -32,10 +31,6 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--color-gray-500);
-
-  .dashboard_name {
-    display: block;
-  }
 }
 
 .sideMenuContentBox {
@@ -60,6 +55,9 @@
   .sideMenuContainer {
     width: 160px;
   }
+  .sideMenuContentBox {
+    align-items: center;
+  }
 }
 
 /*Mobile*/
@@ -75,6 +73,9 @@
     .sideMenu_LogoSmall {
       display: flex;
     }
+  }
+  .addDashBoard {
+    justify-content: center;
   }
   .dashboard_name {
     display: none;

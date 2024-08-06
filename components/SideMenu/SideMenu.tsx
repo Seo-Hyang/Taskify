@@ -20,7 +20,7 @@ export default function SideMenu() {
             <LogoSmall className={styles.sideMenu_LogoSmall} />
           </div>
           <div className={styles.addDashBoard}>
-            <span className={styles.dashboard_name}>Dash Boards</span>
+            <div className={styles.dashboard_name}>Dash Boards</div>
             <AddIcon />
           </div>
           <section className={styles.sideMenuContent}>
