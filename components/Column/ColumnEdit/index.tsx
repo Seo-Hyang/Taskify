@@ -54,6 +54,7 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
         </div>
         <div className={styles["column-button-container"]}>
           <ModalButton isCancled={true}>삭제</ModalButton>
+          {/* 이중모달 */}
           <ModalButton
             isComment={true}
             onClick={handleEditClick}

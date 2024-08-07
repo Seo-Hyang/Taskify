@@ -12,7 +12,7 @@ interface Props {
 export default function ColumnAdd({ dashboardId }: Props) {
   const router = useRouter();
   const [columnName, setColumnName] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string|null>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [existingColumns, setExistingColumns] = useState<string[]>([]);
   const [columnLimitReached, setColumnLimitReached] = useState(false);
@@ -48,6 +48,9 @@ export default function ColumnAdd({ dashboardId }: Props) {
     } else {
       setError(null);
     }
+    if(columnLimitReached){
+      setIsDisabled(true)
+    }
   }, [columnName, existingColumns]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,8 +65,6 @@ export default function ColumnAdd({ dashboardId }: Props) {
     }
     try {
       await postColumnAdd(columnName, dashboardId);
-      setColumnName("");
-      setError(null);
       router.push(`/dashboard/${dashboardId}`);
     } catch (err) {
       console.error("칼럼 생성에 실패했습니다.");
@@ -80,10 +81,11 @@ export default function ColumnAdd({ dashboardId }: Props) {
             placeholder="이름을 입력해주세요"
             value={columnName}
             onChange={handleInputChange}
+            hasError={!!error}
           />
           {error && <div className={styles["error-message"]}>{error}</div>}
           {columnLimitReached && (
-            <div className={styles["limit-error-message"]}>
+            <div className={styles["error-message"]}>
               칼럼은 최대 {columnLimit}개까지 생성이 가능합니다.
             </div>
           )}

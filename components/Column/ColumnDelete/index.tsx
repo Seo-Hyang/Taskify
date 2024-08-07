@@ -5,36 +5,16 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function ColumnDelete(columnId:string, dashboardId:string) {
-  const router = useRouter();
-  const [columnIds,setColumnIds]=useState<string>("");
 
   // 칼럼 삭제
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
       await putcolumnDelete(columnId);
-      router.push(`/dashboard/${dashboardId}`);
     } catch (err) {
       console.error("해당 칼럼 삭제에 실패했습니다.");
     }
   };
-
-  //   칼럼 id를 꼭 들고와야 하는건가?
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getColumnAdd(dashboardId);
-        const columnIds = response.data.map(
-          (column: { id: string }) => column.id
-        );
-        console.log(columnIds);
-      } catch (error) {
-        console.error("칼럼 ID를 가져오는데 실패했습니다.", error);
-      }
-    };
-
-    fetchData();
-  }, [dashboardId]);
 
   return (
     <div className={styles["column-delete"]}>

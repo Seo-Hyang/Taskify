@@ -6,6 +6,7 @@ interface Props {
   type?: string;
   name?: string;
   value?: string;
+  hasError?:boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
@@ -16,12 +17,13 @@ function Input({
   type,
   name,
   value,
+  hasError,
   onChange,
   onKeyDown,
 }: Props) {
   return (
     <input
-      className={`${styles.Input} ${className}`}
+      className={`${styles.Input} ${hasError ? styles.InputError : ''} ${className}`}
       placeholder={placeholder}
       type={type}
       name={name}

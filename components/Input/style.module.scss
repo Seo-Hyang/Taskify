@@ -24,56 +24,13 @@
 .Label,
 .Input {
   display: block;
-  width: 100%;
 }
 
 .ErrorMessage {
   color: red;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 18px;
-  margin-top: 8px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.Button {
-  border: none;
-  position: absolute;
-  background-color: transparent;
-  width: 25px;
-  height: 25px;
-  top: 12px;
-  right: 16px;
-}
-
-.password-container {
-  position: relative;
-  display: flex;
-}
-
-.InputError {
-  border: 1px solid red;
-}
-
-.Label {
-  color: #000000;
-  font-size: 16px;
   font-weight: 400;
-  margin-bottom: 8px;
-}
-
-.Label,
-.Input {
-  display: block;
-  width: 100%;
-}
-
-.ErrorMessage {
-  color: red;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 24px;
   margin-top: 8px;
   margin-bottom: 16px;
   display: block;
