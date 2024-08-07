@@ -15,7 +15,6 @@ export default function Edit() {
   const [dashboard, setDashboard] = useState<Dashboard>();
   const router = useRouter();
   const { dashboardId } = router.query;
-
   const [isLoadingDashboard, loadDashboardError, loadDashboard] =
     useAsync(getDashboard);
 
@@ -23,7 +22,6 @@ export default function Edit() {
     async (dashboardId: number) => {
       const res = await loadDashboard(dashboardId);
       const nextDashboard = res;
-      console.info("res : " + nextDashboard);
       setDashboard(nextDashboard);
     },
     [loadDashboard]
@@ -41,7 +39,10 @@ export default function Edit() {
         <div className={styles.header}>
           <ReturnButton link="/dashboardid">돌아가기</ReturnButton>
         </div>
-        <EditDashboardInfo name={dashboard?.title || "no data"} />
+        <EditDashboardInfo
+          id={Number(dashboardId)}
+          name={dashboard?.title || "no data"}
+        />
         <EditMembers />
         <EditInvitations />
         <div className={styles.footer}>
