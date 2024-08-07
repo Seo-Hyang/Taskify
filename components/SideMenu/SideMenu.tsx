@@ -1,6 +1,7 @@
 // 기본 import
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./_SideMenu.module.scss";
+import instance from "@/lib/axios";
 
 // 컴포넌트 import
 import ArrowButton from "../Button/ArrowButton/ArrowButton";
@@ -11,7 +12,34 @@ import Logo from "@/public/images/logo/large.svg";
 import LogoSmall from "@/public/images/logo/small.svg";
 import AddIcon from "@/public/images/addIcon.svg";
 
+export type Dashboard = {
+  id: number;
+  title: string;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+  createdByMe: boolean;
+  userId: number;
+};
+
 export default function SideMenu() {
+  const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
+  //const token = localStorage.getItem("accessToken"); //엑세스 토큰
+
+  async function getDashboardList() {
+    const res = await instance.get(
+      "/dashboards?navigationMethod=pagination&page=1&size=10"
+    );
+    const nextDashboardList = res.data;
+    const { dashboards, totalCount, cursorId } = nextDashboardList;
+
+    setDashboardList(dashboards);
+  }
+
+  useEffect(() => {
+    getDashboardList();
+  }, []);
+
   return (
     <>
       <div className={styles.sideMenuContainer}>
@@ -24,13 +52,15 @@ export default function SideMenu() {
             <div className={styles.dashboard_name}>Dash Boards</div>
             <AddIcon />
           </div>
-          <section className={styles.sideMenuContent}>
-            <DashboardButton isOwn={true}>비브리지</DashboardButton>
-            <DashboardButton isOwn={true}>코드잇</DashboardButton>
-            <DashboardButton>회의록</DashboardButton>
-            <DashboardButton>어쩌구</DashboardButton>
-            <DashboardButton>저쩌구</DashboardButton>
-          </section>
+          <div>
+            {dashboardList.map((item) => (
+              <section key={item.id} className={styles.sideMenuContent}>
+                <DashboardButton isOwn={item.createdByMe}>
+                  {item.title}
+                </DashboardButton>
+              </section>
+            ))}
+          </div>
           <section className={styles.arrowButtons}>
             <ArrowButton leftArrow />
             <ArrowButton rightArrow />

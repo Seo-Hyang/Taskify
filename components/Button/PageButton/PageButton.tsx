@@ -14,12 +14,13 @@ export default function PageButton({
   children,
   isCancled = false,
   isInvitation = false,
+  isEditDashboard = false,
 }) {
   return (
     <button
       className={`${styles.Button} ${isCancled ? styles.cancled : ""} ${
         isInvitation ? styles.invitation : ""
-      }`}
+      } ${isEditDashboard ? styles.editDashboard : ""}`}
     >
       <AddBox
         className={`${styles.noneSvg} ${isInvitation ? styles.addboxSvg : ""}`}

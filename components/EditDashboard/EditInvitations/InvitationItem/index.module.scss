@@ -1,0 +1,23 @@
+.invitationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  p {
+    font-size: 16px;
+  }
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+}
+
+/* Mobile */
+@media screen and (max-width: 743px) {
+  .invitationItem {
+    padding: 8px 20px 12px;
+    p {
+      font-size: 14px;
+    }
+  }
+}

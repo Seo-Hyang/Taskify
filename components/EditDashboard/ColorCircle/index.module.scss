@@ -1,0 +1,42 @@
+.colorCircle {
+  cursor: pointer;
+
+  button {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .circle {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    flex-direction: center;
+    align-items: center;
+
+    .iconCheck {
+      margin: 0 auto;
+    }
+  }
+
+  .green {
+    background-color: var(--color-green);
+  }
+
+  .purple {
+    background-color: var(--color-purple);
+  }
+
+  .orange {
+    background-color: var(--color-orange);
+  }
+
+  .blue {
+    background-color: var(--color-blue);
+  }
+
+  .pink {
+    background-color: var(--color-pink);
+  }
+}

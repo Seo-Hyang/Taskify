@@ -13,6 +13,7 @@ interface ModalButtonProps {
   isCancled?: boolean;
   isComment?: boolean;
   isDisabled?: boolean;
+  isDashboardDelete?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -22,15 +23,20 @@ export default function ModalButton({
   isCancled = false,
   isComment = false,
   isDisabled = false,
+  isDashboardDelete = false,
   className = "",
   onClick,
+  ...props
 }: ModalButtonProps) {
   return (
     <button
       className={`${styles.Button} ${isCancled && styles.cancled} ${
         isComment && styles.comment
-      } ${isDisabled ? styles.disabled : ""} ${className}`}
+      } ${isDisabled ? styles.disabled : ""} ${
+        isDashboardDelete ? styles.dashboardDelete : ""
+      } ${className}`}
       onClick={onClick}
+      {...props}
     >
       {children}
     </button>
