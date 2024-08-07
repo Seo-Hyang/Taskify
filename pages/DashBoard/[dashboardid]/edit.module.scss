@@ -1,0 +1,58 @@
+.dashboardEditPage {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-gray-400);
+  }
+
+  .header {
+    margin-bottom: 18px;
+  }
+
+  .footer {
+    margin-top: 8px;
+    margin-bottom: 24px;
+  }
+
+  .btnDelete {
+    width: 320px;
+    height: 62px;
+    font-size: 18px;
+  }
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+  .dashboardEditPage {
+    width: auto;
+    margin: 20px 20px 72px;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 743px) {
+  .dashboardEditPage {
+    width: auto;
+    margin: 16px 12px 72px;
+
+    h1 {
+      font-size: 20px;
+    }
+
+    .btnDelete {
+      width: 100%;
+      font-size: 16px;
+    }
+  }
+}
