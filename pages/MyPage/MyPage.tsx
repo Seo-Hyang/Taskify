@@ -4,12 +4,34 @@ import styles from "./_MyPage.module.scss";
 import Head from "next/head";
 import SideMenu from "@/components/SideMenu/SideMenu";
 
+// API import
+import instance from "@/lib/axios";
+import { changePassword, updateProfile } from "@/lib/modifyProfile";
+
 // 컴포넌트 import
 import Header from "@/components/Header/Header";
 import Button from "@/components/Button/Button/Button";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 
+// 유저 정보 호출 함수
+const getUserEmail = async () => {
+  try {
+    const response = await instance.get("/users");
+    const userEmail = response.data.email;
+    return userEmail;
+  } catch (error) {
+    console.error("이메일 데이터를 불러오는데 실패했습니다.", error);
+    throw error;
+  }
+};
+
 export default function MyPage() {
+  // 프로필 이미지 state
+  const [profileImageUrl, setProfileImageUrl] = useState<string>("");
+
+  // 이메일 state
+  const [email, setEmail] = useState<string>("");
+
   // 닉네임 state
   const [profileNickname, setProfileNickname] = useState<string>("");
 
@@ -29,6 +51,26 @@ export default function MyPage() {
 
   // 새 비밀번호 불일치 에러 state
   const [isNewPasswordError, setIsNewPasswordError] = useState<string>("");
+
+  // 비밀번호 변경 핸들러
+  const handleChangePassword = async () => {
+    try {
+      await changePassword(currentPassword, newPassword);
+      alert("비밀번호 변경 성공");
+    } catch (error) {
+      alert("비밀번호 변경 실패");
+    }
+  };
+
+  // 프로필 닉네임, 사진 변경 핸들러
+  const handleUpdateProfile = async () => {
+    try {
+      await updateProfile(profileNickname, profileImageUrl);
+      alert("프로필 업데이트 성공");
+    } catch (error) {
+      alert("프로필 업데이트 실패");
+    }
+  };
 
   useEffect(() => {
     // 닉네임 변경 버튼 활성화 조건문
@@ -58,6 +100,19 @@ export default function MyPage() {
       setIsNewPasswordError("");
     }
   }, [currentPassword, newPassword, confirmNewPassword, profileNickname]);
+
+  useEffect(() => {
+    const fetchEmail = async () => {
+      try {
+        const userEmail = await getUserEmail();
+        setEmail(userEmail);
+      } catch (error) {
+        console.error("Error fetching user email:", error);
+      }
+    };
+
+    fetchEmail();
+  }, []);
 
   return (
     <>
@@ -96,7 +151,7 @@ export default function MyPage() {
                     </h3>
                     <input
                       className={styles.input}
-                      placeholder="e-mail"
+                      placeholder={email || "e-mail"}
                       disabled
                     />
                   </div>
@@ -115,6 +170,7 @@ export default function MyPage() {
                   h="50px"
                   m="24px 0 0 0"
                   disabled={isSaveButtonDisabled}
+                  onClick={handleUpdateProfile}
                 >
                   저장
                 </Button>
@@ -174,6 +230,7 @@ export default function MyPage() {
                   h="50px"
                   m="24px 0 0"
                   disabled={isPasswordChangeDisabled}
+                  onClick={handleChangePassword}
                 >
                   변경
                 </Button>

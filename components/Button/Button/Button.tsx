@@ -11,6 +11,7 @@ interface ButtonProps {
   m?: string;
   disabled?: boolean;
   children: ReactNode;
+  onClick?: () => Promise<void>;
 }
 
 // 기본 스타일 객체
@@ -47,6 +48,7 @@ export default function Button({
   m = "24px 0 0",
   disabled = false,
   children,
+  onClick,
 }: ButtonProps) {
   // 스타일 객체 지정
   const styles = {
@@ -62,7 +64,12 @@ export default function Button({
 
   return (
     <>
-      <button style={styles} disabled={disabled} className={ButtonStyle.button}>
+      <button
+        style={styles}
+        disabled={disabled}
+        className={ButtonStyle.button}
+        onClick={onClick}
+      >
         {children}
       </button>
     </>
