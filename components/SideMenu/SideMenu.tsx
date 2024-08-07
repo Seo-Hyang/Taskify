@@ -55,7 +55,7 @@ export default function SideMenu() {
           <div>
             {dashboardList.map((item) => (
               <section key={item.id} className={styles.sideMenuContent}>
-                <DashboardButton isOwn={item.createdByMe}>
+                <DashboardButton isOwn={item.createdByMe} color={item.color}>
                   {item.title}
                 </DashboardButton>
               </section>

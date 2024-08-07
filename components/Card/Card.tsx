@@ -5,31 +5,58 @@ import Image from "next/image";
 import CardImage from "@/public/images/card_image2.png";
 import CalendarSVG from "@/public/icons/calendar_today_icon.svg";
 
-export default function Card({ isImage = false }) {
+/**To-DO
+ * 사용자 아이콘 표시
+ *
+ */
+
+export default function Card({
+  title = "",
+  tags = [""],
+  dueDate = "",
+  imageUrl = "",
+  userEmail = "",
+}) {
+  let cardDueDate = new Date(dueDate);
+  let year = cardDueDate.getFullYear();
+  let month = cardDueDate.getMonth();
+  let date = cardDueDate.getDate();
+
   return (
     <>
       <section className={styles.cardBox}>
         <div className={styles.container}>
-          <Image
-            src={CardImage}
-            alt="카드 이미지"
-            className={`${styles.card_imgContainer} ${
-              isImage ? styles.card_img : ""
-            }`}
-          />
+          {`${imageUrl}.length !==0` ? (
+            <Image
+              src={imageUrl}
+              alt="카드 이미지"
+              width={500}
+              height={300}
+              className={styles.card_img}
+            />
+          ) : (
+            <></>
+          )}
           <section>
-            <div className={styles.card_title}>할일 이름</div>
+            <div className={styles.card_title}>{title}</div>
             <div className={styles.card_plans}>
-              <div className={styles.card_tags}>
-                <CardTag>백엔드</CardTag>
-                <CardTag>프로젝트</CardTag>
-              </div>
+              {`${tags}`.length !== 0 ? (
+                <div className={styles.card_tags}>
+                  {tags.map((item, index) => (
+                    <CardTag key={index}>{item}</CardTag>
+                  ))}
+                </div>
+              ) : (
+                <></>
+              )}
               <div className={styles.card_dateItems}>
                 <CalendarSVG className={styles.calender_svg} />
-                <div className={styles.card_date}>2224.13.54</div>
+                <div className={styles.card_date}>
+                  {year}.{month}.{date}
+                </div>
               </div>
               <div className={styles.card_userIcon}>
-                <UserIcon userEmail="test@email.com" isCard={true} />
+                <UserIcon userEmail={userEmail} isCard={true} />
               </div>
             </div>
           </section>
