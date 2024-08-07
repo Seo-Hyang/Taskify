@@ -40,10 +40,20 @@
   }
 }
 
-.disabled{
+.disabled {
   background-color: var(--color-white);
-  color:var(--color-gray-500);
+  color: var(--color-gray-500);
   border: solid 1px var(--color-gray-300);
+
+  &:hover {
+    background: var(--color-violet-8);
+  }
+}
+
+.dashboardDelete {
+  color: var(--color-black-500);
+  background-color: var(--color-gray-100);
+  font-weight: 600;
 
   &:hover {
     background: var(--color-violet-8);
@@ -52,8 +62,8 @@
 
 /* Tablet */
 @media screen and (max-width: 1199px) {
-  .Button{
-    width:100%;
+  .Button {
+    width: 100%;
   }
 }
 

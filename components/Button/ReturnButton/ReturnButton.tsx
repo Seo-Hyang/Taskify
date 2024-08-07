@@ -1,6 +1,7 @@
 // 기본 import
 import React from "react";
 import stylesCss from "@/components/Button/ReturnButton/ReturnButton.module.scss";
+import Link from "next/link";
 
 // 이미지 import
 import LeftArrow from "@/public/images/leftArrow.svg";
@@ -12,6 +13,7 @@ interface ReturnButtonProps {
   h?: string;
   b?: string;
   f?: string;
+  link?: string;
   children?: string;
 }
 
@@ -31,6 +33,7 @@ export default function ReturnButton({
   h = "26px",
   b = "none",
   f = "16px",
+  link = "/",
   children,
 }: ReturnButtonProps) {
   // 스타일 객체 정의
@@ -50,11 +53,15 @@ export default function ReturnButton({
   };
 
   return (
-    <div className={stylesCss.returnButtonContainer}>
+    <Link
+      href={link}
+      className={stylesCss.returnButtonContainer}
+      style={styles.returnButtonContainer}
+    >
       <div className={stylesCss.icon}>
         <LeftArrow />
       </div>
       <div className={stylesCss.font}>{children}</div>
-    </div>
+    </Link>
   );
 }
