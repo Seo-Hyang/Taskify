@@ -7,20 +7,21 @@ import axios from "@/lib/axios";
 import Input from "@/components/Input/ModalInput";
 import FileInput from "@/components/FileImage";
 import { useRouter } from "next/router";
+import { putCard } from "@/lib/modalApi";
 
-export default function ToDoEdit() {
-  const router=useRouter();
+export default function ToDoEdit(cardId:string) {
+  const router = useRouter();
   const [isColumnOpen, setIsColumnOpen] = useState(false);
   const [isAssignOpen, setIsAssignOpen] = useState(false);
   const [isColuumnSelected, setIsColuumnSelected] = useState();
   const [isAssignSelected, setIsAssignSelected] = useState();
-  const [columnId,setColumnId]=useState<number>();
-  const [assigneeUserId,setAssigneerUserId]=useState();
-  const [title,setTitle]=useState<string>("");
-  const [description,setDescription]=useState<string>("");
-  const [date,setDate]=useState<string>("");
-  const [tags,setTags]=useState<string[]>([]);
-  const [imgUrl,setImgUrl]=useState<string>("");
+  const [columnId, setColumnId] = useState<number>();
+  const [assigneeUserId, setAssigneerUserId] = useState();
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [imgUrl, setImgUrl] = useState<string>("");
   const [values, setValues] = useState({
     assigneeUserId: "",
     dashboardId: "",
@@ -40,51 +41,20 @@ export default function ToDoEdit() {
     setIsAssignOpen(isAssignOpen);
   };
 
-  // get통해 input 값 가져오기
+  // 카드 가져오기
   // useEffect(()=>{
-  //   const fetchEditData=async ()=>{
-  //     try{
-  //       const response=await axios.get(`/cards/${cardId}`);
-  //       // cardId는 어디서..?
-  //       const {columnId,assigneeUserId,title,description,date,tags,imgUrl}=response.data;
-  //       setColumnId(columnId);
-  //       setAssigneerUserId(assigneeUserId);
-  //       setTitle(title);
-  //       setDescription(description);
-  //       setDate(date);
-  //       setTags(tags);
-  //       setImgUrl(imgUrl);
-  //     }catch(error){
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchEditData();
-  // },[cardId]);
 
-// async function handleSubmit(e:any){
-//   e.preventDefault();
-//   const {
-//     assigneeUserId,
-//     dashboardId,
-//     columnId,
-//     title,
-//     description,
-//     dueDate,
-//     tags,
-//     imageUrl,
-//   } = values;
-//   await axios.put(`'cards/${cardId}`, {
-//     assigneeUserId,
-//     dashboardId,
-//     columnId,
-//     title,
-//     description,
-//     dueDate,
-//     tags,
-//     imageUrl,
-//   });
-//   router.push("/DashBoard");
-// }
+  // })
+
+  // 카드 수정 post
+  const handleEitClick = async (e:React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      await putCard(cardId);
+    } catch (err) {
+      console.log("해당 카드 수정에 실패했습니다.");
+    }
+  };
 
   return (
     <div className={styles["todo-create"]}>
@@ -148,26 +118,31 @@ export default function ToDoEdit() {
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>제목 *</label>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)}/>
+          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>설명 *</label>
-          <Input value={description} onChange={(e) => setDescription(e.target.value)}/>
+          <Input
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>마감일</label>
-          <Input value={date} onChange={(e) => setDate(e.target.value)}/>
+          <Input value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>태그</label>
-          <Input value={tags} onChange={(e) => setTags(e.target.value)}/>
+          <Input value={tags} onChange={(e) => setTags(e.target.value)} />
         </div>
         <div className={styles["todo-create-input-img"]}>
           <label className={styles["todo-create-auth-label"]}>이미지</label>
-          <FileInput name="image" onChange={(file)=>console.log(file)}
+          <FileInput
+            name="image"
+            onChange={(file) => console.log(file)}
             initialImageUrl={imgUrl}
             columnId={columnId}
-            />
+          />
         </div>
       </div>
 
