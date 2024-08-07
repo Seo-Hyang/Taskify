@@ -59,6 +59,9 @@ function LoginPage() {
       password,
     });
 
+    const { accessToken, user } = data.data;
+    localStorage.setItem("accessToken", accessToken);
+    const token = localStorage.getItem("accessToken");
     router.push("/DashBoard/DashBoard");
   };
 
