@@ -31,18 +31,24 @@
   font-weight: 500;
   line-height: 21.48px;
 }
-.todo-create-input-div{
+.todo-create-input{
   display: flex;
   align-items: center;
+  justify-content: space-between;
+ position: relative;
 }
-.input{
-  position: relative;
+.arrow-drop-icon{
+  position: absolute;
+  right:10px;
+  top:50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 .toggle-menu-container{
   width:217px;
   height:100%;
   padding:8px 16px;
-  border:1px solid var(--color-gay-300);
+  border:1px solid var(--color-gray-300);
   position: absolute;
   top:100%;
   left:0;
@@ -105,13 +111,13 @@
 }
 .calendar-container-input{
   border: none;
+  height:31px;
 }
 .tag-list {
   display: flex;
   flex-wrap: wrap;
   column-gap: 10px;
-  row-gap: 10px
-  ;
+  row-gap: 10px;
 }
 .tag {
   font-size: 14px;
