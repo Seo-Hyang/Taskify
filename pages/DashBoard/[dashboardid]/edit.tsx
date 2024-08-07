@@ -1,28 +1,47 @@
 import styles from "./edit.module.scss";
-import Header from "@/components/Header/Header";
-import SideMenu from "@/components/SideMenu/SideMenu";
-import DashboardColumn from "@/components/DashboardColumns/DashboardColumns";
-import AddButton from "@/components/Button/AddButton/AddButton";
-import Head from "next/head";
-import Link from "next/link";
-import Button from "@/components/Button/Button/Button";
-import PageButton from "@/components/Button/PageButton/PageButton";
-import ArrowFoward from "@/public/icons/arrow_forwad.svg";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import EditDashboardInfo from "@/components/EditDashboard/EditDashboardInfo";
 import EditMembers from "@/components/EditDashboard/EditMembers";
 import EditInvitations from "@/components/EditDashboard/EditInvitations";
+import useAsync from "@/hooks/useAsync";
+import { useRouter } from "next/router";
+import { getDashboard } from "@/services/dashboards";
+import { useCallback, useEffect, useState } from "react";
+import { Dashboard } from "@/types/dashboard";
 
 export default function Edit() {
-  const dashboardName = "비브리지";
+  // const dashboardName = "비브리지";
+  const [dashboard, setDashboard] = useState<Dashboard>();
+  const router = useRouter();
+  const { dashboardId } = router.query;
+
+  const [isLoadingDashboard, loadDashboardError, loadDashboard] =
+    useAsync(getDashboard);
+
+  const getDashboardAsync = useCallback(
+    async (dashboardId: number) => {
+      const res = await loadDashboard(dashboardId);
+      const nextDashboard = res;
+      console.info("res : " + nextDashboard);
+      setDashboard(nextDashboard);
+    },
+    [loadDashboard]
+  );
+
+  useEffect(() => {
+    if (!dashboardId) return;
+    console.log(" dashboardId: " + dashboardId);
+    getDashboardAsync(Number(dashboardId));
+  }, [dashboardId, getDashboardAsync]);
+
   return (
     <>
       <div className={styles.dashboardEditPage}>
         <div className={styles.header}>
           <ReturnButton link="/dashboardid">돌아가기</ReturnButton>
         </div>
-        <EditDashboardInfo name={dashboardName} />
+        <EditDashboardInfo name={dashboard?.title || "no data"} />
         <EditMembers />
         <EditInvitations />
         <div className={styles.footer}>

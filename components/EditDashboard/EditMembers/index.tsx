@@ -19,7 +19,6 @@ export default function EditMemebrs() {
           </div>
           <h2>이름</h2>
         </div>
-
         <div className={styles.memberList}>
           {members.map((member) => {
             return (
