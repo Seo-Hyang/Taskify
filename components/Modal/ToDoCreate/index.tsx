@@ -7,7 +7,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
-import Input from "@/components/Input/Input";
+import Input from "@/components/Input/ModalInput";
 import axios from "@/lib/axios";
 
 interface Tag {

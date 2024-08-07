@@ -14,7 +14,7 @@ export default function Card({ isImage = false }) {
             src={CardImage}
             alt="카드 이미지"
             className={`${styles.card_imgContainer} ${
-              isImage && styles.card_img
+              isImage ? styles.card_img : ""
             }`}
           />
           <section>

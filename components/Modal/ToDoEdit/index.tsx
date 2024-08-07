@@ -4,7 +4,7 @@ import Arrow_drop from "@/public/icons/arrow_drop.svg";
 import Check_icon from "@/public/icons/check_icon.svg";
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
-import Input from "@/components/Input/Input";
+import Input from "@/components/Input/ModalInput";
 import FileInput from "@/components/FileImage";
 import { useRouter } from "next/router";
 

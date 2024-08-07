@@ -5,10 +5,95 @@
   border-radius: 8px;
   border: 1px solid var(--color-gray-300);
   color: var(--color-black-500);
+  outline-color: #5534da;
   &:placeholder {
     font-size: 16px;
     font-weight: 400;
     line-height: 26px;
     color: var(--color-gray-400);
   }
+}
+
+.Label {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.Label,
+.Input {
+  display: block;
+  width: 100%;
+}
+
+.ErrorMessage {
+  color: red;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.Button {
+  border: none;
+  position: absolute;
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
+  top: 12px;
+  right: 16px;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+}
+
+.InputError {
+  border: 1px solid red;
+}
+
+.Label {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.Label,
+.Input {
+  display: block;
+  width: 100%;
+}
+
+.ErrorMessage {
+  color: red;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.Button {
+  border: none;
+  position: absolute;
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
+  top: 12px;
+  right: 16px;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+}
+
+.InputError {
+  border: 1px solid red;
 }

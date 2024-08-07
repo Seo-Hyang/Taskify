@@ -15,6 +15,7 @@
     align-items: center;
     padding: 12px;
     gap: 10px;
+
     .contents_color {
       width: 8px;
       height: 8px;
@@ -24,7 +25,7 @@
     }
 
     .contents_details {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 4px;
 
@@ -58,10 +59,7 @@
 
 /*Mobile*/
 @media screen and (max-width: 743px) {
-  .contents_name {
-    display: none;
-  }
-  .contents_isOwn {
+  .contents_detailContainer {
     display: none;
   }
 }

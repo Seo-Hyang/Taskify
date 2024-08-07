@@ -4,6 +4,7 @@ import PageButton from "@/components/Button/PageButton/PageButton";
 import ArrowButton from "@/components/Button/ArrowButton/ArrowButton";
 import AddButton from "@/components/Button/AddButton/AddButton";
 import HeaderButton from "@/components/Button/HeaderButton/HeaderButton";
+import DashboardButton from "@/components/Button/DashboardButton/DashboardButton";
 
 export default function TestPage() {
   return (
@@ -13,6 +14,7 @@ export default function TestPage() {
         <div>
           <HeaderButton setting={true}>관리</HeaderButton>
           <HeaderButton isInvitation={true}>초대하기</HeaderButton>
+          <DashboardButton isOwn={true}>비브리지</DashboardButton>
           <AuthButton>로그인</AuthButton>
           <AuthButton>회원가입</AuthButton>
           <AuthButton disabled={true}>사용 불가</AuthButton>

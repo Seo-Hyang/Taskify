@@ -10,29 +10,52 @@ import Button from "@/components/Button/Button/Button";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 
 export default function MyPage() {
+  // 닉네임 state
   const [profileNickname, setProfileNickname] = useState<string>("");
+
+  // 비밀번호 state
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  const [isPasswordChangeDisabled, setisPasswordChangeDisabled] =
+
+  // 버튼 활성화 state
+  const [isPasswordChangeDisabled, setIsPasswordChangeDisabled] =
     useState<boolean>(true);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] =
     useState<boolean>(true);
 
+  // input 테두리 하이라이트 state
+  const [isHightLight, setIsHightLight] = useState<boolean>(false);
+
+  // 새 비밀번호 불일치 에러 state
+  const [isNewPasswordError, setIsNewPasswordError] = useState<string>("");
+
   useEffect(() => {
+    // 닉네임 변경 버튼 활성화 조건문
     if (profileNickname.length > 0) {
       setIsSaveButtonDisabled(false);
     } else {
       setIsSaveButtonDisabled(true);
     }
+
+    // 비밀번호 변경 버튼 활성화 조건문
     if (
       currentPassword.length > 0 &&
       newPassword.length > 0 &&
       confirmNewPassword.length > 0
     ) {
-      setisPasswordChangeDisabled(false);
+      setIsPasswordChangeDisabled(false);
     } else {
-      setisPasswordChangeDisabled(true);
+      setIsPasswordChangeDisabled(true);
+    }
+
+    // 변경 비밀번호 확인 조건문
+    if (newPassword !== confirmNewPassword) {
+      setIsHightLight(true);
+      setIsNewPasswordError("새 비밀번호가 일치하지 않습니다.");
+    } else {
+      setIsHightLight(false);
+      setIsNewPasswordError("");
     }
   }, [currentPassword, newPassword, confirmNewPassword, profileNickname]);
 
@@ -61,7 +84,9 @@ export default function MyPage() {
           <div className={styles.profileContainer}>
             <span className={styles.profileHeader}>프로필</span>
             <div className={styles.profileBox}>
-              <div className={styles.profilePicture}></div>
+              <label className={styles.addPicture}>
+                <input type="file" className={styles.addPictureInput}></input>
+              </label>
               <div className={styles.profileContent}>
                 <div className={styles.profileInputContainer}>
                   <div>
@@ -70,7 +95,7 @@ export default function MyPage() {
                       *이메일은 변경 불가 항목입니다.
                     </h3>
                     <input
-                      className={styles.Input}
+                      className={styles.input}
                       placeholder="e-mail"
                       disabled
                     />
@@ -78,7 +103,7 @@ export default function MyPage() {
                   <div>
                     <span className={styles.inputName}>닉네임</span>
                     <input
-                      className={styles.Input}
+                      className={styles.input}
                       placeholder="nickname"
                       value={profileNickname}
                       onChange={(e) => setProfileNickname(e.target.value)}
@@ -106,7 +131,7 @@ export default function MyPage() {
                   <div>
                     <span className={styles.inputName}>현재 비밀번호</span>
                     <input
-                      className={styles.Input}
+                      className={styles.input}
                       placeholder="현재 비밀번호 입력"
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
@@ -116,7 +141,9 @@ export default function MyPage() {
                   <div>
                     <span className={styles.inputName}>새 비밀번호</span>
                     <input
-                      className={styles.Input}
+                      className={`${styles.input} ${
+                        isHightLight ? styles.hightLight : ""
+                      }`}
                       placeholder="새 비밀번호 입력"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
@@ -125,13 +152,22 @@ export default function MyPage() {
                   </div>
                   <div>
                     <span className={styles.inputName}>새 비밀번호 확인</span>
-                    <input
-                      className={styles.Input}
-                      placeholder="새 비밀번호 입력"
-                      value={confirmNewPassword}
-                      onChange={(e) => setConfirmNewPassword(e.target.value)}
-                      type="password"
-                    />
+                    <div className={styles.newPassword}>
+                      <input
+                        className={`${styles.input} ${
+                          isHightLight ? styles.hightLight : ""
+                        }`}
+                        placeholder="새 비밀번호 입력"
+                        value={confirmNewPassword}
+                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                        type="password"
+                      />
+                      {isNewPasswordError && (
+                        <span className={styles.error}>
+                          {isNewPasswordError}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <Button

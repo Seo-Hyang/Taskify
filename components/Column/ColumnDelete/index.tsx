@@ -4,15 +4,11 @@ import { putcolumnDelete, getColumnAdd } from "@/lib/columnApi";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-interface Props {
-  columnId: string;
-  dashboardId: string;
-}
-
-export default function ColumnDelete({ columnId, dashboardId }: Props) {
+export default function ColumnDelete(columnId:string, dashboardId:string) {
   const router = useRouter();
   const [columnIds,setColumnIds]=useState<string>("");
 
+  // 칼럼 삭제
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
@@ -23,7 +19,7 @@ export default function ColumnDelete({ columnId, dashboardId }: Props) {
     }
   };
 
-  //   칼럼 id 들고오기
+  //   칼럼 id를 꼭 들고와야 하는건가?
   useEffect(() => {
     const fetchData = async () => {
       try {

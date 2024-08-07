@@ -1,6 +1,6 @@
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import styles from "../Column.module.scss";
-import Input from "@/components/Input/Input";
+import Input from "@/components/Input/ModalInput";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getColumnAdd, postColumnAdd } from "@/lib/columnApi";
 import { useRouter } from "next/router";

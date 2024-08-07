@@ -3,20 +3,20 @@ import CrownSVG from "@/public/icons/crown_icon.svg";
 
 export default function DashboardButton({ children, isOwn = false }) {
   return (
-    <>
-      <button className={styles.container}>
-        <section className={styles.contents}>
-          <div className={styles.contents_color}></div>
+    <button className={styles.container}>
+      <section className={styles.contents}>
+        <div className={styles.contents_color}></div>
+        <div className={styles.contents_detailContainer}>
           <section className={styles.contents_details}>
             <div className={styles.contents_name}>{children}</div>
             <CrownSVG
               className={`${styles.crownIcon} ${
-                isOwn && styles.contents_isOwn
+                isOwn ? styles.contents_isOwn : ""
               }`}
             />
           </section>
-        </section>
-      </button>
-    </>
+        </div>
+      </section>
+    </button>
   );
 }

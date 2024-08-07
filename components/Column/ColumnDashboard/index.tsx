@@ -2,7 +2,7 @@ import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import styles from "./Dashboard.module.scss";
 import { ChangeEvent, useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
-import Input from "@/components/Input/Input";
+import Input from "@/components/Input/ModalInput";
 import { useRouter } from "next/router";
 import { postDashboardAdd } from "@/lib/columnApi";
 
@@ -41,8 +41,7 @@ export default function ColumnDashboard() {
     e.preventDefault();
     try{
       await postDashboardAdd(values.title,values.color);
-      console.log(values.title,values.color);
-      router.push("/dashBoard/{dashboardid}");
+      router.push("/DashBoard/{dashboardid}");
     }catch(err){
       console.error("대시보드 생성에 실패했습니다.");
     }
