@@ -4,9 +4,37 @@ import Close_modal from "@/public/icons/modal_close.svg";
 import Close_modal_mobile from "@/public/icons/modal_close_mobile.svg";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
+import { ChangeEvent, useEffect, useState } from "react";
+import Input from "@/components/Input/ModalInput";
+import { getColumnAdd, putColumnEdit } from "@/lib/columnApi";
+import { useRouter } from "next/router";
 
-export default function ColumnEdit() {
+interface Props {
+  columnId: string;
+  title: string;
+  dashboardId: string;
+}
+
+export default function ColumnEdit({ columnId, dashboardId }: Props) {
+  const router = useRouter();
+  const [newColumn, setNewColumn] = useState<string>("");
   const { width } = useWindowSize();
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewColumn(e.target.value);
+  };
+
+  // 수정하기
+  const handleEditClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      await putColumnEdit(columnId, newColumn);
+      router.push(`/dashboard/${dashboardId}`);
+    } catch (err) {
+      console.error("해당 칼럼 수정에 실패했습니다.");
+    }
+  };
+
   return (
     <div className={styles["column-auth"]}>
       <div className={styles["column-auth-container"]}>
@@ -22,11 +50,17 @@ export default function ColumnEdit() {
         </div>
         <div className={styles["column-add-label-container"]}>
           <label className={styles["column-label"]}>이름</label>
-          <input></input>
+          <Input value={newColumn} onChange={handleInputChange}/>
         </div>
         <div className={styles["column-button-container"]}>
           <ModalButton isCancled={true}>삭제</ModalButton>
-          <ModalButton isComment={true}>변경</ModalButton>
+          {/* 이중모달 */}
+          <ModalButton
+            isComment={true}
+            onClick={handleEditClick}
+          >
+            변경
+          </ModalButton>
         </div>
       </div>
     </div>

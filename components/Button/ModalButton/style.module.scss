@@ -40,6 +40,16 @@
   }
 }
 
+.disabled{
+  background-color: var(--color-white);
+  color:var(--color-gray-500);
+  border: solid 1px var(--color-gray-300);
+
+  &:hover {
+    background: var(--color-violet-8);
+  }
+}
+
 /* Tablet */
 @media screen and (max-width: 1199px) {
   .Button{
