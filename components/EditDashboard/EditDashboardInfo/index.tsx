@@ -2,7 +2,6 @@ import styles from "./index.module.scss";
 import PageButton from "@/components/Button/PageButton/PageButton";
 import ColorCircle from "@/components/EditDashboard/ColorCircle";
 import Button from "@/components/Button/Button/Button";
-import { DashboardColor, colorList } from "@/types/dashboard-color";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import { TwitterPicker } from "react-color";
@@ -15,6 +14,7 @@ import { getDashboard, putDashboard } from "@/services/dashboards";
 import { Dashboard } from "@/types/dashboard";
 import axios, { AxiosError } from "axios";
 import { useDashboard } from "@/contexts/DashboardContext";
+import Skeleton from "@/components/Skeleton";
 
 interface Props {
   id: number;
@@ -45,9 +45,13 @@ export default function EditDashBoardInfo({ id }: Props) {
       const nextDashboard = await loadDashboard(dashboardId);
       setDashboardState(nextDashboard);
     } catch (error: any) {
-      if (error.response && error.response.status === 404) {
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status < 500
+      ) {
         setIsValid(false);
-        setModalMessage("대시보드의 멤버가 아닙니다.");
+        setModalMessage(error.response.data.message);
         openModal();
       } else {
         console.error("대시보드 상세 조회 API 에러 발생: ", error);
@@ -123,6 +127,10 @@ export default function EditDashBoardInfo({ id }: Props) {
       router.push("/");
     }
   };
+
+  if (isLoadingDashboard) {
+    return <Skeleton mainHeight={356} textHeight={0} textCount={0} />;
+  }
 
   return (
     <>

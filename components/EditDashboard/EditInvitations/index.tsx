@@ -10,6 +10,7 @@ import useAsync from "@/hooks/useAsync";
 import { getDashboardInvitations } from "@/services/dashboards";
 import { DashboardInvitation } from "@/types/dashboard";
 import ColumnInvite from "@/components/Column/ColumnInvite";
+import Skeleton from "@/components/Skeleton";
 
 // const { invitations } = mockData;
 // const dashboardInvitations = invitations.filter((element) => {
@@ -86,6 +87,10 @@ export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
       초대하기
     </PageButton>
   );
+
+  if (isLoadInvitations) {
+    return <Skeleton mainHeight={121} textHeight={65} textCount={5} />;
+  }
 
   return (
     <>

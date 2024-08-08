@@ -9,6 +9,7 @@ import { getDashboardMembers } from "@/services/dashboards";
 import useAsync from "@/hooks/useAsync";
 import { useEffect, useState } from "react";
 import { DashboardMember } from "@/types/dashboard";
+import Skeleton from "@/components/Skeleton";
 
 // const { members } = mockData;
 
@@ -61,6 +62,10 @@ export default function EditMemebrs({ dashboardId, sizePerPage }: Props) {
     if (!dashboardId) return;
     handleLoadMembers(dashboardId, page, sizePerPage);
   }, [page, memberDeleteCount]);
+
+  if (isLoadMembers) {
+    return <Skeleton mainHeight={110} textHeight={71} textCount={5} />;
+  }
 
   return (
     <>

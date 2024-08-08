@@ -6,21 +6,32 @@ import EditMembers from "@/components/EditDashboard/EditMembers";
 import EditInvitations from "@/components/EditDashboard/EditInvitations";
 import useAsync from "@/hooks/useAsync";
 import { useRouter } from "next/router";
-import { getDashboard } from "@/services/dashboards";
-import { useCallback, useEffect, useState } from "react";
-import { Dashboard } from "@/types/dashboard";
 import Head from "next/head";
 
 import SelectModal from "@/components/Modal/SelectModal";
 import SideMenu from "@/components/SideMenu/SideMenu";
 import Header from "@/components/Header/Header";
+import { deleteDashboard, deleteDashboardMember } from "@/services/dashboards";
+import { useState } from "react";
 
 export default function Edit() {
   // const dashboardName = "비브리지";
 
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isdeleteDashboard, deleteDashboardError, deleteDashboardAsync] =
+    useAsync(deleteDashboard);
   const router = useRouter();
   const { dashboardId } = router.query;
+
+  const handleDeleteDashboard = async (dashboardId: number) => {
+    try {
+      const { invitations, totalCount } = await deleteDashboardAsync(
+        dashboardId
+      );
+    } catch (error) {
+      console.error("대시보드 삭제 API 에러 발생: ", error);
+    }
+  };
 
   const openModal = () => {
     setIsShowModal(true);
@@ -30,7 +41,8 @@ export default function Edit() {
     setIsShowModal(false);
   };
 
-  const deleteDashboard = () => {
+  const clickDelete = () => {
+    handleDeleteDashboard(Number(dashboardId));
     router.push("/");
   };
 
@@ -69,7 +81,7 @@ export default function Edit() {
         btn1Text="취소"
         btn2Text="삭제"
         btn1OnClcik={closeModal}
-        btn2OnClick={deleteDashboard}
+        btn2OnClick={clickDelete}
       />
     </>
   );

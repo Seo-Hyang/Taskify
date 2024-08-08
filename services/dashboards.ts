@@ -23,6 +23,12 @@ export async function putDashboard(
   return response.data;
 }
 
+// 대시보드 삭제
+export async function deleteDashboard(dashboardId: number) {
+  const response = await axiosInstance.delete(`/dashboards/${dashboardId}`);
+  return response.data;
+}
+
 // 대시보드 멤버 목록 조회
 export async function getDashboardMembers(
   dashboardId: number,
