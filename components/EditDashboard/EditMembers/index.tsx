@@ -20,7 +20,8 @@ interface Props {
 export default function EditMemebrs({ dashboardId, sizePerPage }: Props) {
   const [memberList, setMemberList] = useState<DashboardMember[]>();
   const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState<number>(-1);
+  const [totalPage, setTotalPage] = useState(-1);
+  const [memberDeleteCount, setMemberDeleteCount] = useState(0);
   const [isLoadMembers, loadMembersError, loadMembers] =
     useAsync(getDashboardMembers);
 
@@ -59,7 +60,7 @@ export default function EditMemebrs({ dashboardId, sizePerPage }: Props) {
   useEffect(() => {
     if (!dashboardId) return;
     handleLoadMembers(dashboardId, page, sizePerPage);
-  }, [page]);
+  }, [page, memberDeleteCount]);
 
   return (
     <>
@@ -80,10 +81,12 @@ export default function EditMemebrs({ dashboardId, sizePerPage }: Props) {
           {memberList?.map((member) => {
             return (
               <MemberItem
-                key={member.userId}
+                key={member.id}
+                memberId={member.id}
                 email={member.email}
                 name={member.nickname}
                 imageUrl={member.profileImageUrl}
+                setMemberDeleteCount={setMemberDeleteCount}
               />
             );
           })}

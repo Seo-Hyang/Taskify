@@ -42,9 +42,6 @@ export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
         page,
         size
       );
-      console.log(totalCount);
-      console.log(sizePerPage);
-      console.log(Math.ceil(totalCount / sizePerPage));
       setTotalPage(Math.ceil(totalCount / sizePerPage));
       setInvitationList(invitations);
     } catch (error) {
