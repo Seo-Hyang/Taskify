@@ -35,7 +35,7 @@ export default function DashBoard() {
 
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${dashboardId}`
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419`
       // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11370"
     );
     const nextColumnList = res.data;
@@ -69,7 +69,7 @@ export default function DashBoard() {
       </div>
       <section>
         <SideMenu />
-        <Header userNickname="테스트" isOwner={true}>
+        <Header>
           내 대시보드
         </Header>
       </section>
