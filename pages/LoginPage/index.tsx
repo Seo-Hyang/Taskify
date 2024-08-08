@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FocusEvent } from "react";
+import { useState, ChangeEvent, FocusEvent, useEffect } from "react";
 import styles from "./style.module.scss";
 import Logo from "@/components/Logo/Logo";
 import AuthButton from "@/components/Button/AuthButton/AuthButton";
@@ -8,6 +8,8 @@ import { LoginInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
 import instance from "@/lib/axios";
 import { useRouter } from "next/navigation";
+import Modal from "./components/Modal";
+import { AxiosError } from "axios";
 
 interface FormState {
   email: string;
@@ -27,6 +29,16 @@ function LoginPage() {
     password: "",
   });
   const [errors, setErrors] = useState<ErrorState>({});
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      router.push("/");
+    }
+  }, [router]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -53,20 +65,44 @@ function LoginPage() {
     };
 
     setErrors(newErrors);
+    if (!newErrors.email && !newErrors.password) {
+      try {
+        const { data } = await instance.post("/auth/login", {
+          email,
+          password,
+        });
 
-    const data = await instance.post("/auth/login", {
-      email,
-      password,
-    });
+        const { accessToken, user } = data;
+        localStorage.setItem("accessToken", accessToken);
+        const token = localStorage.getItem("accessToken");
+        router.push("/");
+      } catch (error) {
+        if (
+          (error as AxiosError).response &&
+          (error as AxiosError).response?.status === 400
+        ) {
+          console.error("로그인 실패:", error);
+          setModalMessage(
+            "비밀번호가 일치하지 않거나 존재하지 않는 계정입니다."
+          );
+          setIsModalOpen(true);
+        } else {
+          console.error("알 수 없는 오류 발생:", error);
+        }
+      }
+    }
+  };
 
-    const { accessToken, user } = data.data;
-    localStorage.setItem("accessToken", accessToken);
-    const token = localStorage.getItem("accessToken");
-    router.push("/DashBoard/DashBoard");
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setFormState({ email: "", password: "" });
   };
 
   return (
     <div className={styles["container"]}>
+      {isModalOpen && (
+        <Modal message={modalMessage} onClose={handleCloseModal} />
+      )}
       <Logo text="오늘도 만나서 반가워요!" />
       <form className={styles.Form} method="post" onSubmit={handleSubmit}>
         <InputItem

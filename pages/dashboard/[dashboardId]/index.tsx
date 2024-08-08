@@ -69,9 +69,7 @@ export default function DashBoard() {
       </div>
       <section>
         <SideMenu />
-        <Header>
-          내 대시보드
-        </Header>
+        <Header>내 대시보드</Header>
       </section>
       <section className={styles.dashboardContainer}>
         <section className={styles.dashboardColumns}>
