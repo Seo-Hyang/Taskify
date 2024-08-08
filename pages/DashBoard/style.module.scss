@@ -2,10 +2,16 @@
   margin-left: 300px;
   display: flex;
   flex-direction: row;
+  overflow: overlay;
+}
+
+.dashboardColumns {
+  display: flex;
+  flex-direction: row;
 }
 
 .add_newColumn {
-  margin-left: 12px;
+  margin: 0 16px;
   margin-top: 50px;
 }
 
@@ -15,6 +21,15 @@
     margin-left: 160px;
     display: flex;
     flex-direction: column;
+  }
+  .dashboardColumns {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .add_newColumn {
+    margin: 20px 16px;
   }
 }
 

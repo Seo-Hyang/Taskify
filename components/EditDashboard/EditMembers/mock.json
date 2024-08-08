@@ -1,0 +1,45 @@
+{
+  "members": [
+    {
+      "id": 0,
+      "userId": 1,
+      "email": "jung@test.com",
+      "nickname": "정만철",
+      "profileImageUrl": "string",
+      "createdAt": "2024-08-06T18:16:37.533Z",
+      "updatedAt": "2024-08-06T18:16:37.533Z",
+      "isOwner": true
+    },
+    {
+      "id": 0,
+      "userId": 2,
+      "email": "kim@test.com",
+      "nickname": "김태순",
+      "profileImageUrl": "string",
+      "createdAt": "2024-08-06T18:16:37.533Z",
+      "updatedAt": "2024-08-06T18:16:37.533Z",
+      "isOwner": true
+    },
+    {
+      "id": 0,
+      "userId": 3,
+      "email": "choi@test.com",
+      "nickname": "최주협",
+      "profileImageUrl": "string",
+      "createdAt": "2024-08-06T18:16:37.533Z",
+      "updatedAt": "2024-08-06T18:16:37.533Z",
+      "isOwner": true
+    },
+    {
+      "id": 0,
+      "userId": 4,
+      "email": "yoon@test.com",
+      "nickname": "윤지현 ",
+      "profileImageUrl": "string",
+      "createdAt": "2024-08-06T18:16:37.533Z",
+      "updatedAt": "2024-08-06T18:16:37.533Z",
+      "isOwner": true
+    }
+  ],
+  "totalCount": 4
+}
