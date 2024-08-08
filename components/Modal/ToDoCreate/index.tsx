@@ -109,7 +109,7 @@ export default function ToDoCreate() {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    router.push("/DashBoard");
+    router.push("/dashboard");
   }
 
   // useEffect(() => {
