@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
 import CheckIcon from "@/public/icons/check_icon.svg";
 import { DashboardColor } from "@/types/dashboard-color";
-import { ReactNode, MouseEvent, Dispatch, SetStateAction } from "react";
+import { MouseEvent, Dispatch, SetStateAction } from "react";
 
 interface Props {
   color: DashboardColor;
