@@ -113,7 +113,7 @@ export function putCard(cardId:string){
   return fetchRequest(url,options);
 }
 
-// 카드 삭제
+// 카드 삭제 - O
 export function deleteCard(cardId:string) {
   const url = `/cards/${cardId}`;
   const options = {

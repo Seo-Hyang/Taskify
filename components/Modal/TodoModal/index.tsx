@@ -90,7 +90,7 @@ export default function ToDoModal() {
   useEffect(() => {
     const fetchCard = async () => {
       try {
-        const response = await getCardId("9817");
+        const response = await getCardId("9821");
         setValues({
           title: response.title,
           description: response.description,
@@ -108,7 +108,6 @@ export default function ToDoModal() {
 
     fetchCard();
   }, []);
-
 
   // 댓글 생성
   //   const commentClick=async (e:React.MouseEvent)=>{

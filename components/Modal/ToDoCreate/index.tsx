@@ -3,16 +3,26 @@ import styles from "../ToDoCreate.module.scss";
 import FileInput from "@/components/FileImage";
 import Arrow_drop from "@/public/icons/arrow_drop.svg";
 import CalendarIcon from "@/public/icons/calendar_today_icon.svg";
-import { ChangeEvent, useEffect, useState } from "react";
+import Check_icon from "@/public/icons/check_icon.svg";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 import Input from "@/components/Input/ModalInput";
+import { getMember } from "@/lib/modalApi";
 
 interface Tag {
   text: string;
   backgroundColor: string;
   color: string;
+}
+
+interface Assignee {
+  id: string;
+  email: string;
+  nickname: string;
+  profileImageUrl?: string;
+  userId: string;
 }
 
 const DatePicker: React.FC = () => {
@@ -33,12 +43,24 @@ const DatePicker: React.FC = () => {
   );
 };
 
+// 담당자 기본 프로필
+const generateProfileImageUrl = (email: string) => {
+  const initials = email.charAt(0).toUpperCase();
+  return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&rounded=true`;
+};
+
 export default function ToDoCreate() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isTag, setIsTag] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [assignees, setAssignees] = useState<Assignee[]>([]);
+  const [selectedAssignee, setSelectedAssignee] = useState<Assignee | null>(
+    null
+  );
+  const [initiallySelected, setInitiallySelected] = useState(false);
   const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [values, setValues] = useState({
     assigneeUserId: "",
@@ -107,19 +129,19 @@ export default function ToDoCreate() {
     });
   };
 
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(e.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
   async function handleSubmit(e: any) {
     e.preventDefault();
     router.push("/dashboard");
   }
-
-  // useEffect(() => {
-  //   const { assigneeUserId, title, description, tags, imageUrl } = values;
-  //   if (assigneeUserId && title && description && tags.length > 0 && imageUrl) {
-  //     setIsDisabled(false);
-  //   } else {
-  //     setIsDisabled(true);
-  //   }
-  // }, [values]);
 
   useEffect(() => {
     const { title, description } = values;
@@ -130,33 +152,106 @@ export default function ToDoCreate() {
     }
   }, [values]);
 
+  // 드롭다운의 첫 번째 배열 선택
+  useEffect(() => {
+    if (isOpen && assignees.length > 0 && !initiallySelected) {
+      setSelectedAssignee(assignees[0]);
+      setInitiallySelected(true);
+    }
+  }, [isOpen, assignees, initiallySelected]);
+
+  // 담당자 목록 조회
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await getMember(11374);
+        setAssignees(response.members);
+      } catch (err) {
+        console.error("멤버를 조회할 수 없습니다.");
+      }
+    };
+    fetchMembers();
+  }, []);
+
+  // 담당자 선택
+  const handleAssigneeSelect = (assignee: Assignee) => {
+    setSelectedAssignee(assignee);
+    setValues({ ...values, assigneeUserId: assignee.userId });
+    setIsOpen(false);
+  };
+
+  // 드롭다운 외부 선택했을 때
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
   return (
     <div className={styles["todo-create"]}>
       <h1 className={styles["todo-create-h1"]}>할일 생성</h1>
       <div className={styles["todo-create-input-section"]}>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-label"]}>담당자</label>
-          <div className={styles["todo-create-input"]}>
-            <Input
-              className={styles["todo-create-input-div"]}
-              placeholder="이름을 입력해 주세요"
-              type="text"
-              name="assigneeUserId"
-              value={values.assigneeUserId}
-              onChange={handleInputChange}
-            />
+
+          <div className={styles["todo-create-assignee"]} ref={dropdownRef}>
+            {selectedAssignee ? (
+              <div className={styles["toggle-assign-item-container"]}>
+                <img
+                  src={
+                    selectedAssignee.profileImageUrl
+                      ? selectedAssignee.profileImageUrl
+                      : generateProfileImageUrl(selectedAssignee.email)
+                  }
+                  alt="프로필"
+                  className={styles["toggle-assign-item-img"]}
+                />
+                <span className={styles["toggle-assign-item"]}>
+                  {selectedAssignee.nickname}
+                </span>
+              </div>
+            ) : (
+              <span className={styles["placeholder"]}>
+                이름을 입력해 주세요
+              </span>
+            )}
             <Arrow_drop
               className={styles["arrow-drop-icon"]}
               onClick={toggleDropdown}
               width="26"
               height="26"
             />
-            {/* <div className={styles["toggle-item-container"]}>
-              <div className={styles["toggle-assign-item-img"]}></div>
-              <span className={styles["toggle-assign-item"]}></span>
-            </div> - 선택한 후 보이는 것들 */}
+            {isOpen && (
+              <div className={styles["dropdown-menu"]}>
+                {assignees.map((assignee) => (
+                  <div
+                    className={styles["toggle-assign-item-container"]}
+                    key={assignee.userId}
+                    onClick={() => handleAssigneeSelect(assignee)}
+                  >
+                    <div className={styles["check-icon"]}>
+                      {selectedAssignee?.id === assignee.id && (
+                        <Check_icon width="22" height="22" />
+                      )}
+                    </div>
+                    <img
+                      src={
+                        assignee.profileImageUrl
+                          ? assignee.profileImageUrl
+                          : generateProfileImageUrl(assignee.email)
+                      }
+                      alt="프로필"
+                      className={styles["toggle-assign-item-img"]}
+                    />
+                    <span className={styles["toggle-assign-item"]}>
+                      {assignee.nickname}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          {/* {isOpen && <div>assignee-id</div>} - 얘는 드롭다운 해서 보이는 목록들 */}
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>제목 *</label>

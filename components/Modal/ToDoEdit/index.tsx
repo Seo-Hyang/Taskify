@@ -13,8 +13,6 @@ export default function ToDoEdit(cardId:string) {
   const router = useRouter();
   const [isColumnOpen, setIsColumnOpen] = useState(false);
   const [isAssignOpen, setIsAssignOpen] = useState(false);
-  const [isColuumnSelected, setIsColuumnSelected] = useState();
-  const [isAssignSelected, setIsAssignSelected] = useState();
   const [columnId, setColumnId] = useState<number>();
   const [assigneeUserId, setAssigneerUserId] = useState();
   const [title, setTitle] = useState<string>("");
