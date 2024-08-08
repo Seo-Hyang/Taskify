@@ -7,6 +7,7 @@ import ToDoCreate from "@/components/Modal/ToDoCreate";
 import ToDoModal from "@/components/Modal/TodoModal";
 import ColumnDashboard from "@/components/Column/ColumnDashboard";
 import ToDoEdit from "@/components/Modal/ToDoEdit";
+import CardDelete from "@/components/Column/CardDelete";
 
 export default function ModalTest(){
     return(
@@ -18,6 +19,7 @@ export default function ModalTest(){
             <ColumnEdit />
             <ColumnInvite />
             <ColumnDelete />
+            <CardDelete />
             <MypageModal />
             <ColumnDashboard />
         </div>

@@ -8,7 +8,6 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 import Input from "@/components/Input/ModalInput";
-import axios from "@/lib/axios";
 
 interface Tag {
   text: string;
@@ -40,7 +39,7 @@ export default function ToDoCreate() {
   const [isTag, setIsTag] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [file, setFile] = useState<File | null>(null);
+  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [values, setValues] = useState({
     assigneeUserId: "",
     dashboardId: "",
@@ -49,7 +48,7 @@ export default function ToDoCreate() {
     description: "",
     dueDate: "",
     tags: tags,
-    imageUrl: "",
+    imageUrl: imgUrl,
   });
 
   const toggleDropdown = () => {
@@ -99,42 +98,32 @@ export default function ToDoCreate() {
     return colors[randomIndex];
   };
 
-  const handleFileChange = (file: File | null, imgUrl?: string) => {
-    setFile(file);
+  // 이미지 -> string으로 바꾼 거
+  const handleImageUpload = (url: string) => {
+    setImgUrl(url);
     setValues({
       ...values,
-      imageUrl: imgUrl || "",
+      imageUrl: url,
     });
   };
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    const {
-      assigneeUserId,
-      dashboardId,
-      columnId,
-      title,
-      description,
-      dueDate,
-      tags,
-      imageUrl,
-    } = values;
-    await axios.post("/cards", {
-      assigneeUserId,
-      dashboardId,
-      columnId,
-      title,
-      description,
-      dueDate,
-      tags,
-      imageUrl,
-    });
     router.push("/dashboard");
   }
 
+  // useEffect(() => {
+  //   const { assigneeUserId, title, description, tags, imageUrl } = values;
+  //   if (assigneeUserId && title && description && tags.length > 0 && imageUrl) {
+  //     setIsDisabled(false);
+  //   } else {
+  //     setIsDisabled(true);
+  //   }
+  // }, [values]);
+
   useEffect(() => {
-    const { assigneeUserId, title, description, tags, imageUrl } = values;
-    if (assigneeUserId && title && description && tags.length > 0 && imageUrl) {
+    const { title, description } = values;
+    if (title && description) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
@@ -220,7 +209,7 @@ export default function ToDoCreate() {
         </div>
         <div className={styles["todo-create-input-img"]}>
           <label className={styles["todo-create-auth-label"]}>이미지</label>
-          <FileInput name="imageUrl" onChange={handleFileChange} />
+          <FileInput onImageUpload={handleImageUpload} />
         </div>
       </div>
 
