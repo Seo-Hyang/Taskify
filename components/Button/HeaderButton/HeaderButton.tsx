@@ -6,9 +6,13 @@ export default function HeaderButton({
   children,
   setting = false,
   isInvitation = false,
+  onClick = () => {},
 }) {
   return (
-    <button className={`${styles.Button} ${setting ? styles.setting : ""}`}>
+    <button
+      className={`${styles.Button} ${setting ? styles.setting : ""}`}
+      onClick={onClick}
+    >
       <SETTINGSVG
         className={`${styles.noneSvg} ${setting ? styles.setting_svg : ""}`}
       />

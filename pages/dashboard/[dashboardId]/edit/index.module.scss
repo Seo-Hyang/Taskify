@@ -1,6 +1,6 @@
 .dashboardEditPage {
+  margin-left: 320px;
   margin-top: 20px;
-  margin-left: 20px;
   width: 620px;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@
 @media screen and (max-width: 1199px) {
   .dashboardEditPage {
     width: auto;
-    margin: 20px 20px 72px;
+    margin: 20px 20px 72px 180px;
   }
 }
 
@@ -44,7 +44,7 @@
 @media screen and (max-width: 743px) {
   .dashboardEditPage {
     width: auto;
-    margin: 16px 12px 72px;
+    margin: 16px 12px 72px 79px;
 
     h1 {
       font-size: 20px;

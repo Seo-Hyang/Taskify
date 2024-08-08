@@ -129,7 +129,7 @@ export default function ToDoCreate() {
       tags,
       imageUrl,
     });
-    router.push("/DashBoard");
+    router.push("/dashboard");
   }
 
   useEffect(() => {
