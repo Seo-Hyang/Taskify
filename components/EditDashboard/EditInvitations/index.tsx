@@ -1,7 +1,6 @@
 import styles from "./index.module.scss";
 import PageButton from "@/components/Button/PageButton/PageButton";
 import MiniPagenation from "@/components/MiniPagenation";
-import mockData from "./mock.json";
 import InvitationItem from "./InvitationItem";
 import useWindowSize from "@/hooks/useDevice";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
@@ -11,11 +10,6 @@ import { getDashboardInvitations } from "@/services/dashboards";
 import { DashboardInvitation } from "@/types/dashboard";
 import ColumnInvite from "@/components/Column/ColumnInvite";
 import Skeleton from "@/components/Skeleton";
-
-// const { invitations } = mockData;
-// const dashboardInvitations = invitations.filter((element) => {
-//   return element.dashboard.id === 0;
-// });
 
 interface Props {
   dashboardId: number;

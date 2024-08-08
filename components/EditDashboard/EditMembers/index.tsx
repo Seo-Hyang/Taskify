@@ -1,17 +1,11 @@
-import ArrowButton from "@/components/Button/ArrowButton/ArrowButton";
 import styles from "./index.module.scss";
-import Button from "@/components/Button/Button/Button";
-import PageButton from "@/components/Button/PageButton/PageButton";
 import MiniPagenation from "@/components/MiniPagenation";
 import MemberItem from "./MemberItem";
-import mockData from "./mock.json";
 import { getDashboardMembers } from "@/services/dashboards";
 import useAsync from "@/hooks/useAsync";
 import { useEffect, useState } from "react";
 import { DashboardMember } from "@/types/dashboard";
 import Skeleton from "@/components/Skeleton";
-
-// const { members } = mockData;
 
 interface Props {
   dashboardId: number;

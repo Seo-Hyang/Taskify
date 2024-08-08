@@ -1,8 +1,5 @@
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import styles from "./index.module.scss";
-import { putcolumnDelete, getColumnAdd } from "@/lib/columnApi";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { MouseEvent } from "react";
 
 interface Props {
@@ -22,16 +19,6 @@ export default function SelectModal({
   btn1OnClcik,
   btn2OnClick,
 }: Props) {
-  // 칼럼 삭제
-  // const handleDeleteClick = async (e: React.MouseEvent) => {
-  //   e.preventDefault();
-  //   try {
-  //     await putcolumnDelete(columnId);
-  //   } catch (err) {
-  //     console.error("해당 칼럼 삭제에 실패했습니다.");
-  //   }
-  // };
-
   if (!isShow) {
     return null;
   }

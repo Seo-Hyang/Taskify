@@ -1,8 +1,5 @@
-import ArrowButton from "@/components/Button/ArrowButton/ArrowButton";
 import styles from "./index.module.scss";
-import Button from "@/components/Button/Button/Button";
 import PageButton from "@/components/Button/PageButton/PageButton";
-import MiniPagenation from "@/components/MiniPagenation";
 import useAsync from "@/hooks/useAsync";
 import { cancleDashboardInvitation } from "@/services/dashboards";
 import { Dispatch, SetStateAction } from "react";

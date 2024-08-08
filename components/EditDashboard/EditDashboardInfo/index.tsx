@@ -1,18 +1,13 @@
 import styles from "./index.module.scss";
-import PageButton from "@/components/Button/PageButton/PageButton";
-import ColorCircle from "@/components/EditDashboard/ColorCircle";
-import Button from "@/components/Button/Button/Button";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import { TwitterPicker } from "react-color";
 import { useRouter } from "next/router";
-import { postDashboardAdd } from "@/lib/columnApi";
 import Input from "@/components/Input/ModalInput";
 import MessageModal from "@/components/Modal/MessageModal";
 import useAsync from "@/hooks/useAsync";
 import { getDashboard, putDashboard } from "@/services/dashboards";
 import { Dashboard } from "@/types/dashboard";
-import axios, { AxiosError } from "axios";
 import { useDashboard } from "@/contexts/DashboardContext";
 import Skeleton from "@/components/Skeleton";
 

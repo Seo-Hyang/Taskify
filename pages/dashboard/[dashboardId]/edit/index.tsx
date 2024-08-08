@@ -11,7 +11,7 @@ import Head from "next/head";
 import SelectModal from "@/components/Modal/SelectModal";
 import SideMenu from "@/components/SideMenu/SideMenu";
 import Header from "@/components/Header/Header";
-import { deleteDashboard, deleteDashboardMember } from "@/services/dashboards";
+import { deleteDashboard } from "@/services/dashboards";
 import { useState } from "react";
 
 export default function Edit() {
