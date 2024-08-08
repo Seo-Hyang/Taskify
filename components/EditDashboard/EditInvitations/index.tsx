@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import useAsync from "@/hooks/useAsync";
 import { getDashboardInvitations } from "@/services/dashboards";
 import { DashboardInvitation } from "@/types/dashboard";
+import ColumnInvite from "@/components/Column/ColumnInvite";
 
 // const { invitations } = mockData;
 // const dashboardInvitations = invitations.filter((element) => {
@@ -22,11 +23,12 @@ interface Props {
 
 export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
   const { width } = useWindowSize();
-  const btnInvitation = <PageButton isInvitation={true}>초대하기</PageButton>;
 
   const [invitationList, setInvitationList] = useState<DashboardInvitation[]>();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState<number>(-1);
+  const [invitationCount, setInvitationCount] = useState(0);
+  const [isShowModal, setIsShowModal] = useState(false);
   const [isLoadInvitations, loadInvitationsError, loadInvitations] = useAsync(
     getDashboardInvitations
   );
@@ -52,7 +54,7 @@ export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
   useEffect(() => {
     if (!dashboardId) return;
     handleloadInvitations(dashboardId, page, sizePerPage);
-  }, [page]);
+  }, [page, invitationCount]);
 
   const handleClickLeft = () => {
     if (page <= 1) {
@@ -67,6 +69,23 @@ export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
     }
     setPage(page + 1);
   };
+
+  const openModal = () => {
+    setIsShowModal(true);
+  };
+
+  const closeModal = () => {
+    setIsShowModal(false);
+    // if (!isValid) {
+    //   router.push("/");
+    // }
+  };
+
+  const btnInvitation = (
+    <PageButton isInvitation={true} onClick={openModal}>
+      초대하기
+    </PageButton>
+  );
 
   return (
     <>
@@ -94,12 +113,22 @@ export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
             return (
               <InvitationItem
                 key={invitation.id}
+                dashboardId={dashboardId}
+                invitationId={invitation.id}
                 email={invitation.invitee.email}
+                setInvitationDeleteCount={setInvitationCount}
               />
             );
           })}
         </div>
       </div>
+      <ColumnInvite
+        dashboardId={dashboardId}
+        isAttached={true}
+        isShow={isShowModal}
+        onClickCancle={closeModal}
+        setInvitationCount={setInvitationCount}
+      />
     </>
   );
 }
