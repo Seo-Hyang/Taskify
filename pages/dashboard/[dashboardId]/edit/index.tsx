@@ -43,17 +43,15 @@ export default function Edit() {
       </div>
       <section>
         <SideMenu />
-        <Header userNickname="테스트" isOwner={true}>
-          내 대시보드
-        </Header>
+        <Header>내 대시보드</Header>
       </section>
       <div className={styles.dashboardEditPage}>
         <div className={styles.header}>
           <ReturnButton link="/dashboardid">돌아가기</ReturnButton>
         </div>
         <EditDashboardInfo id={Number(dashboardId)} />
-        <EditMembers />
-        <EditInvitations />
+        <EditMembers dashboardId={Number(dashboardId)} sizePerPage={5} />
+        <EditInvitations dashboardId={Number(dashboardId)} sizePerPage={5} />
         <div className={styles.footer}>
           <ModalButton
             onClick={openModal}

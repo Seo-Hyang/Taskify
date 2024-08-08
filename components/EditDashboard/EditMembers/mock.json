@@ -5,7 +5,7 @@
       "userId": 1,
       "email": "jung@test.com",
       "nickname": "정만철",
-      "profileImageUrl": "string",
+      "profileImageUrl": null,
       "createdAt": "2024-08-06T18:16:37.533Z",
       "updatedAt": "2024-08-06T18:16:37.533Z",
       "isOwner": true
@@ -15,7 +15,7 @@
       "userId": 2,
       "email": "kim@test.com",
       "nickname": "김태순",
-      "profileImageUrl": "string",
+      "profileImageUrl": null,
       "createdAt": "2024-08-06T18:16:37.533Z",
       "updatedAt": "2024-08-06T18:16:37.533Z",
       "isOwner": true
@@ -25,7 +25,7 @@
       "userId": 3,
       "email": "choi@test.com",
       "nickname": "최주협",
-      "profileImageUrl": "string",
+      "profileImageUrl": null,
       "createdAt": "2024-08-06T18:16:37.533Z",
       "updatedAt": "2024-08-06T18:16:37.533Z",
       "isOwner": true
@@ -35,7 +35,7 @@
       "userId": 4,
       "email": "yoon@test.com",
       "nickname": "윤지현 ",
-      "profileImageUrl": "string",
+      "profileImageUrl": "https://item.kakaocdn.net/do/a1bfdf9838f7767f429015f6564cb234f43ad912ad8dd55b04db6a64cddaf76d",
       "createdAt": "2024-08-06T18:16:37.533Z",
       "updatedAt": "2024-08-06T18:16:37.533Z",
       "isOwner": true
