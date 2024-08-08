@@ -1,11 +1,10 @@
 import axios from "axios";
-
-// 유저 이메일, 닉네임 호출
+import instance from "@/lib/axios";
 
 // 비밀번호 변경 AHI
 const changePassword = async (password: string, newPassword: string) => {
   try {
-    const response = await axios.put("/lib/change-password", {
+    const response = await instance.put("/auth/password", {
       password,
       newPassword,
     });
@@ -19,7 +18,7 @@ const changePassword = async (password: string, newPassword: string) => {
 // 내 정보 수정 API 호출
 const updateProfile = async (nickname: string, profileImageUrl: string) => {
   try {
-    const response = await axios.put("/lib/update-profile", {
+    const response = await axios.put("/users/me", {
       nickname,
       profileImageUrl,
     });
