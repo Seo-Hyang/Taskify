@@ -12,25 +12,40 @@ import { changePassword, updateProfile } from "@/lib/modifyProfile";
 import Header from "@/components/Header/Header";
 import Button from "@/components/Button/Button/Button";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
+import MessageModal from "@/components/Modal/MessageModal";
+
+/** // 요청 인터셉터 설정
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+*/
 
 // 유저 정보 호출 함수
-const getUserEmail = async () => {
+const getUserInfo = async () => {
   try {
-    const response = await instance.get("/users");
-    const userEmail = response.data.email;
-    return userEmail;
+    const response = await instance.get("/users/me");
+    const userInfo = response.data;
+    return userInfo;
   } catch (error) {
-    console.error("이메일 데이터를 불러오는데 실패했습니다.", error);
+    console.error("유저 데이터를 불러오는데 실패했습니다.", error);
     throw error;
   }
 };
 
+// interface 설정
+interface UserInfo {
+  email: string;
+  nickname: string;
+  profileImageUrl?: string;
+}
+
 export default function MyPage() {
   // 프로필 이미지 state
   const [profileImageUrl, setProfileImageUrl] = useState<string>("");
-
-  // 이메일 state
-  const [email, setEmail] = useState<string>("");
 
   // 닉네임 state
   const [profileNickname, setProfileNickname] = useState<string>("");
@@ -39,6 +54,9 @@ export default function MyPage() {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+
+  // 비밀번호 불일치 알림 모달
+  const [isModalDisabled, setIsModalDisabled] = useState(false);
 
   // 버튼 활성화 state
   const [isPasswordChangeDisabled, setIsPasswordChangeDisabled] =
@@ -51,6 +69,12 @@ export default function MyPage() {
 
   // 새 비밀번호 불일치 에러 state
   const [isNewPasswordError, setIsNewPasswordError] = useState<string>("");
+
+  // 유저 정보 state
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    email: "",
+    nickname: "",
+  });
 
   // 비밀번호 변경 핸들러
   const handleChangePassword = async () => {
@@ -102,16 +126,17 @@ export default function MyPage() {
   }, [currentPassword, newPassword, confirmNewPassword, profileNickname]);
 
   useEffect(() => {
-    const fetchEmail = async () => {
+    const fetchUserInfo = async () => {
       try {
-        const userEmail = await getUserEmail();
-        setEmail(userEmail);
+        const userInfo = await getUserInfo();
+        setUserInfo(userInfo);
+        setProfileNickname(userInfo.nickname);
       } catch (error) {
         console.error("Error fetching user email:", error);
       }
     };
 
-    fetchEmail();
+    fetchUserInfo();
   }, []);
 
   return (
@@ -151,7 +176,7 @@ export default function MyPage() {
                     </h3>
                     <input
                       className={styles.input}
-                      placeholder={email || "e-mail"}
+                      placeholder={userInfo.email || "E-mail"}
                       disabled
                     />
                   </div>
@@ -159,7 +184,7 @@ export default function MyPage() {
                     <span className={styles.inputName}>닉네임</span>
                     <input
                       className={styles.input}
-                      placeholder="nickname"
+                      placeholder="Nickname"
                       value={profileNickname}
                       onChange={(e) => setProfileNickname(e.target.value)}
                     />
@@ -238,6 +263,11 @@ export default function MyPage() {
             </div>
           </div>
         </div>
+        <MessageModal
+          onConfirm={(e) => {}}
+          isShow={isModalDisabled}
+          message="비밀번호가 일치하지 않습니다."
+        />
       </main>
     </>
   );

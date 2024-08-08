@@ -84,7 +84,6 @@ export default function EditDashBoardInfo({ id }: Props) {
 
   // color input
   const handleColorChangeComplete = (color: any) => {
-    console.log(color);
     setValues((prevValues) => ({
       ...prevValues,
       color: color.hex,
