@@ -41,7 +41,7 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
   }
 };
 
-// 대시보드 멤버 조회
+// 대시보드 멤버 조회 - O
 export function getMember(dashboardId: string) {
   const url = `/members?page=1&size=20&dashboardId=${dashboardId}`;
   const options = {
@@ -102,19 +102,19 @@ export function getCardId(cardId: string): Promise<CardData> {
 }
 
 // 카드 수정
-export function putCard(cardId:string){
-  const url=`/cards/${cardId}`;
-  const options={
-    method:"PUT",
-    headers:{
-      "Content-type":"application/json",
+export function putCard(cardId: string) {
+  const url = `/cards/${cardId}`;
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
     },
   };
-  return fetchRequest(url,options);
+  return fetchRequest(url, options);
 }
 
 // 카드 삭제 - O
-export function deleteCard(cardId:string) {
+export function deleteCard(cardId: string) {
   const url = `/cards/${cardId}`;
   const options = {
     method: "DELETE",
@@ -122,7 +122,7 @@ export function deleteCard(cardId:string) {
       "Content-type": "application/json",
     },
   };
-  return fetchRequest(url,options);
+  return fetchRequest(url, options);
 }
 
 // 댓글 조회 - O
@@ -163,7 +163,7 @@ export function postComment({
   const options = {
     method: "POST",
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
     },
     data: {
       content,

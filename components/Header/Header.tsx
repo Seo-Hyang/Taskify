@@ -7,12 +7,7 @@ import { useRouter } from "next/router";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { useEffect, useState } from "react";
 import { getHeader, getMyPage } from "@/lib/headerApi";
-
-// 기본 프로필
-const generateProfileImageUrl = (email: string) => {
-  const initials = email.charAt(0).toUpperCase();
-  return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&rounded=true`;
-};
+import { generateProfileImageUrl } from "@/lib/avatarsApi";
 
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
@@ -116,7 +111,7 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
                 src={
                   member.profileImageUrl
                     ? member.profileImageUrl
-                    : generateProfileImageUrl(member.email)
+                    : generateProfileImageUrl(member.nickname)
                 }
                 alt={member.nickname}
                 className={styles["dashboard-members"]}
@@ -149,7 +144,7 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
           src={
             values.profileImageUrl
               ? values.profileImageUrl
-              : generateProfileImageUrl(values.email)
+              : generateProfileImageUrl(values.nickname)
           }
           alt="프로필"
           width="38"

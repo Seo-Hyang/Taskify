@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 import Input from "@/components/Input/ModalInput";
 import { getMember } from "@/lib/modalApi";
+import { generateProfileImageUrl } from "@/lib/avatarsApi";
 
 interface Tag {
   text: string;
@@ -41,12 +42,6 @@ const DatePicker: React.FC = () => {
       />
     </div>
   );
-};
-
-// 담당자 기본 프로필
-const generateProfileImageUrl = (email: string) => {
-  const initials = email.charAt(0).toUpperCase();
-  return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&rounded=true`;
 };
 
 export default function ToDoCreate() {
@@ -152,7 +147,7 @@ export default function ToDoCreate() {
     }
   }, [values]);
 
-  // 드롭다운의 첫 번째 배열 선택
+  // 드롭다운의 첫 번째 배열 선택 - 이거 할까말까
   useEffect(() => {
     if (isOpen && assignees.length > 0 && !initiallySelected) {
       setSelectedAssignee(assignees[0]);
@@ -202,7 +197,7 @@ export default function ToDoCreate() {
                   src={
                     selectedAssignee.profileImageUrl
                       ? selectedAssignee.profileImageUrl
-                      : generateProfileImageUrl(selectedAssignee.email)
+                      : generateProfileImageUrl(selectedAssignee.nickname)
                   }
                   alt="프로필"
                   className={styles["toggle-assign-item-img"]}
@@ -239,7 +234,7 @@ export default function ToDoCreate() {
                       src={
                         assignee.profileImageUrl
                           ? assignee.profileImageUrl
-                          : generateProfileImageUrl(assignee.email)
+                          : generateProfileImageUrl(assignee.nickname)
                       }
                       alt="프로필"
                       className={styles["toggle-assign-item-img"]}

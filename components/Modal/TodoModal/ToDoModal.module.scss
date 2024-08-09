@@ -85,14 +85,18 @@
   margin-top: 16px;
   display: flex;
   flex-direction: column;
-  row-gap: 4px;
-  margin-bottom: 24px;
+  row-gap: 24px;
   position: relative;
 }
-.todo-comment-container{
+.todo-comment-container {
   display: flex;
   flex-direction: column;
-  row-gap:10px;
+  row-gap: 10px;
+}
+.todo-comment-span-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
 }
 .todo-comment-span {
   font-size: 16px;
@@ -100,7 +104,7 @@
   line-height: 26px;
   color: var(--color-black-500);
 }
-.todo-comment-input-text{
+.todo-comment-input-text {
   width: 450px;
   height: 110px;
   border-radius: 6px;
@@ -111,9 +115,26 @@
   border: none;
   width: 100%;
   resize: none;
-  outline:none;
+  outline: none;
 }
-.todo-comment-button-container{
+.edited-comment-container{
+  display: flex;
+  flex-direction: column;
+  row-gap:8px;
+  align-items: flex-end;
+}
+.edited-comment {
+  border-radius: 6px;
+  border: 1px solid var(--color-gray-300);
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--color-black-500);
+  width: 400px;
+  height: 80px;
+}
+.todo-comment-button-container {
   display: flex;
   justify-content: flex-end;
 }
@@ -121,15 +142,22 @@
   height: 32.23px;
   border-radius: 4px;
   border: 1px solid var(--color-gray-300);
-  background-color: var(--color-white);
+  background-color: var(--color-violet);
+  color: var(--color-white);
   padding: 9px 31px;
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
-  color: var(--color-violet);
   display: flex;
   justify-content: center;
   align-items: center;
+  &:hover {
+    background-color: var(--color-blue);
+  }
+}
+.isDisabled {
+  background-color: var(--color-white);
+  color: var(--color-gray-500);
   &:hover {
     background-color: var(--color-violet-8);
   }
@@ -146,7 +174,7 @@
 .todo-user-comment-content {
   display: flex;
   flex-direction: column;
-  row-gap: 3px;
+  row-gap: 8px;
 }
 .todo-user-comment-container-name {
   display: flex;
@@ -157,6 +185,10 @@
   display: inline-flex;
   background-color: unset;
   border: none;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.32px;
+  color: var(--color-gray-400);
 }
 .todo-user-comment-auth {
   font-size: 14px;
@@ -172,9 +204,6 @@
   font-weight: 400;
   line-height: 14.32px;
   color: var(--color-gray-400);
-}
-.content {
-  font-weight: 400;
 }
 .edit-container {
   display: flex;
@@ -234,8 +263,8 @@
   .todo-comment-text {
     width: 420px;
   }
-  .todo-user-container{
-    width:100%;
+  .todo-user-container {
+    width: 100%;
   }
 }
 

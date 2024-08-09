@@ -2,14 +2,33 @@ import styles from "../ToDoCreate.module.scss";
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import Arrow_drop from "@/public/icons/arrow_drop.svg";
 import Check_icon from "@/public/icons/check_icon.svg";
-import { useEffect, useState } from "react";
-import axios from "@/lib/axios";
+import { useEffect, useRef, useState } from "react";
 import Input from "@/components/Input/ModalInput";
 import FileInput from "@/components/FileImage";
 import { useRouter } from "next/router";
-import { putCard } from "@/lib/modalApi";
+import { getMember, putCard } from "@/lib/modalApi";
+import { getColumnAdd } from "@/lib/columnApi";
 
-export default function ToDoEdit(cardId:string) {
+// 담당자 기본 프로필
+const generateProfileImageUrl = (email: string) => {
+  const initials = email.charAt(0).toUpperCase();
+  return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&rounded=true`;
+};
+
+interface Assignee {
+  id: string;
+  email: string;
+  nickname: string;
+  profileImageUrl?: string;
+  userId: string;
+}
+
+interface Columns {
+  id: string;
+  title: string;
+}
+
+export default function ToDoEdit(cardId: string, dashboardId: string) {
   const router = useRouter();
   const [isColumnOpen, setIsColumnOpen] = useState(false);
   const [isAssignOpen, setIsAssignOpen] = useState(false);
@@ -31,13 +50,41 @@ export default function ToDoEdit(cardId:string) {
     imageUrl: "",
   });
 
+  const dropdownAssigneeRef = useRef<HTMLDivElement>(null);
+  const dropdownColumnRef=useRef<HTMLDivElement>(null);
+  const [columns, setColumns] = useState<Columns[]>([]);
+  const [selectedColumns, setSelectedColumns] = useState<Columns | null>(null);
+  const [assignees, setAssignees] = useState<Assignee[]>([]);
+  const [selectedAssignee, setSelectedAssignee] = useState<Assignee | null>(
+    null
+  );
+
   const toggleColumnDropdown = () => {
     setIsColumnOpen(!isColumnOpen);
   };
 
   const toggleAssignDropdown = () => {
-    setIsAssignOpen(isAssignOpen);
+    setIsAssignOpen(!isAssignOpen);
   };
+
+  const handleOutsideAssigneeClick = (e: MouseEvent) => {
+    if (
+      dropdownAssigneeRef.current &&
+      !dropdownAssigneeRef.current.contains(e.target as Node)
+    ) {
+      setIsAssignOpen(false);
+    }
+  };
+
+  const handleOutsideColumnClick = (e: MouseEvent) => {
+    if (
+      dropdownColumnRef.current &&
+      !dropdownColumnRef.current.contains(e.target as Node)
+    ) {
+      setIsColumnOpen(false);
+    }
+  };
+
 
   // 카드 가져오기
   // useEffect(()=>{
@@ -45,7 +92,7 @@ export default function ToDoEdit(cardId:string) {
   // })
 
   // 카드 수정 post
-  const handleEitClick = async (e:React.MouseEvent) => {
+  const handleEitClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
       await putCard(cardId);
@@ -54,62 +101,173 @@ export default function ToDoEdit(cardId:string) {
     }
   };
 
+  // 담당자 get
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await getMember(11374);
+        setAssignees(response.members);
+      } catch (err) {
+        console.error("멤버를 조회할 수 없습니다.");
+      }
+    };
+    fetchMembers();
+  }, []);
+
+  // 담당자 선택
+  const handleAssigneeSelect = (assignee: Assignee) => {
+    setSelectedAssignee(assignee);
+    setValues({ ...values, assigneeUserId: assignee.userId });
+    setIsAssignOpen(false);
+  };
+
+  // 칼럼 get
+  useEffect(() => {
+    const fetchColumns = async () => {
+      try {
+        const response = await getColumnAdd(11374);
+        setColumns(response.data);
+      } catch (err) {
+        console.error("칼럼을 조회할 수 없습니다.");
+      }
+    };
+    fetchColumns();
+  }, []);
+
+  // 칼럼 선택
+  const handleColumnSelect = (column: Columns) => {
+    setSelectedColumns(column);
+    setValues({ ...values, columnId: column.id });
+    setIsColumnOpen(false);
+  };
+
+    // 드롭다운 담당자 외부 선택했을 때
+    useEffect(() => {
+      document.addEventListener("mousedown", handleOutsideAssigneeClick);
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideAssigneeClick);
+      };
+    }, []);
+
+     // 드롭다운 칼럼 외부 선택했을 때
+     useEffect(() => {
+      document.addEventListener("mousedown", handleOutsideColumnClick);
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideColumnClick);
+      };
+    }, []);
+
   return (
     <div className={styles["todo-create"]}>
       <h1 className={styles["todo-create-h1"]}>할일 수정</h1>
       <div className={styles["todo-create-input-section"]}>
         <div className={styles["todo-create-input-container"]}>
-          <div className={styles["todo-create-input-auth"]}>
+          <div className={styles["todo-create-input-auth"]} ref={dropdownColumnRef}>
             <label className={styles["todo-create-label"]}>상태</label>
-            <div
-              className={`${styles["todo-create-input"]} ${styles["todo-create-input-div"]}`}
-            >
-              <input className={styles.input}></input>
+            <div className={styles["todo-edit-dropdown"]}>
+              {selectedColumns ? (
+                <div className={styles["toggle-column-item-container"]}>
+                  <div className={styles["toggle-column-item-circle"]}></div>
+                  <span className={styles["toggle-column-item"]}>
+                    {selectedColumns.title}
+                  </span>
+                </div>
+              ) : (
+                <span className={styles["placeholder"]}>
+                  상태를 입력해 주세요
+                </span>
+                // 여기에다가 원래 값
+              )}
               <Arrow_drop
                 onClick={toggleColumnDropdown}
                 width="26"
                 height="26"
+                className={styles["arrow-drop-icon"]}
               />
-              {/* 상태 - columnId */}
               {isColumnOpen && (
-                <>
-                  <div className={styles["toggle-menu-container"]}>
-                    {/* 선택 됐을 때 check_icon 뜰 수 있게 초깃값은 첫 번째 값 */}
-                    <Check_icon width="22" height="22" />
-                    <div className={styles["toggle-column-item-container"]}>
-                      <div
-                        className={styles["toggle-column-item-circle"]}
-                      ></div>
-                      {/* <span className={styles["toggle-column-item"]}>상태넣기</span> */}
+                <div className={styles["dropdown-menu"]}>
+                  {columns.map((column) => (
+                    <div
+                      className={styles["toggle-assign-item-container"]}
+                      key={column.id}
+                      onClick={() => handleColumnSelect(column)}
+                    >
+                      <div className={styles["check-icon"]}>
+                        {selectedColumns?.id === column.id && (
+                          <Check_icon width="22" height="22" />
+                        )}
+                      </div>
+                      <div className={styles["toggle-column-item-container"]}>
+                        <div
+                          className={styles["toggle-column-item-circle"]}
+                        ></div>
+                        <span className={styles["toggle-column-item"]}>
+                          {column.title}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </>
+                  ))}
+                </div>
               )}
             </div>
           </div>
           <div className={styles["todo-create-input-auth"]}>
             <label className={styles["todo-create-label"]}>담당자</label>
-            <div
-              className={`${styles["todo-create-input"]} ${styles["todo-create-input-div"]}`}
-            >
-              <input></input>
+            <div className={styles["todo-edit-dropdown"]} ref={dropdownAssigneeRef}>
+              {selectedAssignee ? (
+                <div className={styles["toggle-assign-item-container"]}>
+                  <img
+                    src={
+                      selectedAssignee.profileImageUrl
+                        ? selectedAssignee.profileImageUrl
+                        : generateProfileImageUrl(selectedAssignee.nickname)
+                    }
+                    alt="프로필"
+                    className={styles["toggle-assign-item-img"]}
+                  />
+                  <span className={styles["toggle-assign-item"]}>
+                    {selectedAssignee.nickname}
+                  </span>
+                </div>
+              ) : (
+                <span className={styles["placeholder"]}>
+                  이름을 입력해 주세요
+                </span>
+              )}
               <Arrow_drop
                 onClick={toggleAssignDropdown}
                 width="26"
                 height="26"
+                className={styles["arrow-drop-icon"]}
               />
-              {/* 담당자 - assignee-id */}
               {isAssignOpen && (
-                <>
-                  <div className={styles["toggle-menu-container"]}>
-                    <Check_icon width="22" height="22" />
-                    <div className={styles["toggle-assign-item-container"]}>
-                      {/* <div className={styles["toggle-assign-item-img"]}>프로필 이미지 넣기</div> */}
-                      {/* 프로필 이미지 색상 랜덤 */}
-                      {/* <span className={styles["toggle-assign-item"]}>상태넣기</span> */}
+                <div className={styles["dropdown-menu"]}>
+                  {assignees.map((assignee) => (
+                    <div
+                      className={styles["toggle-assign-item-container"]}
+                      key={assignee.userId}
+                      onClick={() => handleAssigneeSelect(assignee)}
+                    >
+                      <div className={styles["check-icon"]}>
+                        {selectedAssignee?.id === assignee.id && (
+                          <Check_icon width="22" height="22" />
+                        )}
+                      </div>
+                      <img
+                        src={
+                          assignee.profileImageUrl
+                            ? assignee.profileImageUrl
+                            : generateProfileImageUrl(assignee.nickname)
+                        }
+                        alt="프로필"
+                        className={styles["toggle-assign-item-img"]}
+                      />
+                      <span className={styles["toggle-assign-item"]}>
+                        {assignee.nickname}
+                      </span>
                     </div>
-                  </div>
-                </>
+                  ))}
+                </div>
               )}
             </div>
           </div>
@@ -131,16 +289,15 @@ export default function ToDoEdit(cardId:string) {
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>태그</label>
-          <Input value={tags} onChange={(e) => setTags(e.target.value)} />
+          {/* <Input value={tags} onChange={(e) => setTags(e.target.value)} /> */}
         </div>
         <div className={styles["todo-create-input-img"]}>
           <label className={styles["todo-create-auth-label"]}>이미지</label>
-          <FileInput
-            name="image"
+          {/* <FileInput
             onChange={(file) => console.log(file)}
             initialImageUrl={imgUrl}
             columnId={columnId}
-          />
+          /> */}
         </div>
       </div>
 

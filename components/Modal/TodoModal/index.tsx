@@ -12,6 +12,8 @@ import {
   postComment,
   putComment,
 } from "@/lib/modalApi";
+import { generateProfileImageUrl } from "@/lib/avatarsApi";
+import { Modalcomment } from "./comment";
 
 interface Assignee {
   nickname: string;
@@ -24,31 +26,6 @@ interface CardData {
   imageUrl: string;
   assignee: Assignee;
   dueDate: string;
-}
-
-interface Author {
-  nickname: string;
-  profileImageUrl: string | null;
-}
-
-interface CommentData {
-  id: string;
-  content: string;
-  createdAt: string;
-  author: Author;
-}
-
-function formatDate(isoString: string): string {
-  const date = new Date(isoString);
-
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(date.getUTCDate()).padStart(2, "0");
-
-  const hours = String(date.getUTCHours()).padStart(2, "0");
-  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-
-  return `${year}.${month}.${day} ${hours}:${minutes}`;
 }
 
 export default function ToDoModal() {
@@ -80,17 +57,13 @@ export default function ToDoModal() {
     },
     dueDate: "",
   });
-  const [commentValues, setCommentValues] = useState<CommentData[]>([]);
-  const [editCommentId, setEditCommentId] = useState<string | null>(null);
-  const [editedContent, setEditedContent] = useState<string>("");
-
   // if (!isOpen) return null;
 
   // 카드 정보 가져오기
   useEffect(() => {
     const fetchCard = async () => {
       try {
-        const response = await getCardId("9821");
+        const response = await getCardId("9824");
         setValues({
           title: response.title,
           description: response.description,
@@ -108,41 +81,6 @@ export default function ToDoModal() {
 
     fetchCard();
   }, []);
-
-  // 댓글 생성
-  //   const commentClick=async (e:React.MouseEvent)=>{
-  // try{
-  //   await postComment(content,cardId,columnId,dashboardId);
-  // }
-  //   }
-
-  // 댓글 조회
-  useEffect(() => {
-    const fetchComment = async () => {
-      try {
-        const response = await getComment(9817);
-        setCommentValues(response.comments);
-      } catch (err) {
-        console.log("댓글을 가져올 수 없습니다:", err);
-      }
-    };
-    fetchComment();
-  }, []);
-
-  // 댓글 수정
-  // const handleEditClick = async (commentId: string, currentContent: string) => {
-  //   setEditCommentId(8534);
-  //   setEditedContent(currentContent);
-  // };
-
-  // 댓글 삭제
-  const handleDeleteClick = async (commentId: string) => {
-    try {
-      await deleteComment(commentId);
-    } catch (err) {
-      console.error("댓글 삭제에 실패했습니다.");
-    }
-  };
 
   return (
     <div className={styles["todo-modal"]}>
@@ -194,123 +132,35 @@ export default function ToDoModal() {
             alt="카드 이미지"
             className={styles["todo-img"]}
           />
-
-          <div className={styles["todo-comment-input-container"]}>
-            <span className={styles["todo-comment-span"]}>댓글</span>
-            <div className={styles["todo-comment-input-text"]}>
-              <textarea
-                placeholder="댓글 작성하기"
-                className={styles["todo-comment-text"]}
-              />
-              <div className={styles["todo-comment-button-container"]}>
-                <button className={styles["todo-comment-button"]}>입력</button>
-              </div>
-            </div>
-          </div>
-
-          <section className={styles["todo-comment-container"]}>
-            {commentValues.map((comment, index) => (
-              <div
-                key={comment.id}
-                className={styles["todo-user-comment-container"]}
-              >
-                <img
-                  src={comment.author.profileImageUrl || "프로필 이미지"}
-                  alt="프로필 이미지"
-                  className={styles["todo-user-comment-img"]}
-                />
-                <div className={styles["todo-user-comment-content"]}>
-                  <div>
-                    <div className={styles["todo-user-comment-container-name"]}>
-                      <span
-                        className={`${styles["todo-user-comment-auth"]} ${styles.name}`}
-                      >
-                        {comment.author.nickname}
-                      </span>
-                      <span
-                        className={styles["todo-user-comment-auth-container"]}
-                      >
-                        {formatDate(comment.createdAt)}
-                      </span>
-                    </div>
-                    {editCommentId === comment.id ? (
-                      <>
-                        <textarea
-                          value={editedContent}
-                          className={`${styles["todo-comment-text"]} ${styles["edited-comment"]}`}
-                        />
-                        <button>삭제</button>
-                        <button>취소</button>
-                        <button>입력</button>
-                      </>
-                    ) : (
-                      <p
-                        className={`${styles["todo-user-comment-auth"]} ${styles.content}`}
-                      >
-                        {comment.content}
-                      </p>
-                    )}
-                  </div>
-                  {editCommentId !== comment.id && (
-                    <div className={styles["edit-container"]}>
-                      <button
-                        className={styles["todo-user-button"]}
-                        onClick={() =>
-                          handleEditClick(comment.id, comment.content)
-                        }
-                      >
-                        <span
-                          className={styles["todo-user-comment-auth-container"]}
-                        >
-                          수정
-                        </span>
-                      </button>
-                      <button
-                        className={styles["todo-user-button"]}
-                        onClick={() => handleDeleteClick(comment.id)}
-                      >
-                        <span
-                          className={styles["todo-user-comment-auth-container"]}
-                        >
-                          삭제
-                        </span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </section>
+          <Modalcomment />
         </div>
-
         <section className={styles["todo-user-container"]}>
-          <div
-            className={`${styles["todo-user-container-top"]} ${styles["todo-margin"]}`}
-          >
-            <h2 className={styles["todo-user-top"]}>담당자</h2>
-            <div className={styles["todo-user-img-container"]}>
-              {vaules.assignee.profileImageUrl ? (
-                <img
-                  src={vaules.assignee.profileImageUrl}
-                  alt="프로필 이미지"
-                  className={styles["todo-user-img"]}
-                />
-              ) : (
-                <div className={styles["todo-user-img-placeholder"]}>
-                  No Profile Image
-                  {/* 기본 이미지로 */}
-                </div>
-              )}
-              <span className={styles["todo-user-name"]}>
-                {vaules.assignee.nickname}
-              </span>
+            <div
+              className={`${styles["todo-user-container-top"]} ${styles["todo-margin"]}`}
+            >
+              <h2 className={styles["todo-user-top"]}>담당자</h2>
+              <div className={styles["todo-user-img-container"]}>
+                {vaules.assignee.profileImageUrl ? (
+                  <img
+                    src={vaules.assignee.profileImageUrl}
+                    alt="프로필 이미지"
+                    className={styles["todo-user-img"]}
+                  />
+                ) : (
+                  <div className={styles["todo-user-img-placeholder"]}>
+                  {/* <img src={} alt="담당자 프로필" /> */}
+                  </div>
+                )}
+                <span className={styles["todo-user-name"]}>
+                  {vaules.assignee.nickname}
+                </span>
+              </div>
             </div>
-          </div>
-          <div className={styles["todo-user-container-top"]}>
-            <h2 className={styles["todo-user-top"]}>마감일</h2>
-            <div className={styles["todo-user-name"]}>{vaules.dueDate}</div>
-          </div>
-        </section>
+            <div className={styles["todo-user-container-top"]}>
+              <h2 className={styles["todo-user-top"]}>마감일</h2>
+              <div className={styles["todo-user-name"]}>{vaules.dueDate}</div>
+            </div>
+          </section>
       </div>
     </div>
   );
