@@ -29,7 +29,7 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
     e.preventDefault();
     try {
       await putColumnEdit(columnId, newColumn);
-      router.push(`/dashboard/${dashboardId}`);
+      router.push(`/dashboards/${dashboardId}`);
     } catch (err) {
       console.error("해당 칼럼 수정에 실패했습니다.");
     }
@@ -50,15 +50,12 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
         </div>
         <div className={styles["column-add-label-container"]}>
           <label className={styles["column-label"]}>이름</label>
-          <Input value={newColumn} onChange={handleInputChange}/>
+          <Input value={newColumn} onChange={handleInputChange} />
         </div>
         <div className={styles["column-button-container"]}>
           <ModalButton isCancled={true}>삭제</ModalButton>
           {/* 이중모달 */}
-          <ModalButton
-            isComment={true}
-            onClick={handleEditClick}
-          >
+          <ModalButton isComment={true} onClick={handleEditClick}>
             변경
           </ModalButton>
         </div>

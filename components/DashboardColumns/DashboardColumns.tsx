@@ -4,31 +4,12 @@ import instance from "@/lib/axios";
 import React, { useEffect, useState } from "react";
 
 //컴포넌트
-import Card from "@/components/Card/Card";
+import Cards from "@/components/Card/Card";
 import AddButton from "@/components/Button/AddButton/AddButton";
+//카드 타입 인터페이스
+import { Card } from "@/types/Card";
 
 //대시보드 아이디 받아오기->칼럼 조회->칼럼 아이디 받아오기->카드 조회
-
-export type Card = {
-  id: number;
-  title: string;
-  description: string;
-  tags: string[];
-  dueDate: string;
-
-  assignee: {
-    id: number;
-    nickname: string;
-    profileImageUrl: string;
-  };
-
-  imageUrl: string;
-  teamId: string;
-  dashboardId: string;
-  columnId: string;
-  createdAt: string;
-  updatedAt: string;
-};
 
 export default function Column({
   children = "",
@@ -63,7 +44,7 @@ export default function Column({
       <section className={styles.cards}>
         <AddButton addTodo={true} />
         {cardList.map((item) => (
-          <Card
+          <Cards
             key={item.id}
             title={item.title}
             tags={item.tags}

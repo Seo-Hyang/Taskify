@@ -13,6 +13,7 @@ import AuthButton from "@/components/Button/AuthButton/AuthButton";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LandingPage() {
   const { width } = useWindowSize();
@@ -30,7 +31,7 @@ export default function LandingPage() {
           <Link href="/Login">
             <span className={styles["landing-login-txt"]}>로그인</span>
           </Link>
-          {/* 로그인 되어있을 때 /dashboard/{dashboardid} */}
+          {/* 로그인 되어있을 때 /dashboards/{dashboardid} */}
           <Link href="/SignUp">
             <span className={styles["landing-login-txt"]}>회원가입</span>
           </Link>
@@ -38,11 +39,11 @@ export default function LandingPage() {
       </header>
 
       <div className={styles["top-section"]}>
-        <img
+        <Image
           src={Top_Image.src}
           alt="상단 이미지"
-          width="722"
-          height="422"
+          width={722}
+          height={422}
           className={styles.topImg}
         />
         <div className={styles["top-section-h1-container"]}>
@@ -68,11 +69,11 @@ export default function LandingPage() {
                 일의 우선순위를 <br /> 관리하세요
               </h2>
             </div>
-            <img
+            <Image
               src={Landing_section1.src}
               alt="우선순위"
-              width="594"
-              height="494"
+              width={594}
+              height={494}
               className={`${styles.pointImg} ${styles["section_1"]}`}
             />
           </section>
@@ -84,11 +85,11 @@ export default function LandingPage() {
                 해야 할 일을 <br /> 등록하세요
               </h2>
             </div>
-            <img
+            <Image
               src={Landing_section2.src}
               alt="할 일 생성"
-              width="436"
-              height="502"
+              width={436}
+              height={502}
               className={`${styles.pointImg} ${styles["section_2"]}`}
             />
           </section>
@@ -101,11 +102,11 @@ export default function LandingPage() {
           <div className={styles["bottom-section-container"]}>
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <img
+                <Image
                   src={Landing_section3.src}
                   alt="대시보드"
-                  width="300"
-                  height="123"
+                  width={300}
+                  height={123}
                   className={styles["section_3"]}
                 />
               </div>
@@ -121,7 +122,7 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <img
+                <Image
                   src={Landing_section4.src}
                   alt="초대"
                   width="300"
@@ -139,11 +140,11 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <img
+                <Image
                   src={Landing_section5.src}
                   alt="구성원"
-                  width="300"
-                  height="195.48"
+                  width={300}
+                  height={195.48}
                   className={styles["section_5"]}
                 />
               </div>
