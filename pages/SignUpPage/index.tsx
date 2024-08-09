@@ -39,6 +39,8 @@ function SignUpPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -66,8 +68,18 @@ function SignUpPage() {
     setErrors((prevErrors) => ({ ...prevErrors, [id]: errorMessage }));
   };
 
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsTermsAccepted(e.target.checked);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isTermsAccepted) {
+      setModalMessage("이용약관에 동의해야 회원가입이 가능합니다.");
+      setIsModalOpen(true);
+      return;
+    }
 
     const { email, nickname, password } = formState;
 
@@ -99,10 +111,7 @@ function SignUpPage() {
 
         router.push("/LoginPage");
       } catch (error) {
-        if (
-          (error as AxiosError).response &&
-          (error as AxiosError).response?.status === 409
-        ) {
+        if ((error as AxiosError).response?.status === 409) {
           console.error("회원가입 실패:", error);
           setModalMessage("이미 가입한 계정이 있습니다.");
           setIsModalOpen(true);
@@ -172,7 +181,13 @@ function SignUpPage() {
 
         <div className={styles["checkbox-container"]}>
           <label htmlFor="term" />
-          <input id="term" type="checkbox" /> <p>이용약관에 동의합니다.</p>
+          <input
+            id="term"
+            type="checkbox"
+            checked={isTermsAccepted}
+            onChange={handleCheckboxChange}
+          />{" "}
+          <p>이용약관에 동의합니다.</p>
         </div>
         <div className={styles["button-container"]}>
           <AuthButton>회원가입</AuthButton>
