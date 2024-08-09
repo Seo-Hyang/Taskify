@@ -35,8 +35,8 @@ export default function DashBoard() {
 
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419`
-      // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11370"
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11370`
+      // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419"
     );
     const nextColumnList = res.data;
     const { result, data } = nextColumnList;

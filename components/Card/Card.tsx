@@ -1,6 +1,6 @@
 import styles from "@/components/Card/style.module.scss";
 import CardTag from "@/components/CardTag/CardTag";
-import UserIcon from "@/components/UserIcon/UserIcon";
+//import UserIcon from "@/components/UserIcon/UserIcon";
 import Image from "next/image";
 import CardImage from "@/public/images/card_image2.png";
 import CalendarSVG from "@/public/icons/calendar_today_icon.svg";
@@ -55,9 +55,10 @@ export default function Card({
                   {year}.{month}.{date}
                 </div>
               </div>
-              <div className={styles.card_userIcon}>
+
+              {/* <div className={styles.card_userIcon}>
                 <UserIcon userEmail={userEmail} isCard={true} />
-              </div>
+              </div> */}
             </div>
           </section>
         </div>

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { useEffect, useState } from "react";
 import { getHeader, getMyPage } from "@/lib/headerApi";
+import Image from "next/image";
 
 // 기본 프로필
 const generateProfileImageUrl = (email: string) => {
@@ -15,8 +16,8 @@ const generateProfileImageUrl = (email: string) => {
 };
 
 const getRandomColor = () => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
+  const letters = "0123456789ABCDEF";
+  let color = "#";
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
@@ -28,7 +29,7 @@ interface Assignee {
   email: string;
   nickname: string;
   profileImageUrl: string;
-  isOwner:boolean;
+  isOwner: boolean;
 }
 
 interface My {
@@ -37,8 +38,14 @@ interface My {
   profileImageUrl: string | null;
 }
 
-export default function Header({ children, dashboardId }: { children?: React.ReactNode, dashboardId: number }) {
-  const randomBackgroundColor=getRandomColor();
+export default function Header({
+  children,
+  dashboardId,
+}: {
+  children?: React.ReactNode;
+  dashboardId: number;
+}) {
+  const randomBackgroundColor = getRandomColor();
   const { width } = useWindowSize();
   const router = useRouter();
   const { dashboard } = useDashboard();
@@ -59,8 +66,12 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
     const fetchMember = async () => {
       try {
         const response = await getHeader(dashboardId);
-        const owners = response.members.filter((member:Assignee) => member.isOwner);
-        const nonOwners = response.members.filter((member:Assignee) => !member.isOwner);
+        const owners = response.members.filter(
+          (member: Assignee) => member.isOwner
+        );
+        const nonOwners = response.members.filter(
+          (member: Assignee) => !member.isOwner
+        );
         setNonOwners(nonOwners.reverse());
       } catch (err) {
         console.error("멤버 조회에 실패했습니다.");
@@ -111,7 +122,7 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
           </div>
           <div className={styles["dashboard-members-container"]}>
             {displayedMembers.map((member, index) => (
-              <img
+              <Image
                 key={member.userId}
                 src={
                   member.profileImageUrl
@@ -124,8 +135,8 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
                   zIndex: nonOwners.length + index,
                   marginLeft: index > 0 ? "-8px" : "0",
                 }}
-                width="38"
-                height="38"
+                width={38}
+                height={38}
               />
             ))}
             {remaininCount > 0 && (
@@ -134,7 +145,7 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
                 style={{
                   zIndex: nonOwners.length + displayedMembers.length,
                   marginLeft: "-10px",
-                  background:randomBackgroundColor,
+                  background: randomBackgroundColor,
                 }}
               >
                 +{remaininCount}
@@ -145,15 +156,15 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
       </section>
 
       <section className={styles.header_usersContainer}>
-        <img
+        <Image
           src={
             values.profileImageUrl
               ? values.profileImageUrl
               : generateProfileImageUrl(values.email)
           }
           alt="프로필"
-          width="38"
-          height="38"
+          width={38}
+          height={38}
           className={styles["header-user-img"]}
         />
         <div className={styles.header_userNickname}>{values.nickname}</div>
