@@ -17,6 +17,7 @@ interface CardData {
   title: string;
   description: string;
   imageUrl: string;
+  tags:string[],
   assignee: Assignee;
   dueDate: string;
 }

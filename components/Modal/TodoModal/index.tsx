@@ -5,15 +5,10 @@ import useWindowSize from "@/hooks/useDevice";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import Dropdown from "@/components/Dropdown";
 import { useEffect, useState } from "react";
-import {
-  deleteComment,
-  getCardId,
-  getComment,
-  postComment,
-  putComment,
-} from "@/lib/modalApi";
-import { generateProfileImageUrl } from "@/lib/avatarsApi";
+import { getCardId } from "@/lib/modalApi";
 import { Modalcomment } from "./comment";
+import { generateProfileImageUrl } from "@/lib/avatarsApi";
+import { useTagColors } from "@/hooks/useTagColors";
 
 interface Assignee {
   nickname: string;
@@ -24,6 +19,7 @@ interface CardData {
   title: string;
   description: string;
   imageUrl: string;
+  tags: string[];
   assignee: Assignee;
   dueDate: string;
 }
@@ -44,16 +40,16 @@ export default function ToDoModal() {
   // 모달이 필요한 컴포넌트에 적용하기(예시));
 
   const { width } = useWindowSize();
+  const { tagColors, addTagColor } = useTagColors();
 
-  const [vaules, setValues] = useState<CardData>({
+  const [values, setValues] = useState<CardData>({
     title: "",
     description: "",
-    // columnId:"",
-    // tags:"",
+    tags: [],
     imageUrl: "",
     assignee: {
       nickname: "",
-      profileImageUrl: null,
+      profileImageUrl: "",
     },
     dueDate: "",
   });
@@ -63,16 +59,19 @@ export default function ToDoModal() {
   useEffect(() => {
     const fetchCard = async () => {
       try {
-        const response = await getCardId("9826");
+        const response = await getCardId("9829");
+        console.log(response);
+        response.tags.forEach((tag) => addTagColor(tag));
         setValues({
           title: response.title,
           description: response.description,
+          tags: response.tags,
           imageUrl: response.imageUrl,
+          dueDate: response.dueDate,
           assignee: {
             nickname: response.assignee.nickname,
-            profileImageUrl: response.assignee.profileImageUrl,
+            profileImageUrl: response.assignee.profileImageUrl || "",
           },
-          dueDate: response.dueDate,
         });
       } catch (error) {
         console.error("카드를 가져올 수 없습니다:", error);
@@ -92,12 +91,12 @@ export default function ToDoModal() {
               <Close width="32" height="32" alt="닫기" />
             </button>
           </div>
-          <h1 className={styles["todo-h1"]}>{vaules.title}</h1>
+          <h1 className={styles["todo-h1"]}>{values.title}</h1>
         </>
       ) : (
         <>
           <div className={styles["todo-top"]}>
-            <h1 className={styles["todo-h1"]}>{vaules.title}</h1>
+            <h1 className={styles["todo-h1"]}>{values.title}</h1>
             <div className={styles["todo-top-icon"]}>
               <Dropdown />
               <button className={styles["todo-button"]}>
@@ -114,53 +113,63 @@ export default function ToDoModal() {
             <div className={styles["todo-chip-container-state"]}>
               <div className={styles["todo-chip-circle"]}></div>
               <div className={styles["todo-chip"]}></div>
-              {/* chip 넣기 */}
+              {/* column title */}
             </div>
             <div className={styles["todo-chip-container-line"]}></div>
             <div className={styles["todo-chip-container-tag-container"]}>
-              <div className={styles["todo-chip-container-tag"]}></div>
-              {/* tag 넣기 */}
+              <div className={styles["todo-chip-container-tag"]}>
+                {values.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className={styles.tag}
+                    style={{
+                      backgroundColor: tagColors[tag]?.backgroundColor,
+                      color: tagColors[tag]?.color,
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </section>
 
           <section className={styles["todo-description"]}>
-            {vaules.description}
+            {values.description}
           </section>
 
           <img
-            src={vaules.imageUrl}
+            src={values.imageUrl}
             alt="카드 이미지"
             className={styles["todo-img"]}
           />
           <Modalcomment />
         </div>
         <section className={styles["todo-user-container"]}>
-            <div
-              className={`${styles["todo-user-container-top"]} ${styles["todo-margin"]}`}
-            >
-              <h2 className={styles["todo-user-top"]}>담당자</h2>
-              <div className={styles["todo-user-img-container"]}>
-                {vaules.assignee.profileImageUrl ? (
-                  <img
-                    src={vaules.assignee.profileImageUrl}
-                    alt="프로필 이미지"
-                    className={styles["todo-user-img"]}
-                  />
-                ) : (
-                  <div className={styles["todo-user-img-placeholder"]}>
-                  {/* <img src={} alt="담당자 프로필" /> */}
-                  </div>
-                )}
-                <span className={styles["todo-user-name"]}>
-                  {vaules.assignee.nickname}
-                </span>
-              </div>
+          <div
+            className={`${styles["todo-user-container-top"]} ${styles["todo-margin"]}`}
+          >
+            <h2 className={styles["todo-user-top"]}>담당자</h2>
+            <div className={styles["todo-user-img-container"]}>
+              <img
+                src={
+                  values.assignee.profileImageUrl
+                    ? values.assignee.profileImageUrl
+                    : generateProfileImageUrl(values.assignee.nickname)
+                }
+                alt="프로필 이미지"
+                className={styles["todo-user-img"]}
+              />
+              <span className={styles["todo-user-name"]}>
+                {values.assignee.nickname}
+              </span>
             </div>
-            <div className={styles["todo-user-container-top"]}>
-              <h2 className={styles["todo-user-top"]}>마감일</h2>
-              <div className={styles["todo-user-name"]}>{vaules.dueDate}</div>
-            </div>
-          </section>
+          </div>
+          <div className={styles["todo-user-container-top"]}>
+            <h2 className={styles["todo-user-top"]}>마감일</h2>
+            <div className={styles["todo-user-name"]}>{values.dueDate}</div>
+          </div>
+        </section>
       </div>
     </div>
   );

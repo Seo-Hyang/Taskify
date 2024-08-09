@@ -62,11 +62,18 @@
   height: 20px;
   border: 1px solid var(--color-gray-300);
 }
-.todo-chip-container-tag-container {
+.todo-chip-container-tag {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   column-gap: 6px;
-  row-gap: 10px;
+}
+.tag{
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  padding:2px 6px;
+  border-radius: 4px;
 }
 .todo-description {
   margin-top: 16px;
@@ -74,7 +81,7 @@
   font-weight: 400;
   line-height: 24px;
   color: var(--color-black);
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 .todo-img {
   width: 445px;
@@ -236,7 +243,6 @@
   width: 34px;
   height: 34px;
   border: 2px solid var(--color-white);
-  padding: 7px 12px;
   border-radius: 50%;
 }
 .todo-user-top {

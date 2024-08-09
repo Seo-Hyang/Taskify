@@ -12,6 +12,7 @@ import Input from "@/components/Input/ModalInput";
 import { getMember, postCards } from "@/lib/modalApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import { format } from "date-fns";
+import { useTagColors } from "@/hooks/useTagColors";
 
 interface Assignee {
   id: number;
@@ -55,15 +56,16 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isTag, setIsTag] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [tagColors, setTagColors] = useState<{
-    [key: string]: { backgroundColor: string; color: string };
-  }>({});
   const [isDisabled, setIsDisabled] = useState(true);
-  const [assignees, setAssignees] = useState<Assignee[]>([]); //담당자 목록 조회
-  const [selectedAssignee, setSelectedAssignee] = useState<Assignee>(); // 선택된 담당자
-  const [initiallySelected, setInitiallySelected] = useState(false); // 드롭다운 열면 선택되는 담당자
+  const [assignees, setAssignees] = useState<Assignee[]>([]);
+  const [selectedAssignee, setSelectedAssignee] = useState<Assignee>();
+  const [initiallySelected, setInitiallySelected] = useState(false);
   const [imgUrl, setImgUrl] = useState<string>();
   const [startDate, setStartDate] = useState<Date | null>(null);
+  
+  // Use the custom hook for tag colors
+  const { tagColors, addTagColor } = useTagColors();
+
   const [values, setValues] = useState({
     assigneeUserId: selectedAssignee?.userId,
     dashboardId: 11370,
@@ -105,12 +107,8 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
       e.preventDefault();
       const newTag = isTag.trim();
       if (newTag && !tags.includes(newTag)) {
-        const { background, color } = getRandomColor();
         setTags([...tags, newTag]);
-        setTagColors({
-          ...tagColors,
-          [newTag]: { backgroundColor: background, color: color },
-        });
+        addTagColor(newTag);  // Use the hook function to set the tag color
         setValues({
           ...values,
           tags: [...tags, newTag],
@@ -119,20 +117,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
       }
     }
   };
-  console.log(tagColors);
 
-  const getRandomColor = () => {
-    const colors = [
-      { background: "#f9eee3", color: "#d58d49" },
-      { background: "#e7f7db", color: "#89d549" },
-      { background: "#f7dbf0", color: "#d549b6" },
-      { background: "#dbe6f7", color: "#4981d5" },
-    ];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-  };
-
-  // 이미지 -> string으로 바꾼 거
   const handleImageUpload = (url: string) => {
     setImgUrl(url);
     setValues({
@@ -142,10 +127,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(e.target as Node)
-    ) {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
       setIsOpen(false);
     }
   };
@@ -167,6 +149,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
       console.error("Error creating card:", error);
     }
   };
+
   useEffect(() => {
     const { assigneeUserId, title, description } = values;
     if (assigneeUserId && title && description) {
@@ -176,7 +159,6 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     }
   }, [values]);
 
-  // 드롭다운의 첫 번째 배열 선택 - 이거 할까말까
   useEffect(() => {
     if (isOpen && assignees.length > 0 && !initiallySelected) {
       setSelectedAssignee(assignees[0]);
@@ -184,7 +166,6 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     }
   }, [isOpen, assignees, initiallySelected]);
 
-  // 담당자 목록 조회
   useEffect(() => {
     const fetchMembers = async () => {
       try {
@@ -197,26 +178,18 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     fetchMembers();
   }, []);
 
-  // 담당자 선택
   const handleAssigneeSelect = (assignee: Assignee) => {
     setSelectedAssignee(assignee);
     setValues({ ...values, assigneeUserId: assignee.userId });
     setIsOpen(false);
   };
 
-  // assigneeUserId 조회
-
-  // 드롭다운 외부 선택했을 때
   useEffect(() => {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
-  console.log(startDate);
-  console.log(values.dueDate);
-
-  console.log(values.tags);
 
   return (
     <div className={styles["todo-create"]}>
@@ -224,7 +197,6 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
       <div className={styles["todo-create-input-section"]}>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-label"]}>담당자 *</label>
-
           <div className={styles["todo-create-assignee"]} ref={dropdownRef}>
             {selectedAssignee ? (
               <div className={styles["toggle-assign-item-container"]}>
@@ -337,7 +309,6 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
           <FileInput onImageUpload={handleImageUpload} />
         </div>
       </div>
-
       <div className={styles["todo-create-button-container"]}>
         <ModalButton className={styles["todo-create-button"]} isCancled={true}>
           취소
