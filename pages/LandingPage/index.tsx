@@ -31,7 +31,7 @@ export default function LandingPage() {
           <Link href="/Login">
             <span className={styles["landing-login-txt"]}>로그인</span>
           </Link>
-          {/* 로그인 되어있을 때 /dashboard/{dashboardid} */}
+          {/* 로그인 되어있을 때 /dashboards/{dashboardid} */}
           <Link href="/SignUp">
             <span className={styles["landing-login-txt"]}>회원가입</span>
           </Link>

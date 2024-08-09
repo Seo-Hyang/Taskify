@@ -12,7 +12,7 @@ interface Props {
 export default function ColumnAdd({ dashboardId }: Props) {
   const router = useRouter();
   const [columnName, setColumnName] = useState<string>("");
-  const [error, setError] = useState<string|null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isDisabled, setIsDisabled] = useState(true);
   const [existingColumns, setExistingColumns] = useState<string[]>([]);
   const [columnLimitReached, setColumnLimitReached] = useState(false);
@@ -48,8 +48,8 @@ export default function ColumnAdd({ dashboardId }: Props) {
     } else {
       setError(null);
     }
-    if(columnLimitReached){
-      setIsDisabled(true)
+    if (columnLimitReached) {
+      setIsDisabled(true);
     }
   }, [columnName, existingColumns]);
 
@@ -65,7 +65,7 @@ export default function ColumnAdd({ dashboardId }: Props) {
     }
     try {
       await postColumnAdd(columnName, dashboardId);
-      router.push(`/dashboard/${dashboardId}`);
+      router.push(`/dashboards/${dashboardId}`);
     } catch (err) {
       console.error("칼럼 생성에 실패했습니다.");
     }
