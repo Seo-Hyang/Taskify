@@ -29,6 +29,12 @@
       width: 100%;
       display: flex;
       justify-content: right;
+      align-items: center;
+      gap: 16px;
+
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-black-500);
     }
   }
 
@@ -86,6 +92,12 @@
       color: var(--color-black-500);
 
       .invited_title {
+        max-width: 200px;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
       }
       .invited_inviter {
       }
