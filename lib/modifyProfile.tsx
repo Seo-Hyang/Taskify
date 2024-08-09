@@ -18,7 +18,7 @@ const changePassword = async (password: string, newPassword: string) => {
 // 내 정보 수정 API 호출
 const updateProfile = async (nickname: string, profileImageUrl: string) => {
   try {
-    const response = await axios.put("/users/me", {
+    const response = await instance.put("/users/me", {
       nickname,
       profileImageUrl,
     });

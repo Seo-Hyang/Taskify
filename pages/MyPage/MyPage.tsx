@@ -165,7 +165,11 @@ export default function MyPage() {
             <span className={styles.profileHeader}>프로필</span>
             <div className={styles.profileBox}>
               <label className={styles.addPicture}>
-                <input type="file" className={styles.addPictureInput}></input>
+                <input
+                  type="file"
+                  className={styles.addPictureInput}
+                  value={profileImageUrl}
+                ></input>
               </label>
               <div className={styles.profileContent}>
                 <div className={styles.profileInputContainer}>
