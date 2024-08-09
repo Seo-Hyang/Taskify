@@ -37,8 +37,10 @@ export default function SideMenu() {
       <div className={styles.sideMenuContainer}>
         <div className={styles.sideMenuContentBox}>
           <div className={styles.sideMenuContentHeader}>
-            <Logo className={styles.sideMenuLogo} />
-            <LogoSmall className={styles.sideMenu_LogoSmall} />
+            <a href="../../">
+              <Logo className={styles.sideMenuLogo} />
+              <LogoSmall className={styles.sideMenu_LogoSmall} />
+            </a>
           </div>
           <div className={styles.addDashBoard}>
             <div className={styles.dashboard_name}>Dash Boards</div>
