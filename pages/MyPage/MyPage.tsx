@@ -2,27 +2,29 @@
 import React, { useState, useEffect } from "react";
 import styles from "./_MyPage.module.scss";
 import Head from "next/head";
-import SideMenu from "@/components/SideMenu/SideMenu";
+import Image from "next/image";
 
 // API import
 import instance from "@/lib/axios";
-import { changePassword, updateProfile } from "@/lib/modifyProfile";
+import {
+  uploadProfileImage,
+  changePassword,
+  updateProfile,
+} from "@/lib/modifyProfile";
 
 // 컴포넌트 import
 import Header from "@/components/Header/Header";
 import Button from "@/components/Button/Button/Button";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 import MessageModal from "@/components/Modal/MessageModal";
+import SideMenu from "@/components/SideMenu/SideMenu";
 
-/** // 요청 인터셉터 설정
-instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-*/
+// interface 설정
+interface UserInfo {
+  email: string;
+  nickname: string;
+  profileImageUrl?: string;
+}
 
 // 유저 정보 호출 함수
 const getUserInfo = async () => {
@@ -36,16 +38,10 @@ const getUserInfo = async () => {
   }
 };
 
-// interface 설정
-interface UserInfo {
-  email: string;
-  nickname: string;
-  profileImageUrl?: string;
-}
-
 export default function MyPage() {
   // 프로필 이미지 state
   const [profileImageUrl, setProfileImageUrl] = useState<string>("");
+  const [previewUrl, setPreviewUrl] = useState<string>("");
 
   // 닉네임 state
   const [profileNickname, setProfileNickname] = useState<string>("");
@@ -76,13 +72,33 @@ export default function MyPage() {
     nickname: "",
   });
 
-  // 비밀번호 변경 핸들러
-  const handleChangePassword = async () => {
-    try {
-      await changePassword(currentPassword, newPassword);
-      alert("비밀번호 변경 성공");
-    } catch (error) {
-      alert("비밀번호 변경 실패");
+  // 프로필 미리보기  핸들러
+  const handleImagePreview = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleTransImageUrl(e);
+  };
+
+  const handleTransImageUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; // 파일을 선택했을 때 첫 번째 파일만 사용
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewUrl(objectUrl);
+    }
+  };
+
+  // 프로필 사진 업로드 핸들러
+  const handleProfilePicture = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const uploadeImageUrl = await uploadProfileImage(file);
+        setProfileImageUrl(uploadeImageUrl);
+        alert("프로필 이미지 업로드 성공");
+      } catch (error) {
+        console.log("프로필 이미지 업로드 실패", error);
+        alert("프로필 이미지 업로드에 실패했습니다.");
+      }
     }
   };
 
@@ -92,7 +108,23 @@ export default function MyPage() {
       await updateProfile(profileNickname, profileImageUrl);
       alert("프로필 업데이트 성공");
     } catch (error) {
-      alert("프로필 업데이트 실패");
+      console.error("프로필 업데이트 실패", error);
+      alert("프로필 업데이트에 실패했습니다.");
+    }
+  };
+
+  // 비밀번호 변경 핸들러
+  const handleChangePassword = async () => {
+    try {
+      await changePassword(currentPassword, newPassword);
+      alert("비밀번호 변경 성공");
+
+      // 비밀번호 변경 성공 시 인풋 필드 리셋
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+    } catch (error) {
+      alert("비밀번호 변경 실패");
     }
   };
 
@@ -168,8 +200,20 @@ export default function MyPage() {
                 <input
                   type="file"
                   className={styles.addPictureInput}
-                  value={profileImageUrl}
-                ></input>
+                  onChange={(e) => {
+                    handleProfilePicture(e);
+                    handleImagePreview(e);
+                  }}
+                />
+                {previewUrl && (
+                  <Image
+                    src={previewUrl}
+                    alt="profile image preview"
+                    className={styles.profilePreview}
+                    width={182}
+                    height={182}
+                  />
+                )}
               </label>
               <div className={styles.profileContent}>
                 <div className={styles.profileInputContainer}>
