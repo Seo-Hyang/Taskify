@@ -6,21 +6,13 @@ import instance from "@/lib/axios";
 // 컴포넌트 import
 import ArrowButton from "../Button/ArrowButton/ArrowButton";
 import DashboardButton from "@/components/Button/DashboardButton/DashboardButton";
+//대시보드 인터페이스
+import { Dashboard } from "@/types/dashboard";
 
 // 이미지 import
 import Logo from "@/public/images/logo/large.svg";
 import LogoSmall from "@/public/images/logo/small.svg";
 import AddIcon from "@/public/images/addIcon.svg";
-
-export type Dashboard = {
-  id: number;
-  title: string;
-  color: string;
-  createdAt: string;
-  updatedAt: string;
-  createdByMe: boolean;
-  userId: number;
-};
 
 export default function SideMenu() {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
@@ -45,8 +37,10 @@ export default function SideMenu() {
       <div className={styles.sideMenuContainer}>
         <div className={styles.sideMenuContentBox}>
           <div className={styles.sideMenuContentHeader}>
-            <Logo className={styles.sideMenuLogo} />
-            <LogoSmall className={styles.sideMenu_LogoSmall} />
+            <a href="../../">
+              <Logo className={styles.sideMenuLogo} />
+              <LogoSmall className={styles.sideMenu_LogoSmall} />
+            </a>
           </div>
           <div className={styles.addDashBoard}>
             <div className={styles.dashboard_name}>Dash Boards</div>

@@ -3,19 +3,19 @@ import styles from "@/components/Button/AddButton/style.module.scss";
 import PLUSSVG from "@/public/icons/plus_icon.svg";
 
 // Props 타입 정의
-interface ArrowButtonProps {
+interface AddButtonProps {
   children: ReactNode;
   addBoard?: boolean;
   addTodo?: boolean;
   addColumn?: boolean;
 }
 
-export default function ArrowButton({
+export default function AddButton({
   children,
   addBoard = false,
   addTodo = false,
   addColumn = false,
-}: ArrowButtonProps) {
+}: AddButtonProps) {
   return (
     <button
       className={`${styles.Button} ${addBoard ? styles.add_board : ""} ${

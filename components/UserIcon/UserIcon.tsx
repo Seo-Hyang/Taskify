@@ -1,4 +1,4 @@
-import styles from "@/components/UserIcon/style.module.scss";
+// import styles from "@/components/UserIcon/style.module.scss";
 
 // const generateProfileImageUrl = (email: string) => {
 //   const initials = email.charAt(0).toUpperCase();

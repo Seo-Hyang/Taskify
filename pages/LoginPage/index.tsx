@@ -76,12 +76,13 @@ function LoginPage() {
         localStorage.setItem("accessToken", accessToken);
         router.push("/");
       } catch (error) {
-        if (
-          (error as AxiosError).response &&
-          (error as AxiosError).response?.status === 400
-        ) {
-          console.error("로그인 실패:", error);
+        if ((error as AxiosError).response?.status === 400) {
+          console.error("로그인 실패: 비밀번호 불일치", error);
           setModalMessage("비밀번호가 일치하지 않습니다.");
+          setIsModalOpen(true);
+        } else if ((error as AxiosError).response?.status === 404) {
+          console.error("로그인 실패: 사용자를 찾을 수 없음", error);
+          setModalMessage("해당 사용자를 찾을 수 없습니다.");
           setIsModalOpen(true);
         } else {
           console.error("알 수 없는 오류 발생:", error);
