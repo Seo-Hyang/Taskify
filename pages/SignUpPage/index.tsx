@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FocusEvent } from "react";
+import { useState, ChangeEvent, FocusEvent, useEffect } from "react";
 import styles from "./style.module.scss";
 import AuthButton from "@/components/Button/AuthButton/AuthButton";
 import Logo from "@/components/Logo/Logo";
@@ -8,6 +8,8 @@ import { SignupInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
 import instance from "@/lib/axios";
 import { useRouter } from "next/navigation";
+import Modal from "../LoginPage/components/Modal";
+import { AxiosError } from "axios";
 
 interface FormState {
   email: string;
@@ -34,6 +36,16 @@ function SignUpPage() {
   });
   const [errors, setErrors] = useState<ErrorState>({});
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      router.push("/");
+    }
+  }, [router]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -59,12 +71,6 @@ function SignUpPage() {
 
     const { email, nickname, password } = formState;
 
-    const data = await instance.post("/users", {
-      email,
-      nickname,
-      password,
-    });
-
     const newErrors = {
       email: getErrorMessage("email", formState.email),
       nickname: getErrorMessage("nickname", formState.nickname),
@@ -78,11 +84,50 @@ function SignUpPage() {
 
     setErrors(newErrors);
 
-    router.push("/LoginPage");
+    if (
+      !newErrors.email &&
+      !newErrors.nickname &&
+      !newErrors.password &&
+      !newErrors.passwordConfirmation
+    ) {
+      try {
+        const data = await instance.post("/users", {
+          email,
+          nickname,
+          password,
+        });
+
+        router.push("/LoginPage");
+      } catch (error) {
+        if (
+          (error as AxiosError).response &&
+          (error as AxiosError).response?.status === 409
+        ) {
+          console.error("회원가입 실패:", error);
+          setModalMessage("이미 가입한 계정이 있습니다.");
+          setIsModalOpen(true);
+        } else {
+          console.error("알 수 없는 오류 발생:", error);
+        }
+      }
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setFormState({
+      email: "",
+      nickname: "",
+      password: "",
+      passwordConfirmation: "",
+    });
   };
 
   return (
     <div className={styles["container"]}>
+      {isModalOpen && (
+        <Modal message={modalMessage} onClose={handleCloseModal} />
+      )}
       <Logo text="첫 방문을 환영합니다!" />
       <form className={styles.Form} method="post" onSubmit={handleSubmit}>
         <InputItem

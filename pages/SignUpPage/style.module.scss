@@ -2,6 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 30px;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .Label,
@@ -19,7 +26,7 @@
 }
 
 .button-container {
-  margin: 24px 0;
+  margin-bottom: 24px;
 }
 
 .question {
