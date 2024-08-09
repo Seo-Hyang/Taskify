@@ -72,9 +72,8 @@ function LoginPage() {
           password,
         });
 
-        const { accessToken, user } = data;
+        const { accessToken } = data;
         localStorage.setItem("accessToken", accessToken);
-        const token = localStorage.getItem("accessToken");
         router.push("/");
       } catch (error) {
         if (
@@ -82,9 +81,7 @@ function LoginPage() {
           (error as AxiosError).response?.status === 400
         ) {
           console.error("로그인 실패:", error);
-          setModalMessage(
-            "비밀번호가 일치하지 않거나 존재하지 않는 계정입니다."
-          );
+          setModalMessage("비밀번호가 일치하지 않습니다.");
           setIsModalOpen(true);
         } else {
           console.error("알 수 없는 오류 발생:", error);

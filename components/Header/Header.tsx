@@ -7,22 +7,7 @@ import { useRouter } from "next/router";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { useEffect, useState } from "react";
 import { getHeader, getMyPage } from "@/lib/headerApi";
-import Image from "next/image";
-
-// 기본 프로필
-const generateProfileImageUrl = (email: string) => {
-  const initials = email.charAt(0).toUpperCase();
-  return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&rounded=true`;
-};
-
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
+import { generateProfileImageUrl, getRandomColor } from "@/utils/userProfile";
 
 interface Assignee {
   userId: string;
@@ -122,7 +107,7 @@ export default function Header({
           </div>
           <div className={styles["dashboard-members-container"]}>
             {displayedMembers.map((member, index) => (
-              <Image
+              <img
                 key={member.userId}
                 src={
                   member.profileImageUrl
@@ -135,8 +120,8 @@ export default function Header({
                   zIndex: nonOwners.length + index,
                   marginLeft: index > 0 ? "-8px" : "0",
                 }}
-                width={38}
-                height={38}
+                width="38"
+                height="38"
               />
             ))}
             {remaininCount > 0 && (
@@ -156,15 +141,15 @@ export default function Header({
       </section>
 
       <section className={styles.header_usersContainer}>
-        <Image
+        <img
           src={
             values.profileImageUrl
               ? values.profileImageUrl
               : generateProfileImageUrl(values.email)
           }
           alt="프로필"
-          width={38}
-          height={38}
+          width="38"
+          height="38"
           className={styles["header-user-img"]}
         />
         <div className={styles.header_userNickname}>{values.nickname}</div>
