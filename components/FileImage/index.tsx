@@ -10,7 +10,7 @@ interface Props {
 
 export default function FileInput({ onImageUpload }: Props) {
   const [currentImage, setCurrentImage] = useState<File | null>(null);
-  const [prevImage, setPrevImage] = useState<string | undefined>(undefined);
+  const [prevImage, setPrevImage] = useState<string>();
 
   useEffect(() => {
     if (!currentImage) return;
@@ -29,7 +29,8 @@ export default function FileInput({ onImageUpload }: Props) {
     if (file) {
       setCurrentImage(file);
       try {
-        const response = await postImage("38490", file);
+        const response = await postImage("38425", file);
+        // columnId
         onImageUpload(response.imageUrl);
       } catch (err) {
         console.error("이미지 업로드에 실패했습니다.");

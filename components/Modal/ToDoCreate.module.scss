@@ -131,10 +131,15 @@
   padding: 9px 16px;
   border-radius: 6px;
   border: 1px solid var(--color-gray-300);
+  width: 100%;
+}
+.calendar-container > :nth-child(2){
+  width: 100%;
 }
 .calendar-container-input {
   border: none;
   height: 31px;
+  width:100%;
 }
 .tag-list {
   display: flex;
@@ -159,13 +164,13 @@
   display: flex;
   column-gap: 8px;
 }
-.todo-edit-dropdown{
+.todo-edit-dropdown {
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   width: 217px;
-  height:48px;
+  height: 48px;
   padding: 15px 16px;
   border-radius: 8px;
   border: 1px solid var(--color-gray-300);
@@ -202,7 +207,7 @@
     padding: 12px 56px;
     font-size: 14px;
   }
-  .todo-edit-dropdown{
-    width:100%;
+  .todo-edit-dropdown {
+    width: 100%;
   }
 }

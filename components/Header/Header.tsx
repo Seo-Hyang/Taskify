@@ -9,13 +9,12 @@ import { useEffect, useState } from "react";
 import { getHeader, getMyPage } from "@/lib/headerApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
 
-const getRandomColor = () => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+const getRandomPastelColor = () => {
+  const randomValue = () => Math.floor(Math.random() * 56 + 200);
+  const red = randomValue();
+  const green = randomValue();
+  const blue = randomValue();
+  return `rgb(${red}, ${green}, ${blue})`;
 };
 
 interface Assignee {
@@ -23,7 +22,7 @@ interface Assignee {
   email: string;
   nickname: string;
   profileImageUrl: string;
-  isOwner:boolean;
+  isOwner: boolean;
 }
 
 interface My {
@@ -32,8 +31,14 @@ interface My {
   profileImageUrl: string | null;
 }
 
-export default function Header({ children, dashboardId }: { children?: React.ReactNode, dashboardId: number }) {
-  const randomBackgroundColor=getRandomColor();
+export default function Header({
+  children,
+  dashboardId,
+}: {
+  children?: React.ReactNode;
+  dashboardId: number;
+}) {
+  const randomBackgroundColor = getRandomPastelColor();
   const { width } = useWindowSize();
   const router = useRouter();
   const { dashboard } = useDashboard();
@@ -53,9 +58,13 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const response = await getHeader(dashboardId);
-        const owners = response.members.filter((member:Assignee) => member.isOwner);
-        const nonOwners = response.members.filter((member:Assignee) => !member.isOwner);
+        const response = await getHeader(11370);
+        const owners = response.members.filter(
+          (member: Assignee) => member.isOwner
+        );
+        const nonOwners = response.members.filter(
+          (member: Assignee) => !member.isOwner
+        );
         setNonOwners(nonOwners.reverse());
       } catch (err) {
         console.error("멤버 조회에 실패했습니다.");
@@ -129,7 +138,7 @@ export default function Header({ children, dashboardId }: { children?: React.Rea
                 style={{
                   zIndex: nonOwners.length + displayedMembers.length,
                   marginLeft: "-10px",
-                  background:randomBackgroundColor,
+                  background: randomBackgroundColor,
                 }}
               >
                 +{remaininCount}

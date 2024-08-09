@@ -54,7 +54,7 @@ export function getMember(dashboardId: string) {
 }
 
 // 이미지 -> string 으로 바꾸기 - O
-export function postImage(columnId: string, image: File | null) {
+export function postImage(columnId: string, image: File) {
   const url = `/columns/${columnId}/card-image`;
   const formData = new FormData();
   if (image) {
@@ -73,7 +73,16 @@ export function postImage(columnId: string, image: File | null) {
 }
 
 // 카드 생성
-export function postCards(title: string, description: string) {
+export function postCards(
+  assigneeUserId: number | undefined,
+  dashboardId: number,
+  columnId: number,
+  title: string,
+  description: string,
+  dueDate: string,
+  tags: string[],
+  imageUrl: string
+) {
   const url = "/cards";
   const options = {
     method: "POST",
@@ -81,12 +90,17 @@ export function postCards(title: string, description: string) {
       "Content-type": "application/json",
     },
     data: {
+      assigneeUserId,
+      dashboardId,
+      columnId,
       title,
       description,
-      columnId: 38487,
-      dashboardId: 11388,
+      dueDate,
+      tags,
+      imageUrl,
     },
   };
+  return fetchRequest(url,options);
 }
 
 // 카드 상세 조회
@@ -137,7 +151,7 @@ export function getComment(cardId: string) {
   return fetchRequest(url, options);
 }
 
-// 댓글 수정
+// 댓글 수정 - O
 export function putComment(commentId: string, content: string) {
   const url = `/comments/${commentId}`;
   const options = {
@@ -152,7 +166,7 @@ export function putComment(commentId: string, content: string) {
   return fetchRequest(url, options);
 }
 
-// 댓글 입력 -> 댓글 작성
+// 댓글 입력 -> 댓글 작성 - O
 export function postComment({
   content,
   cardId,
