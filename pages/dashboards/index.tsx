@@ -13,6 +13,7 @@ import AddButton from "@/components/Button/AddButton/AddButton";
 import PageButton from "@/components/Button/PageButton/PageButton";
 import ArrowButton from "@/components/Button/ArrowButton/ArrowButton";
 import EnvelopSVG from "@/public/icons/envelop.svg";
+import SearchInputItem from "@/components/Input/SearchInput/SearchInput";
 
 /**
  * To do
@@ -24,12 +25,17 @@ import EnvelopSVG from "@/public/icons/envelop.svg";
  */
 
 export default function DashBoards() {
+  //나의 대시보드
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
-  const [dashboardTotalCount, setDashboardTotalCount] = useState(0); //대시보드 전체 개수
-  const [pageCount, setPageCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1); //페이지 이동에 따라 변경
+  const [dashboardTotalCount, setDashboardTotalCount] = useState<number>(0); //대시보드 전체 개수
+  const [pageCount, setPageCount] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1); //페이지 이동에 따라 변경
+  //초대받은 대시보드
   const [invitedList, setInvitedList] = useState<DashboardInvitation[]>([]); //초대받은 대시보드 목록
-  const [invitedCount, setInvitedCount] = useState(0);
+  const [invitedCount, setInvitedCount] = useState<number>(0);
+  //검색
+  const [searchValue, setSearchValue] = useState("");
+  const [errors, setErrors] = useState<string>("");
 
   const firstPageSize = 5;
   const pageSize = 6;
@@ -56,6 +62,13 @@ export default function DashBoards() {
 
     setInvitedList(invitations);
     setInvitedCount(invitationCount);
+  }
+
+  function handleChange(e) {
+    setSearchValue(e.target.value);
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
   }
 
   //대시보드 목록, 페이지 수, 현재 페이지
@@ -116,30 +129,55 @@ export default function DashBoards() {
                 </section>
               ) : (
                 <section>
-                  <input type="text" />
+                  <SearchInputItem
+                    value={searchValue}
+                    onChange={handleChange}
+                    placeholder="검색"
+                  />
                   <section className={styles.invited_list}>
                     <div className={styles.dashboard_invitedColumnTitle}>
                       <p className={styles.column_title}>이름</p>
                       <p className={styles.column_inviter}>초대자</p>
                       <p className={styles.column_button}>수락여부</p>
                     </div>
-                    {invitedList.map((item) => (
-                      <section
-                        key={item.id}
-                        className={styles.dashboard_invitedContainer}
-                      >
-                        <div className={styles.invited_title}>
-                          {item.dashboard.title}
-                        </div>
-                        <div className={styles.invited_inviter}>
-                          {item.inviter.nickname}
-                        </div>
-                        <div className={styles.dashboard_invitedButtons}>
-                          <PageButton>수락</PageButton>
-                          <PageButton isCancled={true}>거절</PageButton>
-                        </div>
-                      </section>
-                    ))}
+                    {invitedList.map((item) =>
+                      searchValue.length === 0 ? (
+                        <section
+                          key={item.id}
+                          className={styles.dashboard_invitedContainer}
+                        >
+                          <div className={styles.invited_title}>
+                            {item.dashboard.title}
+                          </div>
+                          <div className={styles.invited_inviter}>
+                            {item.inviter.nickname}
+                          </div>
+                          <div className={styles.dashboard_invitedButtons}>
+                            <PageButton>수락</PageButton>
+                            <PageButton isCancled={true}>거절</PageButton>
+                          </div>
+                        </section>
+                      ) : item.dashboard.title.indexOf(searchValue) != -1 ||
+                        item.inviter.nickname.indexOf(searchValue) != -1 ? (
+                        <section
+                          key={item.id}
+                          className={styles.dashboard_invitedContainer}
+                        >
+                          <div className={styles.invited_title}>
+                            {item.dashboard.title}
+                          </div>
+                          <div className={styles.invited_inviter}>
+                            {item.inviter.nickname}
+                          </div>
+                          <div className={styles.dashboard_invitedButtons}>
+                            <PageButton>수락</PageButton>
+                            <PageButton isCancled={true}>거절</PageButton>
+                          </div>
+                        </section>
+                      ) : (
+                        <></>
+                      )
+                    )}
                   </section>
                 </section>
               )}
