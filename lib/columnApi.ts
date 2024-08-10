@@ -23,7 +23,7 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
 
 // 대시보드 생성 - O
 export function postDashboardAdd(title: string, color: string) {
-  const url = `/dashboards`;
+  const url = "/dashboards";
   const options = {
     method: "POST",
     headers: {
@@ -33,6 +33,15 @@ export function postDashboardAdd(title: string, color: string) {
       title,
       color,
     },
+  };
+  return fetchRequest(url, options);
+}
+
+// 대시보드 목록 조회
+export function getDashboardList() {
+  const url = "/dashboards?navigationMethod=infiniteScroll&page=1&size=10";
+  const options = {
+    method: "GET",
   };
   return fetchRequest(url, options);
 }

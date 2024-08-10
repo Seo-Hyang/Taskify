@@ -4,8 +4,7 @@ import { putcolumnDelete, getColumnAdd } from "@/lib/columnApi";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function ColumnDelete(columnId:string, dashboardId:string) {
-
+export default function ColumnDelete(columnId: string, dashboardId: string) {
   // 칼럼 삭제
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.preventDefault();

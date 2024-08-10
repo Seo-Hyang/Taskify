@@ -14,7 +14,8 @@ import PageButton from "@/components/Button/PageButton/PageButton";
 import ArrowButton from "@/components/Button/ArrowButton/ArrowButton";
 import EnvelopSVG from "@/public/icons/envelop.svg";
 import SearchInputItem from "@/components/Input/SearchInput/SearchInput";
-
+import ColumnDashboard from "@/components/Column/ColumnDashboard";
+import useModalStore from "@/hooks/useModalStore";
 /**
  * To do
  * 초대 받은 목록 검색기능
@@ -39,6 +40,8 @@ export default function DashBoards() {
 
   const firstPageSize = 5;
   const pageSize = 6;
+
+  const { openModal } = useModalStore();
 
   async function getDashboardList() {
     const res = await instance.get(
@@ -77,8 +80,15 @@ export default function DashBoards() {
     getInvitedList();
   }, []);
 
+  // 대시보드 생성 칼럼
+  const handleAddDashboardClick = (e: React.MouseEvent) => {
+    openModal();
+  };
+
   return (
     <div>
+      <ColumnDashboard />  
+      {/* 대시보드 생성 칼럼 */}
       <section>
         <Head>
           <title>Taskify-대시보드</title>
@@ -92,7 +102,10 @@ export default function DashBoards() {
         <section className={styles.dashboard_inner}>
           <section className={styles.dashboard_myListContainer}>
             <section className={styles.dashboard_myList}>
-              <AddButton>새로운 대시보드</AddButton>
+              <AddButton onClick={handleAddDashboardClick}>
+                새로운 대시보드
+              </AddButton>
+
               {dashboardList.map((item) => (
                 <DashboardListButton
                   key={item.id}

@@ -62,7 +62,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   const [initiallySelected, setInitiallySelected] = useState(false);
   const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<Date | null>(null);
-  
+
   // Use the custom hook for tag colors
   const { tagColors, addTagColor } = useTagColors();
 
@@ -108,7 +108,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
       const newTag = isTag.trim();
       if (newTag && !tags.includes(newTag)) {
         setTags([...tags, newTag]);
-        addTagColor(newTag);  // Use the hook function to set the tag color
+        addTagColor(newTag); // Use the hook function to set the tag color
         setValues({
           ...values,
           tags: [...tags, newTag],
@@ -125,10 +125,12 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
       imageUrl: url,
     }));
   };
-  
 
   const handleOutsideClick = (e: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(e.target as Node)
+    ) {
       setIsOpen(false);
     }
   };

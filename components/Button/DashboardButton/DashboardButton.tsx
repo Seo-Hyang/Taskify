@@ -1,13 +1,22 @@
 import styles from "@/components/Button/DashboardButton/style.module.scss";
 import CrownSVG from "@/public/icons/crown_icon.svg";
+import { EventHandler, ReactNode } from "react";
+
+interface ButtonProps {
+  children: ReactNode;
+  isOwn: boolean;
+  color: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
 
 export default function DashboardButton({
-  children = "",
-  isOwn = false,
-  color = "",
-}) {
+  children,
+  isOwn,
+  color,
+  onClick,
+}: ButtonProps) {
   return (
-    <button className={styles.container}>
+    <button className={styles.container} onClick={onClick}>
       <section className={styles.contents}>
         <div
           className={styles.contents_color}

@@ -20,7 +20,7 @@ export default function Home() {
           <Link href="/signup">▷회원가입</Link>
         </li>
         <li>
-          <Link href="/dashboard">▷대시보드</Link>
+          <Link href="/dashboards">▷대시보드</Link>
         </li>
         <li>
           <Link href="/MyPage">▷마이 페이지</Link>
