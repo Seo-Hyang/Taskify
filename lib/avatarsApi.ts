@@ -10,7 +10,7 @@ function getRandomPastelColor() {
     .padStart(2, "0")}${blue.toString(16).padStart(2, "0")}`;
 }
 
-// 로컬 스토리지에서 색상 가져오기 및 생성, 저장 함수
+// 로컬 스토리지에서 색상 가져오기, 생성, 저장 함수
 function getCreateProfileColor(email: string) {
   if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
     const colorKey = `profileColor-$(email)`;
