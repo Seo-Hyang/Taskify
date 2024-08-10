@@ -65,8 +65,10 @@
 }
 
 @media screen and (max-width: 743px) {
+  .dialog-container{
+    width:100%;
+  }
   .column-dashboard {
-    width: 327px;
     padding: 20px 16px;
   }
   .column-dashboard-h1 {
