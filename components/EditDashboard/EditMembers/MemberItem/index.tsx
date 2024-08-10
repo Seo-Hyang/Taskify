@@ -39,7 +39,7 @@ export default function MemberItem({
         <div className={styles.name}>
           {/* <UserIcon userEmail={email} /> */}
           <img
-            src={imageUrl ?? generateProfileImageUrl(email)}
+            src={imageUrl ?? generateProfileImageUrl(name)}
             alt="프로필"
             width="38"
             height="38"

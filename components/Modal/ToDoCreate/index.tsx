@@ -9,32 +9,37 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from "next/router";
 import Input from "@/components/Input/ModalInput";
-import { getMember } from "@/lib/modalApi";
-
-interface Tag {
-  text: string;
-  backgroundColor: string;
-  color: string;
-}
+import { getMember, postCards } from "@/lib/modalApi";
+import { generateProfileImageUrl } from "@/lib/avatarsApi";
+import { format } from "date-fns";
+import { useTagColors } from "@/hooks/useTagColors";
 
 interface Assignee {
-  id: string;
+  id: number;
   email: string;
   nickname: string;
   profileImageUrl?: string;
-  userId: string;
+  userId: number;
 }
 
-const DatePicker: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+interface DatePickerProps {
+  startDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+}
 
+interface Props {
+  dashboardId: number;
+  columnId: number;
+}
+
+const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
   return (
     <div className={styles["calendar-container"]}>
       <CalendarIcon width="22" height="22" />
       <ReactDatePicker
         selected={startDate}
         onChange={(date: Date | null) => setStartDate(date)}
-        dateFormat="yyyy.MM.dd HH:mm"
+        dateFormat="yyyy-MM-dd HH:mm"
         showTimeSelect
         timeIntervals={30}
         className={styles["calendar-container-input"]}
@@ -43,35 +48,43 @@ const DatePicker: React.FC = () => {
   );
 };
 
-// 담당자 기본 프로필
-const generateProfileImageUrl = (email: string) => {
-  const initials = email.charAt(0).toUpperCase();
-  return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&rounded=true`;
-};
+// dashboardId columnId 가져오기
 
-export default function ToDoCreate() {
+export default function ToDoCreate({ dashboardId, columnId }: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isTag, setIsTag] = useState("");
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [isDisabled, setIsDisabled] = useState(true);
   const [assignees, setAssignees] = useState<Assignee[]>([]);
-  const [selectedAssignee, setSelectedAssignee] = useState<Assignee | null>(
-    null
-  );
+  const [selectedAssignee, setSelectedAssignee] = useState<Assignee>();
   const [initiallySelected, setInitiallySelected] = useState(false);
   const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  
+  // Use the custom hook for tag colors
+  const { tagColors, addTagColor } = useTagColors();
+
   const [values, setValues] = useState({
-    assigneeUserId: "",
-    dashboardId: "",
-    columnId: "",
+    assigneeUserId: selectedAssignee?.userId,
+    dashboardId: 11370,
+    columnId: 38425,
     title: "",
     description: "",
     dueDate: "",
     tags: tags,
     imageUrl: imgUrl,
   });
+
+  useEffect(() => {
+    if (startDate) {
+      setValues((prevValues) => ({
+        ...prevValues,
+        dueDate: format(startDate, "yyyy-MM-dd HH:mm"),
+      }));
+    }
+  }, [startDate]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -93,66 +106,60 @@ export default function ToDoCreate() {
     if (e.key === "Enter") {
       e.preventDefault();
       const newTag = isTag.trim();
-      if (newTag && !tags.some((tag) => tag.text === newTag)) {
-        const { background, color } = getRandomColor();
-        const newTags = [
-          ...tags,
-          { text: newTag, backgroundColor: background, color: color },
-        ];
-        setTags(newTags);
+      if (newTag && !tags.includes(newTag)) {
+        setTags([...tags, newTag]);
+        addTagColor(newTag);  // Use the hook function to set the tag color
         setValues({
           ...values,
-          tags: newTags,
+          tags: [...tags, newTag],
         });
         setIsTag("");
       }
     }
   };
 
-  const getRandomColor = () => {
-    const colors = [
-      { background: "#f9eee3", color: "#d58d49" },
-      { background: "#e7f7db", color: "#89d549" },
-      { background: "#f7dbf0", color: "#d549b6" },
-      { background: "#dbe6f7", color: "#4981d5" },
-    ];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-  };
-
-  // 이미지 -> string으로 바꾼 거
   const handleImageUpload = (url: string) => {
     setImgUrl(url);
-    setValues({
-      ...values,
+    setValues((prevValues) => ({
+      ...prevValues,
       imageUrl: url,
-    });
+    }));
   };
+  
 
   const handleOutsideClick = (e: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(e.target as Node)
-    ) {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
       setIsOpen(false);
     }
   };
 
-  async function handleSubmit(e: any) {
+  const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
-    router.push("/dashboards");
-  }
+    try {
+      await postCards(
+        values.assigneeUserId,
+        values.dashboardId,
+        values.columnId,
+        values.title,
+        values.description,
+        values.dueDate,
+        values.tags,
+        values.imageUrl || ""
+      );
+    } catch (error) {
+      console.error("Error creating card:", error);
+    }
+  };
 
   useEffect(() => {
-    const { title, description } = values;
-    if (title && description) {
+    const { assigneeUserId, title, description } = values;
+    if (assigneeUserId && title && description) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
   }, [values]);
 
-  // 드롭다운의 첫 번째 배열 선택
   useEffect(() => {
     if (isOpen && assignees.length > 0 && !initiallySelected) {
       setSelectedAssignee(assignees[0]);
@@ -160,11 +167,10 @@ export default function ToDoCreate() {
     }
   }, [isOpen, assignees, initiallySelected]);
 
-  // 담당자 목록 조회
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await getMember(11374);
+        const response = await getMember(11370);
         setAssignees(response.members);
       } catch (err) {
         console.error("멤버를 조회할 수 없습니다.");
@@ -173,14 +179,12 @@ export default function ToDoCreate() {
     fetchMembers();
   }, []);
 
-  // 담당자 선택
   const handleAssigneeSelect = (assignee: Assignee) => {
     setSelectedAssignee(assignee);
     setValues({ ...values, assigneeUserId: assignee.userId });
     setIsOpen(false);
   };
 
-  // 드롭다운 외부 선택했을 때
   useEffect(() => {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {
@@ -188,13 +192,13 @@ export default function ToDoCreate() {
     };
   }, []);
 
+  console.log(imgUrl);
   return (
     <div className={styles["todo-create"]}>
       <h1 className={styles["todo-create-h1"]}>할일 생성</h1>
       <div className={styles["todo-create-input-section"]}>
         <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-label"]}>담당자</label>
-
+          <label className={styles["todo-create-label"]}>담당자 *</label>
           <div className={styles["todo-create-assignee"]} ref={dropdownRef}>
             {selectedAssignee ? (
               <div className={styles["toggle-assign-item-container"]}>
@@ -202,7 +206,7 @@ export default function ToDoCreate() {
                   src={
                     selectedAssignee.profileImageUrl
                       ? selectedAssignee.profileImageUrl
-                      : generateProfileImageUrl(selectedAssignee.email)
+                      : generateProfileImageUrl(selectedAssignee.nickname)
                   }
                   alt="프로필"
                   className={styles["toggle-assign-item-img"]}
@@ -239,7 +243,7 @@ export default function ToDoCreate() {
                       src={
                         assignee.profileImageUrl
                           ? assignee.profileImageUrl
-                          : generateProfileImageUrl(assignee.email)
+                          : generateProfileImageUrl(assignee.nickname)
                       }
                       alt="프로필"
                       className={styles["toggle-assign-item-img"]}
@@ -275,7 +279,7 @@ export default function ToDoCreate() {
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>마감일</label>
-          <DatePicker />
+          <DatePicker startDate={startDate} setStartDate={setStartDate} />
         </div>
         <div className={styles["todo-create-input-auth"]}>
           <label className={styles["todo-create-auth-label"]}>태그</label>
@@ -293,11 +297,11 @@ export default function ToDoCreate() {
                 key={index}
                 className={styles.tag}
                 style={{
-                  backgroundColor: tag.backgroundColor,
-                  color: tag.color,
+                  backgroundColor: tagColors[tag]?.backgroundColor,
+                  color: tagColors[tag]?.color,
                 }}
               >
-                {tag.text}
+                {tag}
               </span>
             ))}
           </div>
@@ -307,7 +311,6 @@ export default function ToDoCreate() {
           <FileInput onImageUpload={handleImageUpload} />
         </div>
       </div>
-
       <div className={styles["todo-create-button-container"]}>
         <ModalButton className={styles["todo-create-button"]} isCancled={true}>
           취소

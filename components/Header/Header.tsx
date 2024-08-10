@@ -7,7 +7,15 @@ import { useRouter } from "next/router";
 import { useDashboard } from "@/contexts/DashboardContext";
 import { useEffect, useState } from "react";
 import { getHeader, getMyPage } from "@/lib/headerApi";
-import { generateProfileImageUrl, getRandomColor } from "@/utils/userProfile";
+import { generateProfileImageUrl } from "@/lib/avatarsApi";
+
+const getRandomPastelColor = () => {
+  const randomValue = () => Math.floor(Math.random() * 56 + 200);
+  const red = randomValue();
+  const green = randomValue();
+  const blue = randomValue();
+  return `rgb(${red}, ${green}, ${blue})`;
+};
 
 interface Assignee {
   userId: string;
@@ -30,7 +38,7 @@ export default function Header({
   children?: React.ReactNode;
   dashboardId: number;
 }) {
-  const randomBackgroundColor = getRandomColor();
+  const randomBackgroundColor = getRandomPastelColor();
   const { width } = useWindowSize();
   const router = useRouter();
   const { dashboard } = useDashboard();
@@ -50,7 +58,7 @@ export default function Header({
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const response = await getHeader(dashboardId);
+        const response = await getHeader(11370);
         const owners = response.members.filter(
           (member: Assignee) => member.isOwner
         );
@@ -112,7 +120,7 @@ export default function Header({
                 src={
                   member.profileImageUrl
                     ? member.profileImageUrl
-                    : generateProfileImageUrl(member.email)
+                    : generateProfileImageUrl(member.nickname)
                 }
                 alt={member.nickname}
                 className={styles["dashboard-members"]}
@@ -145,7 +153,7 @@ export default function Header({
           src={
             values.profileImageUrl
               ? values.profileImageUrl
-              : generateProfileImageUrl(values.email)
+              : generateProfileImageUrl(values.nickname)
           }
           alt="프로필"
           width="38"

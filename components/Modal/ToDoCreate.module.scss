@@ -57,39 +57,32 @@
   transform: translateY(-50%);
   cursor: pointer;
 }
-.toggle-menu-container {
-  width: 217px;
-  height: 100%;
-  padding: 8px 16px;
-  border: 1px solid var(--color-gray-300);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 4px;
-}
 .toggle-column-item-container {
   display: flex;
-  column-gap: 9px;
   align-items: center;
   padding: 4px 10px;
   background-color: var(--color-violet-8);
   column-gap: 8px;
+  border-radius: 16px;
+  cursor: pointer;
 }
 .toggle-column-item-circle {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  color: var(--color-violet);
+  background-color: var(--color-violet);
 }
 .toggle-assign-item-container {
   display: flex;
-  column-gap: 6px;
+  column-gap: 8px;
   align-items: center;
   height: 48px;
+  cursor: pointer;
 }
 .dropdown-menu {
   width: 100%;
-  height: auto;
+  height: 200px;
+  overflow-y: scroll;
   padding: 8px 16px;
   border: 1px solid var(--color-gray-300);
   border-radius: 6px;
@@ -139,10 +132,15 @@
   padding: 9px 16px;
   border-radius: 6px;
   border: 1px solid var(--color-gray-300);
+  width: 100%;
+}
+.calendar-container > :nth-child(2){
+  width: 100%;
 }
 .calendar-container-input {
   border: none;
   height: 31px;
+  width:100%;
 }
 .tag-list {
   display: flex;
@@ -158,6 +156,10 @@
   border-radius: 4px;
   padding: 2px 6px;
 }
+.prev-tag{
+  display: flex;
+  column-gap: 8px;
+}
 .todo-create-input-img {
   display: flex;
   flex-direction: column;
@@ -166,6 +168,19 @@
 .todo-create-button-container {
   display: flex;
   column-gap: 8px;
+}
+.todo-edit-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 217px;
+  height: 48px;
+  padding: 15px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-black-500);
+  outline-color: #5534da;
 }
 
 @media screen and (min-width: 744px) and (max-width: 1199px) {
@@ -196,5 +211,8 @@
     height: 42px;
     padding: 12px 56px;
     font-size: 14px;
+  }
+  .todo-edit-dropdown {
+    width: 100%;
   }
 }
