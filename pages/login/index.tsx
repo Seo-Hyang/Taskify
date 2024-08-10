@@ -167,7 +167,7 @@ function LoginPage() {
       </form>
       <div className={styles.question}>
         회원이 아니신가요?{" "}
-        <Link className={styles.Link} href="/SignUpPage">
+        <Link className={styles.Link} href="/signup">
           회원가입하기
         </Link>
         {" | "}

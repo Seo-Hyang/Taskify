@@ -130,12 +130,13 @@ function SignUpPage() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setFormState({
-      email: "",
-      nickname: "",
-      password: "",
-      passwordConfirmation: "",
-    });
+    isTermsAccepted &&
+      setFormState({
+        email: "",
+        nickname: "",
+        password: "",
+        passwordConfirmation: "",
+      });
   };
 
   return (
@@ -201,7 +202,7 @@ function SignUpPage() {
       </form>
       <div className={styles["question"]}>
         이미 회원이신가요?{" "}
-        <Link className={styles.Link} href="/LoginPage">
+        <Link className={styles.Link} href="/login">
           로그인하기
         </Link>
       </div>
