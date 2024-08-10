@@ -1,6 +1,5 @@
 import styles from "./LandingPage.module.scss";
 import Header from "@/public/images/logo/header_logo.svg";
-// 고치기 & 사진 화질도
 import Top_Image from "@/public/images/card_image4.png";
 import Landing_section1 from "@/public/images/landing_section1.png";
 import Landing_section2 from "@/public/images/landing_section2.png";
@@ -28,18 +27,18 @@ export default function LandingPage() {
           )}
         </Link>
         <div className={styles["landing-login"]}>
-          <Link href="/Login">
+          <Link href="/login">
             <span className={styles["landing-login-txt"]}>로그인</span>
           </Link>
           {/* 로그인 되어있을 때 /dashboards/{dashboardid} */}
-          <Link href="/SignUp">
+          <Link href="/signup">
             <span className={styles["landing-login-txt"]}>회원가입</span>
           </Link>
         </div>
       </header>
 
       <div className={styles["top-section"]}>
-        <Image
+        <img
           src={Top_Image.src}
           alt="상단 이미지"
           width={722}
@@ -50,9 +49,6 @@ export default function LandingPage() {
           <h1 className={styles.white}>새로운 일정 관리</h1>
           <h1 className={styles.purple}>Taskify</h1>
         </div>
-        <span className={styles["top-section-description"]}>
-          스마트하게 나의 일정을 관리해보자!
-        </span>
         <Link href="/Login" className={styles["loginBtn-link"]}>
           <AuthButton landing={true} className={styles.loginBtn}>
             로그인하기
@@ -69,7 +65,7 @@ export default function LandingPage() {
                 일의 우선순위를 <br /> 관리하세요
               </h2>
             </div>
-            <Image
+            <img
               src={Landing_section1.src}
               alt="우선순위"
               width={594}
@@ -85,7 +81,7 @@ export default function LandingPage() {
                 해야 할 일을 <br /> 등록하세요
               </h2>
             </div>
-            <Image
+            <img
               src={Landing_section2.src}
               alt="할 일 생성"
               width={436}
@@ -102,7 +98,7 @@ export default function LandingPage() {
           <div className={styles["bottom-section-container"]}>
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
+                <img
                   src={Landing_section3.src}
                   alt="대시보드"
                   width={300}
@@ -122,7 +118,7 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
+                <img
                   src={Landing_section4.src}
                   alt="초대"
                   width="300"
@@ -140,7 +136,7 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
+                <img
                   src={Landing_section5.src}
                   alt="구성원"
                   width={300}

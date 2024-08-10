@@ -8,7 +8,7 @@ import { SignupInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
 import instance from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import Modal from "../LoginPage/components/Modal";
+import Modal from "../login/components/Modal";
 import { AxiosError } from "axios";
 
 interface FormState {
