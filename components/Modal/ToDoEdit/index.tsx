@@ -15,8 +15,8 @@ import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
 
 interface Assignee {
-  userId:number;
-  id?:number;
+  userId: number;
+  id?: number;
   nickname: string;
   profileImageUrl?: string;
 }

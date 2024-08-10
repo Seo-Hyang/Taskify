@@ -13,10 +13,12 @@ import { Dashboard } from "@/types/dashboard";
 import Logo from "@/public/images/logo/large.svg";
 import LogoSmall from "@/public/images/logo/small.svg";
 import AddIcon from "@/public/images/addIcon.svg";
+import { it } from "node:test";
+import { useRouter } from "next/router";
 
 export default function SideMenu() {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
-  //const token = localStorage.getItem("accessToken"); //엑세스 토큰
+  const router = useRouter(); //라우터를 이용하여 페이지 이동(로컬스토리지의 현재대시보드 아이디에 따라)
 
   async function getDashboardList() {
     const res = await instance.get(
@@ -49,7 +51,21 @@ export default function SideMenu() {
           <div>
             {dashboardList.map((item) => (
               <section key={item.id} className={styles.sideMenuContent}>
-                <DashboardButton isOwn={item.createdByMe} color={item.color}>
+                <DashboardButton
+                  isOwn={item.createdByMe}
+                  color={item.color}
+                  onClick={() => {
+                    localStorage.setItem(
+                      "currentDashboardId",
+                      item.id.toString()
+                    );
+                    router.push(
+                      `/dashboards/${localStorage.getItem(
+                        "currentDashboardId"
+                      )}`
+                    );
+                  }}
+                >
                   {item.title}
                 </DashboardButton>
               </section>

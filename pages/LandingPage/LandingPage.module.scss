@@ -1,3 +1,9 @@
+.loadingContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 .landing {
   background-color: var(--color-black);
 }
@@ -161,9 +167,11 @@
   .header {
     padding: 15px 40px;
   }
-  .topImg {
-    width: 537px;
-    height: 314px;
+  .topImg,
+  .section_1 {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
   .white {
     font-size: 56px;
@@ -182,15 +190,17 @@
   .section-point-container-div {
     padding-top: 63px;
   }
-  .section_1 {
-    width: 519px;
-    height: 435px;
+  .padding-left {
+    padding-left: 60px;
   }
   .reverse {
-    padding-left: 60px;
+    padding-left: 0;
   }
   .section_2 {
     margin: 0 auto;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
   .bottom-section-h1 {
     text-align: center;
@@ -203,7 +213,19 @@
     padding: 0 143px;
   }
   .bottom-section-container-section {
-    width: 378px;
+    width: 80%;
+    height: auto;
+  }
+  .section_3,
+  .section_4,
+  .section_5 {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+  }
+  .bottom-section-container-img {
+    height: auto;
+    padding: 30px 25px;
   }
 }
 
@@ -211,7 +233,8 @@
   .header {
     padding: 15px 24px;
   }
-  .topImg {
+  .topImg,
+  .section_1 {
     width: 80%;
     height: auto;
     object-fit: contain;
@@ -269,11 +292,6 @@
     font-size: 36px;
     line-height: 50px;
   }
-  .section_1 {
-    width: 80%;
-    height: auto;
-    object-fit: contain;
-  }
   .section_2 {
     margin: 0 auto;
     width: 80%;
@@ -294,17 +312,16 @@
   .bottom-section-container-section {
     min-width: 343px;
   }
-  .section_3 {
-    width: 260px;
-    height: 107px;
-  }
-  .section_4 {
-    width: 260px;
-    height: 200px;
-  }
+  .section_3,
+  .section_4,
   .section_5 {
-    width: 260px;
-    height: 169px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+  }
+  .bottom-section-container-img {
+    height: auto;
+    padding: 30px 25px;
   }
   .bottom-section-container {
     margin-bottom: 120px;
