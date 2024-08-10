@@ -13,6 +13,7 @@ import AddButton from "@/components/Button/AddButton/AddButton";
 import PageButton from "@/components/Button/PageButton/PageButton";
 import ArrowButton from "@/components/Button/ArrowButton/ArrowButton";
 import EnvelopSVG from "@/public/icons/envelop.svg";
+import SearchInputItem from "@/components/Input/SearchInput/SearchInput";
 
 /**
  * To do
@@ -30,6 +31,7 @@ export default function DashBoards() {
   const [currentPage, setCurrentPage] = useState(1); //페이지 이동에 따라 변경
   const [invitedList, setInvitedList] = useState<DashboardInvitation[]>([]); //초대받은 대시보드 목록
   const [invitedCount, setInvitedCount] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
 
   const firstPageSize = 5;
   const pageSize = 6;
@@ -56,6 +58,13 @@ export default function DashBoards() {
 
     setInvitedList(invitations);
     setInvitedCount(invitationCount);
+  }
+
+  function handleChange(e) {
+    setSearchValue(e.target.value);
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
   }
 
   //대시보드 목록, 페이지 수, 현재 페이지
@@ -116,7 +125,7 @@ export default function DashBoards() {
                 </section>
               ) : (
                 <section>
-                  <input type="text" />
+                  <SearchInputItem placeholder="검색" />
                   <section className={styles.invited_list}>
                     <div className={styles.dashboard_invitedColumnTitle}>
                       <p className={styles.column_title}>이름</p>
