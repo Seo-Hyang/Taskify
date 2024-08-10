@@ -12,10 +12,33 @@ import AuthButton from "@/components/Button/AuthButton/AuthButton";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
 import Link from "next/link";
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { BeatLoader } from "react-spinners";
 
 export default function LandingPage() {
+  const router = useRouter();
+  const [isLoading,setIsLoading]=useState(true);
   const { width } = useWindowSize();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {setIsLoading(true);
+      setTimeout(() => {
+        router.push("/dashboards");
+      }, 1000);
+    }else {
+      setIsLoading(false);
+    }
+  },[router]);
+  
+  if (isLoading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <BeatLoader color="#9747FF" margin={5} size={15} />
+      </div>
+    );
+  }
   return (
     <div className={styles.landing}>
       <header className={styles.header}>
@@ -26,11 +49,11 @@ export default function LandingPage() {
             <Header_mobile width="23.63" height="27.13" />
           )}
         </Link>
+
         <div className={styles["landing-login"]}>
           <Link href="/login">
             <span className={styles["landing-login-txt"]}>로그인</span>
           </Link>
-          {/* 로그인 되어있을 때 /dashboards/{dashboardid} */}
           <Link href="/signup">
             <span className={styles["landing-login-txt"]}>회원가입</span>
           </Link>
@@ -75,7 +98,9 @@ export default function LandingPage() {
           </section>
 
           <section className={`${styles["section-point"]} ${styles.reverse}`}>
-            <div className={styles["section-point-container-div"]}>
+            <div
+              className={`${styles["section-point-container-div"]} ${styles["padding-left"]}`}
+            >
               <p className={styles["section-point-p"]}>Point 2</p>
               <h2 className={styles["section-point-h2"]}>
                 해야 할 일을 <br /> 등록하세요
