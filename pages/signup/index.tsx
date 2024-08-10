@@ -2,7 +2,7 @@ import { useState, ChangeEvent, FocusEvent, useEffect } from "react";
 import styles from "./style.module.scss";
 import AuthButton from "@/components/Button/AuthButton/AuthButton";
 import Logo from "@/components/Logo/Logo";
-import InputItem from "@/components/Common/Input/InputItem";
+import InputItem from "@/components/Input/InputItem";
 import PasswordInput from "@/components/Input/PasswordInput";
 import { SignupInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
@@ -130,12 +130,13 @@ function SignUpPage() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setFormState({
-      email: "",
-      nickname: "",
-      password: "",
-      passwordConfirmation: "",
-    });
+    isTermsAccepted &&
+      setFormState({
+        email: "",
+        nickname: "",
+        password: "",
+        passwordConfirmation: "",
+      });
   };
 
   return (
@@ -201,7 +202,7 @@ function SignUpPage() {
       </form>
       <div className={styles["question"]}>
         이미 회원이신가요?{" "}
-        <Link className={styles.Link} href="/LoginPage">
+        <Link className={styles.Link} href="/login">
           로그인하기
         </Link>
       </div>

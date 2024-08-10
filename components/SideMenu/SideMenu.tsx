@@ -59,7 +59,6 @@ export default function SideMenu() {
                       "currentDashboardId",
                       item.id.toString()
                     );
-
                     router.push(
                       `/dashboards/${localStorage.getItem(
                         "currentDashboardId"
