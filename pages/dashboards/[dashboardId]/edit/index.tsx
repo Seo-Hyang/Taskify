@@ -41,7 +41,7 @@ export default function Edit() {
 
   const clickDelete = () => {
     handleDeleteDashboard(Number(dashboardId));
-    router.push("/");
+    router.push("/dashboards");
   };
 
   return (
