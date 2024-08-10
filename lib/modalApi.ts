@@ -9,6 +9,7 @@ interface RequestOptions {
 }
 
 interface Assignee {
+  userId?:number;
   nickname: string;
   profileImageUrl: string | null;
 }
@@ -17,8 +18,9 @@ interface CardData {
   title: string;
   description: string;
   imageUrl: string;
-  assignee: Assignee;
+  tags: string[];
   dueDate: string;
+  assignee:Assignee;
 }
 
 interface Comment {
@@ -26,6 +28,15 @@ interface Comment {
   cardId: string;
   columnId: string;
   dashboardId: string;
+}
+
+interface CardPutData {
+  columnId: number;
+  assigneeUserId: number;
+  title: string;
+  description: string;
+  tags: string[];
+  imageUrl: string;
 }
 
 const fetchRequest = async (url: string, options: RequestOptions) => {
@@ -41,7 +52,7 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
   }
 };
 
-// 대시보드 멤버 조회
+// 대시보드 멤버 조회 - O
 export function getMember(dashboardId: string) {
   const url = `/members?page=1&size=20&dashboardId=${dashboardId}`;
   const options = {
@@ -54,7 +65,7 @@ export function getMember(dashboardId: string) {
 }
 
 // 이미지 -> string 으로 바꾸기 - O
-export function postImage(columnId: string, image: File | null) {
+export function postImage(columnId: string, image: File) {
   const url = `/columns/${columnId}/card-image`;
   const formData = new FormData();
   if (image) {
@@ -73,7 +84,16 @@ export function postImage(columnId: string, image: File | null) {
 }
 
 // 카드 생성
-export function postCards(title: string, description: string) {
+export function postCards(
+  assigneeUserId: number | undefined,
+  dashboardId: number,
+  columnId: number,
+  title: string,
+  description: string,
+  dueDate: string,
+  tags: string[],
+  imageUrl: string
+) {
   const url = "/cards";
   const options = {
     method: "POST",
@@ -81,12 +101,17 @@ export function postCards(title: string, description: string) {
       "Content-type": "application/json",
     },
     data: {
+      assigneeUserId,
+      dashboardId,
+      columnId,
       title,
       description,
-      columnId: 38487,
-      dashboardId: 11388,
+      dueDate,
+      tags,
+      imageUrl,
     },
   };
+  return fetchRequest(url, options);
 }
 
 // 카드 상세 조회
@@ -102,19 +127,37 @@ export function getCardId(cardId: string): Promise<CardData> {
 }
 
 // 카드 수정
-export function putCard(cardId:string){
-  const url=`/cards/${cardId}`;
-  const options={
-    method:"PUT",
-    headers:{
-      "Content-type":"application/json",
+export function putCard(
+  cardId:number,
+  assigneeUserId: number,
+  columnId:number,
+  title: string,
+  description: string,
+  dueDate: string,
+  tags: string[],
+  imageUrl: string
+) {
+  const url = `/cards/${cardId}`;
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+    },
+    data: {
+      assigneeUserId,
+      columnId,
+      title,
+      description,
+      dueDate,
+      tags,
+      imageUrl,
     },
   };
-  return fetchRequest(url,options);
+  return fetchRequest(url, options);
 }
 
 // 카드 삭제 - O
-export function deleteCard(cardId:string) {
+export function deleteCard(cardId: string) {
   const url = `/cards/${cardId}`;
   const options = {
     method: "DELETE",
@@ -122,7 +165,7 @@ export function deleteCard(cardId:string) {
       "Content-type": "application/json",
     },
   };
-  return fetchRequest(url,options);
+  return fetchRequest(url, options);
 }
 
 // 댓글 조회 - O
@@ -137,7 +180,7 @@ export function getComment(cardId: string) {
   return fetchRequest(url, options);
 }
 
-// 댓글 수정
+// 댓글 수정 - O
 export function putComment(commentId: string, content: string) {
   const url = `/comments/${commentId}`;
   const options = {
@@ -152,7 +195,7 @@ export function putComment(commentId: string, content: string) {
   return fetchRequest(url, options);
 }
 
-// 댓글 입력 -> 댓글 작성
+// 댓글 입력 -> 댓글 작성 - O
 export function postComment({
   content,
   cardId,
@@ -163,7 +206,7 @@ export function postComment({
   const options = {
     method: "POST",
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
     },
     data: {
       content,

@@ -1,3 +1,4 @@
+
 // 기본 import
 import styles from "./index.module.scss";
 import Header from "@/components/Header/Header";
@@ -35,8 +36,8 @@ export default function DashBoard() {
 
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419`
-      // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11370"
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11370`
+      // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419"
     );
     const nextColumnList = res.data;
     const { result, data } = nextColumnList;

@@ -1,5 +1,3 @@
-import styles from "@/components/UserIcon/style.module.scss";
-
 // const generateProfileImageUrl = (email: string) => {
 //   const initials = email.charAt(0).toUpperCase();
 //   return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&rounded=true`;
