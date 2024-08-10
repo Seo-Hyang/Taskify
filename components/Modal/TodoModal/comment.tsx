@@ -41,6 +41,10 @@ export function Modalcomment() {
 
   const [content, setContent] = useState<string>("");
 
+  // 무한 스크롤 state
+  const [page, setPage] = useState<number>(1); // 페이지 번호
+  const [hasMore, setHasMore] = useState<boolean>(true); // 추가 댓글 여부 확인
+
   // 댓글 생성
   const handlecommentClick = async (e: React.MouseEvent) => {
     try {
@@ -51,11 +55,52 @@ export function Modalcomment() {
         dashboardId: 11374,
       });
       setContent("");
+      setPage(1);
+      setCommentValues([]);
+      fetchComents(1);
     } catch (err) {
       console.error("댓글 생성에 실패했습니다.");
     }
   };
 
+  const fetchComents = async (page: number) => {
+    try {
+      const response = await getComment(9824, page);
+      if (response.comments.length === 0) {
+        setHasMore(false); // 댓글이 없는 경우 state 값 설정
+      } else {
+        setCommentValues((prevComments) => [
+          ...prevComments,
+          ...response.comments,
+        ]);
+      }
+    } catch (error) {
+      console.log("댓글을 가져올 수 없습니다.", error);
+      alert("댓글을 가져올 수 없습니다.");
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop !==
+          document.documentElement.offsetHeight ||
+        !hasMore
+      ) {
+        return;
+      }
+      setPage((prevpage) => prevpage + 1);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore]);
+
+  useEffect(() => {
+    fetchComents(page);
+  }, [page]);
+
+  /**
   // 댓글 조회 - O
   useEffect(() => {
     const fetchComment = async () => {
@@ -68,6 +113,7 @@ export function Modalcomment() {
     };
     fetchComment();
   }, []);
+  */
 
   //   댓글 수정 버튼 누르기
   const handleEditClick = async (commentId: string, currentContent: string) => {
@@ -88,26 +134,26 @@ export function Modalcomment() {
   const handleEditChange = async (commentId: string, content: string) => {
     try {
       const response = await putComment(commentId, content);
-    
-    // 응답에서 updatedAt 값을 추출
-    const updatedAt = response.updatedAt;
-    // 상태 업데이트
-    setCommentValues((prevComments) =>
-      prevComments.map((comment) =>
-        comment.id === commentId
-          ? { ...comment, content, updatedAt }
-          : comment
-      )
-    );
+
+      // 응답에서 updatedAt 값을 추출
+      const updatedAt = response.updatedAt;
+      // 상태 업데이트
+      setCommentValues((prevComments) =>
+        prevComments.map((comment) =>
+          comment.id === commentId
+            ? { ...comment, content, updatedAt }
+            : comment
+        )
+      );
       setEditCommentId(null);
       setEditedContent("");
     } catch (err) {
       console.error("댓글 수정에 실패했습니다.");
     }
   };
-useEffect(()=>{
-  console.log(commentValues);
-},[commentValues]);
+  useEffect(() => {
+    console.log(commentValues);
+  }, [commentValues]);
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
     setContent(newValue);
