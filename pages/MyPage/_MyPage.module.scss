@@ -69,10 +69,24 @@
   }
 }
 
+.profilePreview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 184px;
+  height: 184px;
+  object-fit: cover;
+
+  // Mobile Size
+  @media (max-width: 743px) {
+    width: 100px;
+    height: 100px;
+    background-position: center;
+  }
+}
+
 .addPicture {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
   width: 182px;
   height: 182px;
   border: none;
