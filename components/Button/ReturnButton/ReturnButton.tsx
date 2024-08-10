@@ -1,7 +1,7 @@
 // 기본 import
 import React from "react";
+import { useRouter } from "next/router";
 import stylesCss from "@/components/Button/ReturnButton/ReturnButton.module.scss";
-import Link from "next/link";
 
 // 이미지 import
 import LeftArrow from "@/public/images/leftArrow.svg";
@@ -36,6 +36,8 @@ export default function ReturnButton({
   link = "/",
   children,
 }: ReturnButtonProps) {
+  const router = useRouter();
+
   // 스타일 객체 정의
   const styles = {
     returnButtonContainer: {
@@ -46,15 +48,21 @@ export default function ReturnButton({
       justifyContent: "center",
       alignItems: "center",
       fontSize: f,
+      cursor: "pointer",
     },
     icon: {
       marginRight: "8px",
     },
   };
 
+  const handleBack = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.back();
+  };
+
   return (
-    <Link
-      href={link}
+    <div
+      onClick={handleBack}
       className={stylesCss.returnButtonContainer}
       style={styles.returnButtonContainer}
     >
@@ -62,6 +70,6 @@ export default function ReturnButton({
         <LeftArrow />
       </div>
       <div className={stylesCss.font}>{children}</div>
-    </Link>
+    </div>
   );
 }
