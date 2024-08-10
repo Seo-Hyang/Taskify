@@ -2,7 +2,7 @@ import { useState, ChangeEvent, FocusEvent, useEffect } from "react";
 import styles from "./style.module.scss";
 import Logo from "@/components/Logo/Logo";
 import AuthButton from "@/components/Button/AuthButton/AuthButton";
-import InputItem from "@/components/Common/Input/InputItem";
+import InputItem from "@/components/Input/InputItem";
 import PasswordInput from "@/components/Input/PasswordInput";
 import { LoginInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";

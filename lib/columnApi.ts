@@ -23,7 +23,7 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
 
 // 대시보드 생성 - O
 export function postDashboardAdd(title: string, color: string) {
-  const url = `/dashboards`;
+  const url = "/dashboards";
   const options = {
     method: "POST",
     headers: {
