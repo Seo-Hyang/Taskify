@@ -1,3 +1,4 @@
+
 // 기본 import
 import styles from "./index.module.scss";
 import Header from "@/components/Header/Header";
@@ -35,7 +36,8 @@ export default function DashBoard() {
 
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${dashboardId}`
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11370`
+      // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419"
     );
     const nextColumnList = res.data;
     const { result, data } = nextColumnList;
@@ -44,7 +46,7 @@ export default function DashBoard() {
   }
 
   async function setDashboardContext() {
-    const dashboard = await getDashboard(Number(11370));
+    const dashboard = await getDashboard(Number(dashboardId));
     setDashboard({ id: Number(dashboardId), title: dashboard.title });
   }
 
@@ -56,9 +58,8 @@ export default function DashBoard() {
   useEffect(() => {
     setDashboardContext();
 
-   getColumnList();
+    getColumnList();
   }, []);
-
 
   return (
     <>
@@ -69,7 +70,7 @@ export default function DashBoard() {
       </div>
       <section>
         <SideMenu />
-        <Header dashboardId={dashboardId}>내 대시보드</Header>
+        <Header>내 대시보드</Header>
       </section>
       <section className={styles.dashboardContainer}>
         <section className={styles.dashboardColumns}>

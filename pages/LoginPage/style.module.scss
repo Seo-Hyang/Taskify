@@ -1,25 +1,23 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  margin: auto;
+  width: 520px;
+  box-sizing: border-box;
 }
 
-.Label,
-.Input,
-.Button {
-  display: block;
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
   width: 100%;
-}
-
-.checkbox-container {
-  > p {
-    margin-left: 8px;
-    display: inline-block;
-  }
+  max-width: 520px;
 }
 
 .button-container {
-  margin: 24px 0;
+  margin-bottom: 24px;
 }
 
 .question {

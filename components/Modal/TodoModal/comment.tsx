@@ -91,7 +91,6 @@ export function Modalcomment() {
     
     // 응답에서 updatedAt 값을 추출
     const updatedAt = response.updatedAt;
-console.log(updatedAt);
     // 상태 업데이트
     setCommentValues((prevComments) =>
       prevComments.map((comment) =>

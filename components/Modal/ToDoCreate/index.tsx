@@ -60,7 +60,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   const [assignees, setAssignees] = useState<Assignee[]>([]);
   const [selectedAssignee, setSelectedAssignee] = useState<Assignee>();
   const [initiallySelected, setInitiallySelected] = useState(false);
-  const [imgUrl, setImgUrl] = useState<string>();
+  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<Date | null>(null);
   
   // Use the custom hook for tag colors
@@ -120,11 +120,12 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
 
   const handleImageUpload = (url: string) => {
     setImgUrl(url);
-    setValues({
-      ...values,
+    setValues((prevValues) => ({
+      ...prevValues,
       imageUrl: url,
-    });
+    }));
   };
+  
 
   const handleOutsideClick = (e: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -191,6 +192,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     };
   }, []);
 
+  console.log(imgUrl);
   return (
     <div className={styles["todo-create"]}>
       <h1 className={styles["todo-create-h1"]}>할일 생성</h1>

@@ -1,12 +1,13 @@
 import Link from "next/link";
 
 export default function Home() {
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+  };
+
   return (
     <>
       <ul>
-        <li>
-          <Link href="/ButtonTest">▷테스트 페이지</Link>
-        </li>
         <li>
           <Link href="/LandingPage">▷랜딩 페이지</Link>
         </li>
@@ -23,10 +24,19 @@ export default function Home() {
           <Link href="/MyPage/MyPage">▷마이 페이지</Link>
         </li>
         <li>
+          <Link href="/ButtonTest">▷버튼 테스트 페이지</Link>
+        </li>
+        <li>
           <Link href="/ModalTest">▷모달 테스트 페이지</Link>
         </li>
         <li>
-          <Link href="/dashboard/11370/edit">▷대시보드 수정 페이지</Link>
+          <Link href="/MTest">모달 컴포넌트 테스트</Link>
+        </li>
+        <li>
+          <Link href="/dashboards/11370/edit">▷대시보드 수정 페이지</Link>
+        </li>
+        <li>
+          <button onClick={handleLogout}>로그아웃</button>
         </li>
       </ul>
     </>

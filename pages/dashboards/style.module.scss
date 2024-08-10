@@ -1,0 +1,99 @@
+.dashboardContainer {
+  margin-left: 300px;
+  width: calc(100% - 300px);
+  height: calc(100% - 70px);
+  display: flex;
+  flex-direction: row;
+  overflow: overlay;
+}
+
+//내부 넓이 수정하기
+.dashboard_inner {
+  margin: 40px;
+  width: 1022px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  .dashboard_myListContainer {
+    width: 100%;
+    height: 204px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .dashboard_myList {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .dashboard_pageCursor {
+      width: 100%;
+      display: flex;
+      justify-content: right;
+    }
+  }
+
+  .dashboard_invitedList {
+    width: 100%;
+    border-radius: 8px;
+    background-color: var(--color-white);
+    gap: 20px;
+
+    .dashboard_invitedTitle {
+      margin: 32px 28px 24px;
+      height: 104px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-black-500);
+    }
+
+    .dashboard_invitedColumnTitle {
+      width: 100%;
+      padding-left: 76px;
+      padding-right: 194px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 20px;
+
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-gray-400);
+
+      .column_title {
+      }
+      .column_inviter {
+      }
+      .column_button {
+        margin-left: 62px;
+      }
+    }
+
+    .dashboard_invitedContainer {
+      width: 100%;
+      height: 72px;
+      padding-left: 76px;
+      padding-right: 194px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--color-gray-200);
+      align-items: center;
+
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-black-500);
+
+      .invited_title {
+      }
+      .invited_inviter {
+      }
+
+      .dashboard_invitedButtons {
+        display: inline-flex;
+        gap: 10px;
+      }
+    }
+  }
+}

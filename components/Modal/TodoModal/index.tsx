@@ -60,7 +60,6 @@ export default function ToDoModal() {
     const fetchCard = async () => {
       try {
         const response = await getCardId("9829");
-        console.log(response);
         response.tags.forEach((tag) => addTagColor(tag));
         setValues({
           title: response.title,

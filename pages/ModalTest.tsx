@@ -13,7 +13,6 @@ export default function ModalTest(){
     return(
         <div>
             <ToDoModal />
-            <ToDoCreate />
             <ToDoEdit />
             <ColumnAdd />
             <ColumnEdit />

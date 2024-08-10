@@ -81,7 +81,8 @@
 }
 .dropdown-menu {
   width: 100%;
-  height: auto;
+  height: 200px;
+  overflow-y: scroll;
   padding: 8px 16px;
   border: 1px solid var(--color-gray-300);
   border-radius: 6px;
@@ -154,6 +155,10 @@
   text-align: center;
   border-radius: 4px;
   padding: 2px 6px;
+}
+.prev-tag{
+  display: flex;
+  column-gap: 8px;
 }
 .todo-create-input-img {
   display: flex;

@@ -51,7 +51,7 @@ export default function Header({
   });
 
   const clickSetting = () => {
-    router.push(`/dashboard/${dashboard?.id}/edit`);
+    router.push(`/dashboards/${dashboard?.id}/edit`);
   };
 
   // 초대 받은 사람 조회

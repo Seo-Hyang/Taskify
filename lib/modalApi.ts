@@ -9,6 +9,7 @@ interface RequestOptions {
 }
 
 interface Assignee {
+  userId?:number;
   nickname: string;
   profileImageUrl: string | null;
 }
@@ -17,9 +18,9 @@ interface CardData {
   title: string;
   description: string;
   imageUrl: string;
-  tags:string[],
-  assignee: Assignee;
+  tags: string[];
   dueDate: string;
+  assignee:Assignee;
 }
 
 interface Comment {
@@ -27,6 +28,15 @@ interface Comment {
   cardId: string;
   columnId: string;
   dashboardId: string;
+}
+
+interface CardPutData {
+  columnId: number;
+  assigneeUserId: number;
+  title: string;
+  description: string;
+  tags: string[];
+  imageUrl: string;
 }
 
 const fetchRequest = async (url: string, options: RequestOptions) => {
@@ -101,7 +111,7 @@ export function postCards(
       imageUrl,
     },
   };
-  return fetchRequest(url,options);
+  return fetchRequest(url, options);
 }
 
 // 카드 상세 조회
@@ -117,12 +127,30 @@ export function getCardId(cardId: string): Promise<CardData> {
 }
 
 // 카드 수정
-export function putCard(cardId: string) {
+export function putCard(
+  cardId:number,
+  assigneeUserId: number,
+  columnId:number,
+  title: string,
+  description: string,
+  dueDate: string,
+  tags: string[],
+  imageUrl: string
+) {
   const url = `/cards/${cardId}`;
   const options = {
     method: "PUT",
     headers: {
       "Content-type": "application/json",
+    },
+    data: {
+      assigneeUserId,
+      columnId,
+      title,
+      description,
+      dueDate,
+      tags,
+      imageUrl,
     },
   };
   return fetchRequest(url, options);
