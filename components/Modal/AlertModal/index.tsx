@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "./Modal.module.scss";
+import styles from "./style.module.scss";
 
 interface ModalProps {
   message: string;
   onClose: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ message, onClose }) => {
+const AlertModal: React.FC<ModalProps> = ({ message, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
@@ -21,4 +21,4 @@ const Modal: React.FC<ModalProps> = ({ message, onClose }) => {
   );
 };
 
-export default Modal;
+export default AlertModal;
