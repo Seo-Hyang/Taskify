@@ -31,11 +31,12 @@ export default function DashBoard() {
   //칼럼 목록
   const [columsList, setColumnList] = useState<Column[]>([]);
 
-  const [currentId, setCurrentId] = useState<Number>(0);
-
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${currentId}`
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${localStorage.getItem(
+        "currentDashboardId"
+      )}`
+      //테스트 api
       // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419"
     );
     const nextColumnList = res.data;
@@ -52,7 +53,6 @@ export default function DashBoard() {
   useEffect(() => {
     setDashboardContext();
     getColumnList();
-    setCurrentId(Number(localStorage.getItem("currentDashboardId")));
   }, [localStorage.getItem("currentDashboardId"), columsList, dashboardId]);
 
   return (
@@ -70,7 +70,12 @@ export default function DashBoard() {
         <section className={styles.dashboardColumns}>
           {columsList.map((item) => (
             <section key={item.id} className={styles.dashboardColumns}>
-              <DashboardColumn columnId={item.id}>{item.title}</DashboardColumn>
+              <DashboardColumn
+                dashboardId={item.dashboardId}
+                columnId={item.id}
+              >
+                {item.title}
+              </DashboardColumn>
             </section>
           ))}
         </section>

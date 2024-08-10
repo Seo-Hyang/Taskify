@@ -6,6 +6,9 @@ import React, { useEffect, useState } from "react";
 //컴포넌트
 import Cards from "@/components/Card/Card";
 import AddButton from "@/components/Button/AddButton/AddButton";
+import ToDoCreate from "@/components/Modal/ToDoCreate/index";
+import useModalStore from "@/hooks/useModalStore";
+import useInviteStore from "@/hooks/useInviteStore";
 //카드 타입 인터페이스
 import { Card } from "@/types/Card";
 
@@ -13,6 +16,7 @@ import { Card } from "@/types/Card";
 
 export default function Column({
   children = "",
+  dashboardId = 0,
   columnId = 0,
   cardCounts = 0,
 }) {
@@ -30,30 +34,40 @@ export default function Column({
     setCardList(cards);
   }
 
+  //카드 생성 버튼 > 모달
+  const handleAddCardClick = (e: React.MouseEvent) => {};
+
   useEffect(() => {
     getCardList();
   }, []);
 
   return (
-    <div className={styles.container}>
-      <section className={styles.column_title}>
-        <div className={styles.column_color}></div>
-        <div className={styles.column_name}>{children}</div>
-        <div className={styles.cards_counts}>{totalCount}</div>
-      </section>
-      <section className={styles.cards}>
-        <AddButton addTodo={true} />
-        {cardList.map((item) => (
-          <Cards
-            key={item.id}
-            title={item.title}
-            tags={item.tags}
-            dueDate={item.dueDate}
-            imageUrl={item.imageUrl}
-            userEmail={item.assignee.nickname}
-          />
-        ))}
-      </section>
-    </div>
+    <>
+      <div className={styles.container}>
+        <section className={styles.column_title}>
+          <div className={styles.column_color}></div>
+          <div className={styles.column_name}>{children}</div>
+          <div className={styles.cards_counts}>{totalCount}</div>
+        </section>
+        <section className={styles.cards}>
+          <AddButton addTodo={true} onClick={handleAddCardClick} />
+          {cardList.map((item) => (
+            <Cards
+              key={item.id}
+              title={item.title}
+              tags={item.tags}
+              dueDate={item.dueDate}
+              imageUrl={item.imageUrl}
+              userEmail={item.assignee.nickname}
+            />
+          ))}
+        </section>
+      </div>
+      <ToDoCreate
+        dashboardId={dashboardId}
+        columnId={columnId}
+        isShow={isShowModal}
+      />
+    </>
   );
 }

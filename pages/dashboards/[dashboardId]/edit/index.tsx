@@ -15,8 +15,6 @@ import { deleteDashboard } from "@/services/dashboards";
 import { useState } from "react";
 
 export default function Edit() {
-  // const dashboardName = "비브리지";
-
   const [isShowModal, setIsShowModal] = useState(false);
   const [isdeleteDashboard, deleteDashboardError, deleteDashboardAsync] =
     useAsync(deleteDashboard);

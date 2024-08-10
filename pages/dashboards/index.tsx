@@ -18,11 +18,9 @@ import ColumnDashboard from "@/components/Column/ColumnDashboard";
 import useModalStore from "@/hooks/useModalStore";
 /**
  * To do
- * 초대 받은 목록 검색기능
  *
- * 대시보드 id 로컬스토리지로 관리 -> currentDashboardId
- * 초기 세팅 : currentDashboardId = null
  * 버튼 클릭시 이동
+ * 반응형
  */
 
 export default function DashBoards() {
@@ -36,6 +34,7 @@ export default function DashBoards() {
   const [invitedCount, setInvitedCount] = useState<number>(0);
   //검색
   const [searchValue, setSearchValue] = useState("");
+  //To do 에러처리
   const [errors, setErrors] = useState<string>("");
 
   const firstPageSize = 5;
@@ -70,11 +69,8 @@ export default function DashBoards() {
   function handleChange(e) {
     setSearchValue(e.target.value);
   }
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
 
-  //대시보드 목록, 페이지 수, 현재 페이지
+  //대시보드 목록, 초대받은 목록, 페이지 수, 현재 페이지
   useEffect(() => {
     getDashboardList();
     getInvitedList();
@@ -87,7 +83,7 @@ export default function DashBoards() {
 
   return (
     <div>
-      <ColumnDashboard />  
+      <ColumnDashboard />
       {/* 대시보드 생성 칼럼 */}
       <section>
         <Head>
