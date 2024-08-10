@@ -8,7 +8,7 @@ import { SignupInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
 import instance from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import Modal from "../LoginPage/components/Modal";
+import Modal from "@/components/Modal/AlertModal";
 import { AxiosError } from "axios";
 
 interface FormState {
@@ -114,6 +114,12 @@ function SignUpPage() {
         if ((error as AxiosError).response?.status === 409) {
           console.error("회원가입 실패:", error);
           setModalMessage("이미 가입한 계정이 있습니다.");
+          setIsModalOpen(true);
+        } else if ((error as AxiosError).response?.status === 500) {
+          console.error("서버 오류 발생:", error);
+          setModalMessage(
+            "서버에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요."
+          );
           setIsModalOpen(true);
         } else {
           console.error("알 수 없는 오류 발생:", error);

@@ -8,7 +8,7 @@ import { LoginInputId, getErrorMessage } from "../authUtils";
 import Link from "next/link";
 import instance from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import Modal from "./components/Modal";
+import Modal from "@/components/Modal/AlertModal";
 import { AxiosError } from "axios";
 
 interface FormState {
@@ -33,12 +33,20 @@ function LoginPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
+  const [isGuestLogin, setIsGuestLogin] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       router.push("/");
     }
   }, [router]);
+
+  useEffect(() => {
+    if (isGuestLogin) {
+      handleSubmitGuestLogin();
+    }
+  }, [formState]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -84,6 +92,12 @@ function LoginPage() {
           console.error("로그인 실패: 사용자를 찾을 수 없음", error);
           setModalMessage("해당 사용자를 찾을 수 없습니다.");
           setIsModalOpen(true);
+        } else if ((error as AxiosError).response?.status === 500) {
+          console.error("서버 오류 발생:", error);
+          setModalMessage(
+            "서버에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요."
+          );
+          setIsModalOpen(true);
         } else {
           console.error("알 수 없는 오류 발생:", error);
         }
@@ -94,6 +108,31 @@ function LoginPage() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setFormState({ email: "", password: "" });
+  };
+
+  const handleSubmitGuestLogin = async () => {
+    try {
+      const { email, password } = formState;
+      const { data } = await instance.post("/auth/login", {
+        email,
+        password,
+      });
+
+      const { accessToken } = data;
+      localStorage.setItem("accessToken", accessToken);
+      router.push("/");
+    } catch (error) {
+      console.error("게스트 로그인 실패:", error);
+      setModalMessage("게스트 로그인에 실패했습니다. 다시 시도해 주세요.");
+      setIsModalOpen(true);
+    } finally {
+      setIsGuestLogin(false);
+    }
+  };
+
+  const handleGuestLogin = () => {
+    setFormState({ email: "test1234@naver.com", password: "test1234" });
+    setIsGuestLogin(true);
   };
 
   return (
@@ -126,11 +165,15 @@ function LoginPage() {
           <AuthButton>로그인</AuthButton>
         </div>
       </form>
-      <div className={styles["question"]}>
+      <div className={styles.question}>
         회원이 아니신가요?{" "}
         <Link className={styles.Link} href="/SignUpPage">
           회원가입하기
         </Link>
+        {" | "}
+        <button className={styles.guestButton} onClick={handleGuestLogin}>
+          게스트 로그인
+        </button>
       </div>
     </div>
   );
