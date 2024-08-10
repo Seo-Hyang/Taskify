@@ -5,15 +5,9 @@ import Close_modal_mobile from "@/public/icons/modal_close_mobile.svg";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
 import Input from "@/components/Input/ModalInput";
-import {
-  ChangeEvent,
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
-  useState,
-} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { postcolumnInvite } from "@/lib/columnApi";
-import { useRouter } from "next/router";
+import useModalStore from "@/hooks/useModalStore";
 
 interface Props {
   dashboardId: number;
@@ -34,6 +28,7 @@ export default function ColumnInvite({
   const [isDisabled, setIsDisabled] = useState(true);
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState(false);
+  const { closeModal } = useModalStore();
 
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

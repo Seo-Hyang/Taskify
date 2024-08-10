@@ -37,6 +37,15 @@ export function postDashboardAdd(title: string, color: string) {
   return fetchRequest(url, options);
 }
 
+// 대시보드 목록 조회
+export function getDashboardList() {
+  const url = "/dashboards?navigationMethod=infiniteScroll&page=1&size=10";
+  const options = {
+    method: "GET",
+  };
+  return fetchRequest(url, options);
+}
+
 // 칼럼 목록 조회 (같은 title 있는지) - O
 export function getColumnAdd(dashboardId: string) {
   const url = `/columns?dashboardId=${dashboardId}`;

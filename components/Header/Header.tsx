@@ -5,9 +5,10 @@ import { TABLET_MAX_WIDTH, MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
 import { useRouter } from "next/router";
 import { useDashboard } from "@/contexts/DashboardContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { getHeader, getMyPage } from "@/lib/headerApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
+import useInviteStore from "@/hooks/useInviteStore";
 
 const getRandomPastelColor = () => {
   const randomValue = () => Math.floor(Math.random() * 56 + 200);
@@ -36,12 +37,13 @@ export default function Header({
   dashboardId,
 }: {
   children?: React.ReactNode;
-  dashboardId: number;
+  dashboardId?: number;
 }) {
   const randomBackgroundColor = getRandomPastelColor();
   const { width } = useWindowSize();
   const router = useRouter();
   const { dashboard } = useDashboard();
+  const { setIsShowModal } = useInviteStore();
   const [isOwner, setIsOwner] = useState<Assignee | null>(null);
   const [nonOwners, setNonOwners] = useState<Assignee[]>([]);
   const [values, setValues] = useState<My>({
@@ -111,7 +113,12 @@ export default function Header({
             <HeaderButton setting={true} onClick={clickSetting}>
               관리
             </HeaderButton>
-            <HeaderButton isInvitation={true}>초대하기</HeaderButton>
+            <HeaderButton
+              isInvitation={true}
+              onClick={() => setIsShowModal(true)}
+            >
+              초대하기
+            </HeaderButton>
           </div>
           <div className={styles["dashboard-members-container"]}>
             {displayedMembers.map((member, index) => (

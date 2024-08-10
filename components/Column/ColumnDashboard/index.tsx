@@ -3,17 +3,20 @@ import styles from "./Dashboard.module.scss";
 import { ChangeEvent, useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
 import Input from "@/components/Input/ModalInput";
-import { postDashboardAdd } from "@/lib/columnApi";
+import { getDashboardList, postDashboardAdd } from "@/lib/columnApi";
 import Dialog from "@/components/Modal/modal";
 import useModalStore from "@/hooks/useModalStore";
+import { useRouter } from "next/router";
 
 export default function ColumnDashboard() {
+  const router = useRouter();
   const { closeModal } = useModalStore();
   const [isDisabled, setIsDisabled] = useState(true);
   const [values, setValues] = useState({
     title: "",
     color: "#000000",
   });
+  const [userId, setUserId] = useState<string>();
 
   // title 없으면 버튼 비활성화
   useEffect(() => {
@@ -37,6 +40,18 @@ export default function ColumnDashboard() {
     }));
   };
 
+  useEffect(() => {
+    const fetchIdData = async () => {
+      try {
+        const response = await getDashboardList();
+        setUserId(response.id);
+      } catch {
+        console.error("id를 가져올 수 없습니다.");
+      }
+    };
+    fetchIdData();
+  }, [userId]);
+
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -46,6 +61,7 @@ export default function ColumnDashboard() {
         color: "#000000",
       });
       closeModal();
+      router.push(`/dashboards/${userId}`);
     } catch (err) {
       console.error("대시보드 생성에 실패했습니다.");
     }
