@@ -23,24 +23,48 @@ export default function SideMenu() {
 
   const { openModal } = useModalStore();
 
+  //페이지 스테이트
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState<number>(0);
+  const pageSize = 10;
+  /** To do
+   * 버튼 onClick > page 이동(setPage 이용)
+   */
+
   async function getDashboardList() {
     const res = await instance.get(
-      "/dashboards?navigationMethod=pagination&page=1&size=10"
+      `/dashboards?navigationMethod=pagination&page=${page}&size=${pageSize}`
     );
     const nextDashboardList = res.data;
     const { dashboards, totalCount, cursorId } = nextDashboardList;
-
+    const pageCnt = Math.trunc(totalCount / pageSize) + 1;
+    setPageCount(pageCnt);
     setDashboardList(dashboards);
   }
 
+  //이전 페이지로
+  const handlePagePrevClick = (e: React.MouseEvent) => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+    } else return;
+  };
+
+  //다음 페이지로
+  const handlePageNextClick = (e: React.MouseEvent) => {
+    if (page < pageCount) {
+      setPage((prev) => prev + 1);
+    } else return;
+  };
+
   useEffect(() => {
     getDashboardList();
-  }, []);
+  }, [page]);
 
   // 대시보드 생성 칼럼
   const handleAddDashboardClick = (e: React.MouseEvent) => {
     openModal();
   };
+
   return (
     <>
       <div className={styles.sideMenuContainer}>
@@ -57,7 +81,7 @@ export default function SideMenu() {
               <AddIcon onClick={handleAddDashboardClick} />
             </div>
           </div>
-          <div>
+          <section className={styles.dashboard_list}>
             {dashboardList.map((item) => (
               <section key={item.id} className={styles.sideMenuContent}>
                 <DashboardButton
@@ -79,10 +103,10 @@ export default function SideMenu() {
                 </DashboardButton>
               </section>
             ))}
-          </div>
+          </section>
           <section className={styles.arrowButtons}>
-            <ArrowButton leftArrow />
-            <ArrowButton rightArrow />
+            <ArrowButton leftArrow onClick={handlePagePrevClick} />
+            <ArrowButton rightArrow onClick={handlePageNextClick} />
           </section>
         </div>
       </div>
