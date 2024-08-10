@@ -16,6 +16,8 @@ import EnvelopSVG from "@/public/icons/envelop.svg";
 import SearchInputItem from "@/components/Input/SearchInput/SearchInput";
 import ColumnDashboard from "@/components/Column/ColumnDashboard";
 import useModalStore from "@/hooks/useModalStore";
+import useInviteStore from "@/hooks/useInviteStore";
+import ColumnInvite from "@/components/Column/ColumnInvite";
 /**
  * To do
  * 초대 받은 목록 검색기능
@@ -40,6 +42,8 @@ export default function DashBoards() {
 
   const firstPageSize = 5;
   const pageSize = 6;
+
+  const { isShowModal, setIsShowModal } = useInviteStore();
 
   const { openModal } = useModalStore();
 
@@ -83,6 +87,10 @@ export default function DashBoards() {
   // 대시보드 생성 칼럼
   const handleAddDashboardClick = (e: React.MouseEvent) => {
     openModal();
+  };
+
+  const closeModal = () => {
+    setIsShowModal(false);
   };
 
   return (
@@ -198,6 +206,12 @@ export default function DashBoards() {
           </section>
         </section>
       </section>
+      <ColumnInvite
+        dashboardId={11370}
+        isAttached={true}
+        isShow={isShowModal}
+        onClickCancle={closeModal}
+      />
     </div>
   );
 }

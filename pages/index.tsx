@@ -23,7 +23,7 @@ export default function Home() {
           <Link href="/dashboard">▷대시보드</Link>
         </li>
         <li>
-          <Link href="/MyPage">▷마이 페이지</Link>
+          <Link href="/mypage">▷마이 페이지</Link>
         </li>
         <li>
           <Link href="/ButtonTest">▷버튼 테스트 페이지</Link>

@@ -10,11 +10,11 @@ import { postcolumnInvite } from "@/lib/columnApi";
 import useModalStore from "@/hooks/useModalStore";
 
 interface Props {
-  dashboardId: number;
+  dashboardId?: number;
   isAttached: boolean;
   isShow: boolean;
   onClickCancle: () => void;
-  setInvitationCount: Dispatch<SetStateAction<number>>;
+  setInvitationCount?: Dispatch<SetStateAction<number>>;
 }
 
 export default function ColumnInvite({
@@ -56,7 +56,7 @@ export default function ColumnInvite({
       console.error("초대 요청에 실패했습니다.");
     }
     setEmail("");
-    setInvitationCount((prev) => prev + 1);
+    setInvitationCount?.((prev) => prev + 1);
     onClickCancle();
   };
 
