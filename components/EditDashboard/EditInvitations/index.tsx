@@ -10,6 +10,7 @@ import { getDashboardInvitations } from "@/services/dashboards";
 import { DashboardInvitation } from "@/types/dashboard";
 import ColumnInvite from "@/components/Column/ColumnInvite";
 import Skeleton from "@/components/Skeleton";
+import useInviteStore from "@/hooks/useInviteStore";
 
 interface Props {
   dashboardId: number;
@@ -18,12 +19,13 @@ interface Props {
 
 export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
   const { width } = useWindowSize();
+  const { isShowModal, setIsShowModal } = useInviteStore();
 
   const [invitationList, setInvitationList] = useState<DashboardInvitation[]>();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState<number>(-1);
   const [invitationCount, setInvitationCount] = useState(0);
-  const [isShowModal, setIsShowModal] = useState(false);
+  // const [isShowModal, setIsShowModal] = useState(false);
   const [isLoadInvitations, loadInvitationsError, loadInvitations] = useAsync(
     getDashboardInvitations
   );

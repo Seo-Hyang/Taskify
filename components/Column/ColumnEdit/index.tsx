@@ -8,6 +8,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import Input from "@/components/Input/ModalInput";
 import { getColumnAdd, putColumnEdit } from "@/lib/columnApi";
 import { useRouter } from "next/router";
+import Dialog from "@/components/Modal/modal";
+import useModalStore from "@/hooks/useModalStore";
 
 interface Props {
   columnId: string;
@@ -36,6 +38,7 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
   };
 
   return (
+    <Dialog>
     <div className={styles["column-auth"]}>
       <div className={styles["column-auth-container"]}>
         <div className={styles["column-container-close"]}>
@@ -61,5 +64,6 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
         </div>
       </div>
     </div>
+    </Dialog>
   );
 }

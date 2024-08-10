@@ -1,5 +1,15 @@
-.column-dashboard {
+.dialog-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 584px;
+  border: none;
+  border-radius: 16px;
+}
+
+.column-dashboard {
+  width: 100%;
   height: 100%;
   padding: 32px;
   color: var(--color-black-500);
@@ -39,15 +49,15 @@
   border-width: 0 !important;
   padding: 15px 9px !important;
 }
-.column-dashboard-color-picker > div > span > div{
+.column-dashboard-color-picker > div > span > div {
   margin: 0 !important;
-  margin-left:6px !important;
+  margin-left: 6px !important;
 }
-.column-dashboard-color-picker > div > div:nth-child(11){
-  margin-left:6px !important;
+.column-dashboard-color-picker > div > div:nth-child(11) {
+  margin-left: 6px !important;
 }
-.column-dashboard-color-picker > div > div > input{
-  height:30px !important;
+.column-dashboard-color-picker > div > div > input {
+  height: 30px !important;
 }
 .column-dashboard-button-container {
   display: flex;
@@ -55,8 +65,10 @@
 }
 
 @media screen and (max-width: 743px) {
+  .dialog-container{
+    width:100%;
+  }
   .column-dashboard {
-    width: 327px;
     padding: 20px 16px;
   }
   .column-dashboard-h1 {

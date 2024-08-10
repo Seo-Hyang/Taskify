@@ -1,4 +1,3 @@
-
 // 기본 import
 import styles from "./index.module.scss";
 import Header from "@/components/Header/Header";
