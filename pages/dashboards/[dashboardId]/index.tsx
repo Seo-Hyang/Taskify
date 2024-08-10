@@ -24,8 +24,6 @@ export type Column = {
 };
 
 export default function DashBoard() {
-  //대시보드 id에 따라 페이지 이동
-  //이거 아닌듯...?
   const router = useRouter();
   const { setDashboard } = useDashboard();
   const { dashboardId } = router.query;
@@ -35,7 +33,9 @@ export default function DashBoard() {
 
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11370`
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${localStorage.getItem(
+        "currentDashboardId"
+      )}`
       // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419"
     );
     const nextColumnList = res.data;
@@ -49,16 +49,10 @@ export default function DashBoard() {
     setDashboard({ id: Number(dashboardId), title: dashboard.title });
   }
 
-  /*To-do
-    -dashboard Id에 따라 칼럼 불러오기
-    현재의 대시보드 Id를 알아야 하는데,,, 로컬 스토리지에서 관리해야하나?
-  */
-
   useEffect(() => {
     setDashboardContext();
-
     getColumnList();
-  }, []);
+  }, [localStorage.getItem("currentDashboardId")]);
 
   return (
     <>
