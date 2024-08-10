@@ -8,6 +8,9 @@ import Cards from "@/components/Card/Card";
 import AddButton from "@/components/Button/AddButton/AddButton";
 //카드 타입 인터페이스
 import { Card } from "@/types/Card";
+import useInviteStore from "@/hooks/useInviteStore";
+import useModalStore from "@/hooks/useModalStore";
+import ToDoCreate from "../Modal/ToDoCreate";
 
 //대시보드 아이디 받아오기->칼럼 조회->칼럼 아이디 받아오기->카드 조회
 
@@ -18,6 +21,7 @@ export default function Column({
 }) {
   const [cardList, setCardList] = useState<Card[]>([]); //카드 목록
   const [totalCount, setTotalCount] = useState(0);
+  const { openModal } = useModalStore();
 
   async function getCardList() {
     const res = await instance.get(
@@ -34,6 +38,11 @@ export default function Column({
     getCardList();
   }, []);
 
+  const handleCreateCardClick = (e: React.MouseEvent) => {
+    openModal();
+  };
+
+
   return (
     <div className={styles.container}>
       <section className={styles.column_title}>
@@ -42,7 +51,7 @@ export default function Column({
         <div className={styles.cards_counts}>{totalCount}</div>
       </section>
       <section className={styles.cards}>
-        <AddButton addTodo={true} />
+        <AddButton addTodo={true} onClick={handleCreateCardClick} />
         {cardList.map((item) => (
           <Cards
             key={item.id}
@@ -54,6 +63,7 @@ export default function Column({
           />
         ))}
       </section>
+      <ToDoCreate />
     </div>
   );
 }

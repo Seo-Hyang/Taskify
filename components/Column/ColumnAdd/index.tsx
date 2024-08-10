@@ -4,9 +4,11 @@ import Input from "@/components/Input/ModalInput";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getColumnAdd, postColumnAdd } from "@/lib/columnApi";
 import { useRouter } from "next/router";
+import Dialog from "@/components/Modal/modal";
+import useModalStore from "@/hooks/useModalStore";
 
 interface Props {
-  dashboardId: string;
+  dashboardId: number;
 }
 
 export default function ColumnAdd({ dashboardId }: Props) {
@@ -17,6 +19,7 @@ export default function ColumnAdd({ dashboardId }: Props) {
   const [existingColumns, setExistingColumns] = useState<string[]>([]);
   const [columnLimitReached, setColumnLimitReached] = useState(false);
   const columnLimit = 10;
+  const {closeModal}=useModalStore();
 
   // dashboardId를 가지고 오려면 현재 내가 어느 대시보드에 있는지를 알아야 하는데..내가 지금 아는건가?
 
@@ -71,7 +74,13 @@ export default function ColumnAdd({ dashboardId }: Props) {
     }
   };
 
+  const handleCancelClick= ()=>{
+    closeModal();
+    setColumnName("");
+  }
+
   return (
+    <Dialog className={styles["dialog-container"]}>
     <div className={styles["column-auth"]}>
       <div className={styles["column-auth-container"]}>
         <h1 className={styles["column-h1"]}>새 칼럼 생성</h1>
@@ -91,7 +100,7 @@ export default function ColumnAdd({ dashboardId }: Props) {
           )}
         </div>
         <div className={styles["column-button-container"]}>
-          <ModalButton isCancled={true}>취소</ModalButton>
+          <ModalButton isCancled={true} onClick={handleCancelClick}>취소</ModalButton>
           <ModalButton
             isComment={true}
             isDisabled={isDisabled || !!error}
@@ -102,5 +111,6 @@ export default function ColumnAdd({ dashboardId }: Props) {
         </div>
       </div>
     </div>
+    </Dialog>
   );
 }

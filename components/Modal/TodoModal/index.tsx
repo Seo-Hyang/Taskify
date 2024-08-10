@@ -9,6 +9,8 @@ import { getCardId } from "@/lib/modalApi";
 import { Modalcomment } from "./comment";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import { useTagColors } from "@/hooks/useTagColors";
+import useModalStore from "@/hooks/useModalStore";
+import Dialog from "../modal";
 
 interface Assignee {
   nickname: string;
@@ -24,21 +26,7 @@ interface CardData {
   dueDate: string;
 }
 
-export default function ToDoModal() {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const openModal = () => setIsModalOpen(true);
-  // const closeModal = () => setIsModalOpen(false);
-
-  // return (
-  //   <div className={styles.app}>
-  //     <button className={styles.openModalButton} onClick={openModal}>
-  //       <OpenModalButton width="24" height="24" alt="Open Modal" />
-  //     </button>
-  //     <Modal isOpen={isModalOpen} onClose={closeModal} />
-  //   </div>
-  // 모달이 필요한 컴포넌트에 적용하기(예시));
-
+export default function ToDoModal({cardId}:{cardId:number}) {
   const { width } = useWindowSize();
   const { tagColors, addTagColor } = useTagColors();
 
@@ -53,13 +41,13 @@ export default function ToDoModal() {
     },
     dueDate: "",
   });
-  // if (!isOpen) return null;
+  const { closeModal } = useModalStore();
 
   // 카드 정보 가져오기
   useEffect(() => {
     const fetchCard = async () => {
       try {
-        const response = await getCardId("9829");
+        const response = await getCardId(cardId);
         response.tags.forEach((tag) => addTagColor(tag));
         setValues({
           title: response.title,
@@ -80,13 +68,18 @@ export default function ToDoModal() {
     fetchCard();
   }, []);
 
+  const handleCancelClick = ()=>{
+    closeModal();
+  }
+
   return (
+    <Dialog>
     <div className={styles["todo-modal"]}>
       {width <= MOBILE_MAX_WIDTH ? (
         <>
           <div className={styles["todo-top-icon"]}>
             <Dropdown />
-            <button className={styles["todo-button"]}>
+            <button className={styles["todo-button"]} onClick={handleCancelClick}>
               <Close width="32" height="32" alt="닫기" />
             </button>
           </div>
@@ -171,5 +164,6 @@ export default function ToDoModal() {
         </section>
       </div>
     </div>
+    </Dialog>
   );
 }

@@ -13,6 +13,8 @@ import ReactDatePicker from "react-datepicker";
 import CalendarIcon from "@/public/icons/calendar_today_icon.svg";
 import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
+import Dialog from "../modal";
+import useModalStore from "@/hooks/useModalStore";
 
 interface Assignee {
   userId: number;
@@ -86,6 +88,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
       profileImageUrl: "",
     },
   });
+  const {closeModal} =useModalStore();
 
   const toggleColumnDropdown = () => setIsColumnOpen(!isColumnOpen);
   const toggleAssignDropdown = () => setIsAssignOpen(!isAssignOpen);
@@ -191,6 +194,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
         values.tags,
         values.imageUrl
       );
+      closeModal();
     } catch (err) {
       console.error("카드 수정에 실패했습니다.");
     }
@@ -256,7 +260,11 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
     }));
     setImgUrl(url);
   };
+  const handleCancelClick = ()=>{
+    closeModal();
+  }
   return (
+    <Dialog>
     <div className={styles["todo-create"]}>
       <h1 className={styles["todo-create-h1"]}>할일 수정</h1>
       <div className={styles["todo-create-input-section"]}>
@@ -443,7 +451,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
       </div>
 
       <div className={styles["todo-create-button-container"]}>
-        <ModalButton isCancled={true}>취소</ModalButton>
+        <ModalButton isCancled={true} onClick={handleCancelClick}>취소</ModalButton>
         <ModalButton
           isComment={true}
           isDisabled={isDisabled}
@@ -453,5 +461,6 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
         </ModalButton>
       </div>
     </div>
+    </Dialog>
   );
 }

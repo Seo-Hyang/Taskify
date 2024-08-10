@@ -47,7 +47,7 @@ export function getDashboardList() {
 }
 
 // 칼럼 목록 조회 (같은 title 있는지) - O
-export function getColumnAdd(dashboardId: string) {
+export function getColumnAdd(dashboardId: number) {
   const url = `/columns?dashboardId=${dashboardId}`;
   const options = {
     method: "GET",
@@ -59,7 +59,7 @@ export function getColumnAdd(dashboardId: string) {
 }
 
 // 새로운 칼럼 생성 - O
-export function postColumnAdd(title: string, dashboardId: string) {
+export function postColumnAdd(title: string, dashboardId: number) {
   const url = "/columns";
   const options = {
     method: "POST",

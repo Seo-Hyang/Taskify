@@ -13,14 +13,15 @@ import useModalStore from "@/hooks/useModalStore";
 
 interface Props {
   columnId: string;
-  title: string;
+  title?: string;
   dashboardId: string;
 }
-
+//이중모달
 export default function ColumnEdit({ columnId, dashboardId }: Props) {
   const router = useRouter();
   const [newColumn, setNewColumn] = useState<string>("");
   const { width } = useWindowSize();
+  const {closeModal}=useModalStore();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewColumn(e.target.value);

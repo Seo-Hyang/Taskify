@@ -53,7 +53,7 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
 };
 
 // 대시보드 멤버 조회 - O
-export function getMember(dashboardId: string) {
+export function getMember(dashboardId: number) {
   const url = `/members?page=1&size=20&dashboardId=${dashboardId}`;
   const options = {
     method: "GET",
@@ -115,7 +115,7 @@ export function postCards(
 }
 
 // 카드 상세 조회
-export function getCardId(cardId: string): Promise<CardData> {
+export function getCardId(cardId: number): Promise<CardData> {
   const url = `/cards/${cardId}`;
   const options = {
     method: "GET",

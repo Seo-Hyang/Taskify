@@ -15,6 +15,8 @@ import Column from "@/components/DashboardColumns/DashboardColumns";
 import { getDashboard } from "@/services/dashboards";
 import ColumnInvite from "@/components/Column/ColumnInvite";
 import useInviteStore from "@/hooks/useInviteStore";
+import useModalStore from "@/hooks/useModalStore";
+import ColumnAdd from "@/components/Column/ColumnAdd";
 
 export type Column = {
   id: number;
@@ -32,6 +34,7 @@ export default function DashBoard() {
   const { setDashboard } = useDashboard();
   const { dashboardId } = router.query;
   const { isShowModal, setIsShowModal } = useInviteStore();
+  const {openModal}=useModalStore();
 
   //칼럼 목록
   const [columsList, setColumnList] = useState<Column[]>([]);
@@ -67,6 +70,10 @@ export default function DashBoard() {
     setIsShowModal(false);
   };
 
+  const handleNewColumnClick = ()=>{
+    openModal();
+  }
+
   return (
     <>
       <div>
@@ -87,7 +94,7 @@ export default function DashBoard() {
           ))}
         </section>
         <div className={styles.add_newColumn}>
-          <AddButton addColumn={true}>새로운 칼럼 추가하기</AddButton>
+          <AddButton addColumn={true} onClick={handleNewColumnClick}>새로운 칼럼 추가하기</AddButton>
         </div>
       </section>
       <ColumnInvite
@@ -96,6 +103,7 @@ export default function DashBoard() {
         isShow={isShowModal}
         onClickCancle={closeModal}
       />
+      <ColumnAdd dashboardId={11370} />
     </>
   );
 }

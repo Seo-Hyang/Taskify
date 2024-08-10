@@ -13,6 +13,8 @@ import { getMember, postCards } from "@/lib/modalApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
+import Dialog from "../modal";
+import useModalStore from "@/hooks/useModalStore";
 
 interface Assignee {
   id: number;
@@ -50,7 +52,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
 
 // dashboardId columnId 가져오기
 
-export default function ToDoCreate({ dashboardId, columnId }: Props) {
+export default function ToDoCreate() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -62,9 +64,8 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   const [initiallySelected, setInitiallySelected] = useState(false);
   const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<Date | null>(null);
-
-  // Use the custom hook for tag colors
   const { tagColors, addTagColor } = useTagColors();
+  const { closeModal } = useModalStore();
 
   const [values, setValues] = useState({
     assigneeUserId: selectedAssignee?.userId,
@@ -74,7 +75,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     description: "",
     dueDate: "",
     tags: tags,
-    imageUrl: imgUrl,
+    imageUrl: "",
   });
 
   useEffect(() => {
@@ -96,10 +97,10 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
+    setValues((prevValues) => ({
+      ...prevValues,
       [name]: value,
-    });
+    }));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -119,11 +120,11 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   };
 
   const handleImageUpload = (url: string) => {
-    setImgUrl(url);
     setValues((prevValues) => ({
       ...prevValues,
       imageUrl: url,
     }));
+    setImgUrl(url);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -195,7 +196,10 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   }, []);
 
   console.log(imgUrl);
+  console.log(values.imageUrl);
+
   return (
+    <Dialog className={styles["dialog-container"]}>
     <div className={styles["todo-create"]}>
       <h1 className={styles["todo-create-h1"]}>할일 생성</h1>
       <div className={styles["todo-create-input-section"]}>
@@ -314,7 +318,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
         </div>
       </div>
       <div className={styles["todo-create-button-container"]}>
-        <ModalButton className={styles["todo-create-button"]} isCancled={true}>
+        <ModalButton className={styles["todo-create-button"]} isCancled={true} onClick={closeModal}>
           취소
         </ModalButton>
         <ModalButton
@@ -326,5 +330,6 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
         </ModalButton>
       </div>
     </div>
+    </Dialog>
   );
 }

@@ -4,6 +4,8 @@ import CardTag from "@/components/CardTag/CardTag";
 import Image from "next/image";
 import CardImage from "@/public/images/card_image2.png";
 import CalendarSVG from "@/public/icons/calendar_today_icon.svg";
+import useModalStore from "@/hooks/useModalStore";
+import ToDoModal from "../Modal/TodoModal";
 
 /**To-DO
  * 사용자 아이콘 표시
@@ -11,6 +13,7 @@ import CalendarSVG from "@/public/icons/calendar_today_icon.svg";
  */
 
 export default function Card({
+  id=0,
   title = "",
   tags = [""],
   dueDate = "",
@@ -21,10 +24,15 @@ export default function Card({
   let year = cardDueDate.getFullYear();
   let month = cardDueDate.getMonth();
   let date = cardDueDate.getDate();
+  const { openModal } = useModalStore();
+
+  const handleCardClick = ()=>{
+    openModal();
+  }
 
   return (
     <>
-      <section className={styles.cardBox}>
+      <section className={styles.cardBox} onClick={handleCardClick}>
         <div className={styles.container}>
           {`${imageUrl}.length !==0` ? (
             <Image
@@ -63,6 +71,7 @@ export default function Card({
           </section>
         </div>
       </section>
+      <ToDoModal cardId={id}/>
     </>
   );
 }

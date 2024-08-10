@@ -4,7 +4,7 @@ import PLUSSVG from "@/public/icons/plus_icon.svg";
 
 // Props 타입 정의
 interface AddButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   addBoard?: boolean;
   addTodo?: boolean;
   addColumn?: boolean;
