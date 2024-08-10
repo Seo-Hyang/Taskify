@@ -4,7 +4,7 @@ import instance from "@/lib/axios";
 const uploadProfileImage = async (file: File) => {
   try {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("image", file);
 
     const response = await instance.post("/users/me/image", formData, {
       headers: {
@@ -12,14 +12,14 @@ const uploadProfileImage = async (file: File) => {
       },
     });
 
-    return response.data.url; // 서버에서 반환한 이미지 URL
+    return response.data.profileImageUrl; // 서버에서 반환한 이미지 URL
   } catch (error) {
-    console.error("이미지 업로드 에러 발생", error);
+    console.error("(POST)이미지 업로드 에러 발생", error);
     throw error;
   }
 };
 
-// 프로필 수정 API
+// 프로필 이미지, 닉네임 수정 API
 const updateProfile = async (
   profileNickname: string,
   profileImageUrl: string
@@ -27,7 +27,7 @@ const updateProfile = async (
   console.log(profileNickname, profileImageUrl);
   try {
     const response = await instance.put("/users/me", {
-      profileNickname,
+      nickname: profileNickname,
       profileImageUrl,
     });
     return response.data;

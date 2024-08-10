@@ -52,7 +52,7 @@ export default function MyPage() {
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
 
   // 비밀번호 불일치 알림 모달
-  const [isModalDisabled, setIsModalDisabled] = useState(false);
+  const [isModalActive, setisModalActive] = useState(false);
 
   // 버튼 활성화 state
   const [isPasswordChangeDisabled, setIsPasswordChangeDisabled] =
@@ -93,6 +93,7 @@ export default function MyPage() {
     if (file) {
       try {
         const uploadeImageUrl = await uploadProfileImage(file);
+        console.log({ uploadeImageUrl });
         setProfileImageUrl(uploadeImageUrl);
         alert("프로필 이미지 업로드 성공");
       } catch (error) {
@@ -124,7 +125,7 @@ export default function MyPage() {
       setNewPassword("");
       setConfirmNewPassword("");
     } catch (error) {
-      alert("비밀번호 변경 실패");
+      setisModalActive(true);
     }
   };
 
@@ -138,7 +139,7 @@ export default function MyPage() {
 
     // 비밀번호 변경 버튼 활성화 조건문
     if (
-      currentPassword.length > 0 &&
+      currentPassword?.length > 0 &&
       newPassword.length > 0 &&
       confirmNewPassword.length > 0
     ) {
@@ -157,12 +158,15 @@ export default function MyPage() {
     }
   }, [currentPassword, newPassword, confirmNewPassword, profileNickname]);
 
+  // 유저 정보 가져오기
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const userInfo = await getUserInfo();
         setUserInfo(userInfo);
         setProfileNickname(userInfo.nickname);
+        setPreviewUrl(userInfo.profileImageUrl);
+        setCurrentPassword(userInfo.currentPassword);
       } catch (error) {
         console.error("Error fetching user email:", error);
       }
@@ -312,8 +316,10 @@ export default function MyPage() {
           </div>
         </div>
         <MessageModal
-          onConfirm={(e) => {}}
-          isShow={isModalDisabled}
+          onConfirm={(e) => {
+            setisModalActive(false);
+          }}
+          isShow={isModalActive}
           message="비밀번호가 일치하지 않습니다."
         />
       </main>
