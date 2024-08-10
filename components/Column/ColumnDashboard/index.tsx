@@ -9,11 +9,10 @@ import { postDashboardAdd } from "@/lib/columnApi";
 export default function ColumnDashboard() {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(true);
-  const [values,setValues]=useState({
-    title:"",
-    color:"#000"
+  const [values, setValues] = useState({
+    title: "",
+    color: "#000",
   });
-
 
   // title 없으면 버튼 비활성화
   useEffect(() => {
@@ -39,10 +38,10 @@ export default function ColumnDashboard() {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    try{
-      await postDashboardAdd(values.title,values.color);
+    try {
+      await postDashboardAdd(values.title, values.color);
       router.push("/DashBoard/{dashboardid}");
-    }catch(err){
+    } catch (err) {
       console.error("대시보드 생성에 실패했습니다.");
     }
   };

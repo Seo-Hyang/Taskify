@@ -18,20 +18,21 @@ import { BeatLoader } from "react-spinners";
 
 export default function LandingPage() {
   const router = useRouter();
-  const [isLoading,setIsLoading]=useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const { width } = useWindowSize();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    if (token) {setIsLoading(true);
+    if (token) {
+      setIsLoading(true);
       setTimeout(() => {
         router.push("/dashboards");
       }, 1000);
-    }else {
+    } else {
       setIsLoading(false);
     }
-  },[router]);
-  
+  }, [router]);
+
   if (isLoading) {
     return (
       <div className={styles.loadingContainer}>
