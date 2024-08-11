@@ -16,7 +16,7 @@ export default function ColumnDashboard() {
     title: "",
     color: "#000000",
   });
-  const [userId, setUserId] = useState<string>();
+  const [dashboardId, setDashboardId] = useState<string>();
 
   // title 없으면 버튼 비활성화
   useEffect(() => {
@@ -44,13 +44,13 @@ export default function ColumnDashboard() {
     const fetchIdData = async () => {
       try {
         const response = await getDashboardList();
-        setUserId(response.id);
+        setDashboardId(response.id);
       } catch {
         console.error("id를 가져올 수 없습니다.");
       }
     };
     fetchIdData();
-  }, [userId]);
+  }, []);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -61,7 +61,7 @@ export default function ColumnDashboard() {
         color: "#000000",
       });
       closeModal();
-      router.push(`/dashboards/${userId}`);
+      router.push(`/dashboards/${dashboardId}`);
     } catch (err) {
       console.error("대시보드 생성에 실패했습니다.");
     }
