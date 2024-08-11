@@ -9,7 +9,7 @@ interface RequestOptions {
 }
 
 interface Assignee {
-  userId?:number;
+  userId?: number;
   nickname: string;
   profileImageUrl: string | null;
 }
@@ -20,7 +20,7 @@ interface CardData {
   imageUrl: string;
   tags: string[];
   dueDate: string;
-  assignee:Assignee;
+  assignee: Assignee;
 }
 
 interface Comment {
@@ -53,7 +53,7 @@ const fetchRequest = async (url: string, options: RequestOptions) => {
 };
 
 // 대시보드 멤버 조회 - O
-export function getMember(dashboardId: string) {
+export function getMember(dashboardId: number) {
   const url = `/members?page=1&size=20&dashboardId=${dashboardId}`;
   const options = {
     method: "GET",
@@ -128,9 +128,9 @@ export function getCardId(cardId: string): Promise<CardData> {
 
 // 카드 수정
 export function putCard(
-  cardId:number,
+  cardId: number,
   assigneeUserId: number,
-  columnId:number,
+  columnId: number,
   title: string,
   description: string,
   dueDate: string,
