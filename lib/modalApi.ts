@@ -9,7 +9,7 @@ interface RequestOptions {
 }
 
 interface Assignee {
-  userId?:number;
+  userId?: number;
   nickname: string;
   profileImageUrl: string | null;
 }
@@ -20,7 +20,7 @@ interface CardData {
   imageUrl: string;
   tags: string[];
   dueDate: string;
-  assignee:Assignee;
+  assignee: Assignee;
 }
 
 interface Comment {
@@ -128,9 +128,9 @@ export function getCardId(cardId: number): Promise<CardData> {
 
 // 카드 수정
 export function putCard(
-  cardId:number,
+  cardId: number,
   assigneeUserId: number,
-  columnId:number,
+  columnId: number,
   title: string,
   description: string,
   dueDate: string,
