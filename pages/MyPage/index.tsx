@@ -61,7 +61,7 @@ export default function MyPage() {
     useState<boolean>(true);
 
   // input 테두리 하이라이트 state
-  const [isHightLight, setIsHightLight] = useState<boolean>(false);
+  const [isInputHightLight, setIsinputHightLight] = useState<boolean>(false);
 
   // 새 비밀번호 불일치 에러 state
   const [isNewPasswordError, setIsNewPasswordError] = useState<string>("");
@@ -150,10 +150,10 @@ export default function MyPage() {
 
     // 변경 비밀번호 확인 조건문
     if (newPassword !== confirmNewPassword) {
-      setIsHightLight(true);
+      setIsinputHightLight(true);
       setIsNewPasswordError("새 비밀번호가 일치하지 않습니다.");
     } else {
-      setIsHightLight(false);
+      setIsinputHightLight(false);
       setIsNewPasswordError("");
     }
   }, [currentPassword, newPassword, confirmNewPassword, profileNickname]);
@@ -236,7 +236,7 @@ export default function MyPage() {
                     <span className={styles.inputName}>닉네임</span>
                     <input
                       className={styles.input}
-                      placeholder="Nickname"
+                      placeholder={userInfo.nickname}
                       value={profileNickname}
                       onChange={(e) => setProfileNickname(e.target.value)}
                     />
@@ -275,7 +275,7 @@ export default function MyPage() {
                     <span className={styles.inputName}>새 비밀번호</span>
                     <input
                       className={`${styles.input} ${
-                        isHightLight ? styles.hightLight : ""
+                        isInputHightLight ? styles.inputHightLight : ""
                       }`}
                       placeholder="새 비밀번호 입력"
                       value={newPassword}
@@ -288,7 +288,7 @@ export default function MyPage() {
                     <div className={styles.newPassword}>
                       <input
                         className={`${styles.input} ${
-                          isHightLight ? styles.hightLight : ""
+                          isInputHightLight ? styles.inputHightLight : ""
                         }`}
                         placeholder="새 비밀번호 입력"
                         value={confirmNewPassword}
