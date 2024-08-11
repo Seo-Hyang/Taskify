@@ -95,7 +95,7 @@ export default function DashBoards() {
 
   return (
     <div>
-      <ColumnDashboard />  
+      <ColumnDashboard />
       {/* 대시보드 생성 칼럼 */}
       <section>
         <Head>
@@ -174,7 +174,7 @@ export default function DashBoards() {
                             {item.inviter.nickname}
                           </div>
                           <div className={styles.dashboard_invitedButtons}>
-                            <PageButton>수락</PageButton>
+                            <PageButton isEditDashboard={true}>수락</PageButton>
                             <PageButton isCancled={true}>거절</PageButton>
                           </div>
                         </section>

@@ -59,7 +59,7 @@ export default function Edit() {
       </section>
       <div className={styles.dashboardEditPage}>
         <div className={styles.header}>
-          <ReturnButton link="/dashboardid">돌아가기</ReturnButton>
+          <ReturnButton link="/dashboards">돌아가기</ReturnButton>
         </div>
         <EditDashboardInfo id={Number(dashboardId)} />
         <EditMembers dashboardId={Number(dashboardId)} sizePerPage={5} />
