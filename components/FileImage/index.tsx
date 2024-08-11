@@ -52,8 +52,6 @@ export default function FileInput({ onImageUpload, initialImageUrl }: Props) {
     }
   };
 
-  console.log(prevImage);
-
   return (
     <div className={styles["file-input-container"]}>
       <input

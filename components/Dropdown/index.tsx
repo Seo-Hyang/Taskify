@@ -45,7 +45,7 @@ export default function Dropdown() {
 
   return (
     <div ref={dropdownRef} className={styles["dropdown-container"]}>
-      <ColumnEdit columnId = "38425" dashboardId = "11370"/>
+      {/* <ColumnEdit columnId = "38425" dashboardId = "11370"/> */}
       {/* <ColumnDelete columnId = "38425" /> */}
       <button className={styles["dropdown-button"]} onClick={toggleDropdown}>
         <More_vert width="28" height="28" />

@@ -18,6 +18,7 @@ import ColumnDashboard from "@/components/Column/ColumnDashboard";
 import useModalStore from "@/hooks/useModalStore";
 import useInviteStore from "@/hooks/useInviteStore";
 import ColumnInvite from "@/components/Column/ColumnInvite";
+
 /**
  * To do
  * 초대 받은 목록 검색기능
@@ -71,10 +72,10 @@ export default function DashBoards() {
     setInvitedCount(invitationCount);
   }
 
-  function handleChange(e) {
+  function handleChange(e: any) {
     setSearchValue(e.target.value);
   }
-  function handleSubmit(e) {
+  function handleSubmit(e: any) {
     e.preventDefault();
   }
 
@@ -86,7 +87,7 @@ export default function DashBoards() {
 
   // 대시보드 생성 칼럼
   const handleAddDashboardClick = (e: React.MouseEvent) => {
-    openModal();
+    openModal("column");
   };
 
   const closeModal = () => {
@@ -103,7 +104,7 @@ export default function DashBoards() {
         </Head>
         <section>
           <SideMenu />
-          <Header>내 대시보드</Header>
+          <Header dashboardId={11370}>내 대시보드</Header>
         </section>
       </section>
       <section className={styles.dashboardContainer}>
@@ -206,12 +207,6 @@ export default function DashBoards() {
           </section>
         </section>
       </section>
-      <ColumnInvite
-        dashboardId={11370}
-        isAttached={true}
-        isShow={isShowModal}
-        onClickCancle={closeModal}
-      />
     </div>
   );
 }

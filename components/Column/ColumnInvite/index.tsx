@@ -51,7 +51,7 @@ export default function ColumnInvite({
   const handleInviteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      await postcolumnInvite(String(dashboardId), email);
+      await postcolumnInvite(Number(dashboardId), email);
     } catch (err) {
       console.error("초대 요청에 실패했습니다.");
     }

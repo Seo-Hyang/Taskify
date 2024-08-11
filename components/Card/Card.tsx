@@ -13,12 +13,14 @@ import ToDoModal from "../Modal/TodoModal";
  */
 
 export default function Card({
-  id=0,
+  id = 0,
   title = "",
   tags = [""],
   dueDate = "",
   imageUrl = "",
   userEmail = "",
+  columnId = 0,
+  dashboardId = 0,
 }) {
   let cardDueDate = new Date(dueDate);
   let year = cardDueDate.getFullYear();
@@ -26,9 +28,9 @@ export default function Card({
   let date = cardDueDate.getDate();
   const { openModal } = useModalStore();
 
-  const handleCardClick = ()=>{
-    openModal();
-  }
+  const handleCardClick = () => {
+    openModal(`${id}`);
+  };
 
   return (
     <>
@@ -71,7 +73,12 @@ export default function Card({
           </section>
         </div>
       </section>
-      <ToDoModal cardId={id}/>
+      <ToDoModal
+        id={`${id}`}
+        cardId={id}
+        columnId={columnId}
+        dashboardId={dashboardId}
+      />
     </>
   );
 }

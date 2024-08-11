@@ -14,10 +14,15 @@ interface Author {
 }
 
 interface CommentData {
-  id: string;
+  id: number;
   content: string;
   updatedAt: string;
   author: Author;
+}
+interface ModalCommentProps {
+  cardId: number;
+  columnId: number;
+  dashboardId: number;
 }
 
 function formatDate(isoString: string): string {
@@ -33,10 +38,14 @@ function formatDate(isoString: string): string {
   return `${year}.${month}.${day} ${hours}:${minutes}`;
 }
 
-export function Modalcomment() {
+export function Modalcomment({
+  cardId,
+  columnId,
+  dashboardId,
+}: ModalCommentProps) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [commentValues, setCommentValues] = useState<CommentData[]>([]);
-  const [editCommentId, setEditCommentId] = useState<string | null>(null);
+  const [editCommentId, setEditCommentId] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<string>("");
 
   const [content, setContent] = useState<string>("");
@@ -50,9 +59,9 @@ export function Modalcomment() {
     try {
       await postComment({
         content,
-        cardId: 9824,
-        columnId: 38435,
-        dashboardId: 11374,
+        cardId,
+        columnId,
+        dashboardId,
       });
       setContent("");
       setPage(1);
@@ -65,7 +74,8 @@ export function Modalcomment() {
 
   const fetchComents = async (page: number) => {
     try {
-      const response = await getComment(9824, page);
+      const response = await getComment(cardId,page);
+      // const response = await getComment(cardId,page);
       if (response.comments.length === 0) {
         setHasMore(false); // 댓글이 없는 경우 state 값 설정
       } else {
@@ -116,13 +126,13 @@ export function Modalcomment() {
   */
 
   //   댓글 수정 버튼 누르기
-  const handleEditClick = async (commentId: string, currentContent: string) => {
+  const handleEditClick = async (commentId: number, currentContent: string) => {
     setEditCommentId(commentId);
     setEditedContent(currentContent);
   };
 
   // 댓글 삭제
-  const handleDeleteClick = async (commentId: string) => {
+  const handleDeleteClick = async (commentId: number) => {
     try {
       await deleteComment(commentId);
     } catch (err) {
@@ -131,7 +141,7 @@ export function Modalcomment() {
   };
 
   // 댓글 수정
-  const handleEditChange = async (commentId: string, content: string) => {
+  const handleEditChange = async (commentId: number, content: string) => {
     try {
       const response = await putComment(commentId, content);
 

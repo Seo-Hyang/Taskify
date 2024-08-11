@@ -72,7 +72,7 @@ export function postColumnAdd(title: string, dashboardId: number) {
 }
 
 // 칼럼 수정 - O
-export function putColumnEdit(columnId: string, title: string) {
+export function putColumnEdit(columnId: number, title: string) {
   const url = `/columns/${columnId}`;
   const options = {
     method: "PUT",
@@ -85,7 +85,7 @@ export function putColumnEdit(columnId: string, title: string) {
 }
 
 // 칼럼 삭제 - O
-export function putcolumnDelete(columnId: string) {
+export function putcolumnDelete(columnId: number) {
   const url = `/columns/${columnId}`;
   const options = {
     method: "DELETE",
@@ -96,7 +96,7 @@ export function putcolumnDelete(columnId: string) {
 }
 
 // 초대하기 칼럼 - O
-export function postcolumnInvite(dashboardId: string, email: string) {
+export function postcolumnInvite(dashboardId: number, email: string) {
   const url = `/dashboards/${dashboardId}/invitations`;
   const options = {
     method: "POST",

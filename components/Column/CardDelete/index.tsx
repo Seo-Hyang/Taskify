@@ -4,7 +4,7 @@ import { deleteCard } from "@/lib/modalApi";
 import Dialog from "@/components/Modal/modal";
 import useModalStore from "@/hooks/useModalStore";
 
-export default function CardDelete(cardId: string) {
+export default function CardDelete(cardId: number) {
   const {closeModal}=useModalStore();
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.preventDefault();

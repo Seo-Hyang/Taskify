@@ -18,6 +18,7 @@ export default function Column({
   children = "",
   columnId = 0,
   cardCounts = 0,
+  dashboardId = 0,
 }) {
   const [cardList, setCardList] = useState<Card[]>([]); //카드 목록
   const [totalCount, setTotalCount] = useState(0);
@@ -26,7 +27,6 @@ export default function Column({
   async function getCardList() {
     const res = await instance.get(
       `https://sp-taskify-api.vercel.app/7-1/cards?size=10&columnId=${columnId}`
-      //"https://sp-taskify-api.vercel.app/7-1/cards?size=10&columnId=38424"  확인용 데이터
     );
     const nextCardList = res.data;
     const { cards, totalCount, cursorId } = nextCardList;
@@ -39,9 +39,8 @@ export default function Column({
   }, []);
 
   const handleCreateCardClick = (e: React.MouseEvent) => {
-    openModal();
+    openModal("createCard");
   };
-
 
   return (
     <div className={styles.container}>
@@ -55,15 +54,18 @@ export default function Column({
         {cardList.map((item) => (
           <Cards
             key={item.id}
+            id={item.id}
             title={item.title}
             tags={item.tags}
             dueDate={item.dueDate}
             imageUrl={item.imageUrl}
             userEmail={item.assignee.nickname}
+            columnId={columnId}
+            dashboardId={dashboardId}
           />
         ))}
       </section>
-      <ToDoCreate />
+      <ToDoCreate dashboardId={dashboardId} columnId={columnId} />
     </div>
   );
 }

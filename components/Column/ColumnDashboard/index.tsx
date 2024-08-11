@@ -44,7 +44,6 @@ export default function ColumnDashboard() {
     const fetchIdData = async () => {
       try {
         const response = await getDashboardList();
-        setDashboardId(response.id);
       } catch {
         console.error("id를 가져올 수 없습니다.");
       }
@@ -55,28 +54,30 @@ export default function ColumnDashboard() {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      await postDashboardAdd(values.title, values.color);
+      const data = await postDashboardAdd(values.title, values.color);
+      setDashboardId(data.id);
       setValues({
         title: "",
         color: "#000000",
       });
-      closeModal();
-      router.push(`/dashboards/${dashboardId}`);
+      closeModal("column");
+      router.push(`/dashboards/${data.id}`);
     } catch (err) {
       console.error("대시보드 생성에 실패했습니다.");
     }
   };
+  console.log(dashboardId);
 
   const handleCancel = () => {
     setValues({
       title: "",
       color: "#000000",
     });
-    closeModal();
+    closeModal("column");
   };
 
   return (
-    <Dialog className={styles["dialog-container"]}>
+    <Dialog id="column" className={styles["dialog-container"]}>
       <div className={styles["column-dashboard"]}>
         <div className={styles["column-dashboard-container"]}>
           <h1 className={styles["column-dashboard-h1"]}>새로운 대시보드</h1>

@@ -26,7 +26,19 @@ interface CardData {
   dueDate: string;
 }
 
-export default function ToDoModal({cardId}:{cardId:number}) {
+interface Props {
+  id: string;
+  cardId: number;
+  columnId: number;
+  dashboardId: number;
+}
+
+export default function ToDoModal({
+  id,
+  cardId,
+  columnId,
+  dashboardId,
+}: Props) {
   const { width } = useWindowSize();
   const { tagColors, addTagColor } = useTagColors();
 
@@ -68,102 +80,112 @@ export default function ToDoModal({cardId}:{cardId:number}) {
     fetchCard();
   }, []);
 
-  const handleCancelClick = ()=>{
-    closeModal();
-  }
+  const handleCancelClick = () => {
+    closeModal(`${id}`);
+  };
 
   return (
-    <Dialog>
-    <div className={styles["todo-modal"]}>
-      {width <= MOBILE_MAX_WIDTH ? (
-        <>
-          <div className={styles["todo-top-icon"]}>
-            <Dropdown />
-            <button className={styles["todo-button"]} onClick={handleCancelClick}>
-              <Close width="32" height="32" alt="닫기" />
-            </button>
-          </div>
-          <h1 className={styles["todo-h1"]}>{values.title}</h1>
-        </>
-      ) : (
-        <>
-          <div className={styles["todo-top"]}>
-            <h1 className={styles["todo-h1"]}>{values.title}</h1>
+    <Dialog id={`${id}`}>
+      <div className={styles["todo-modal"]}>
+        {width <= MOBILE_MAX_WIDTH ? (
+          <>
             <div className={styles["todo-top-icon"]}>
               <Dropdown />
-              <button className={styles["todo-button"]}>
+              <button
+                className={styles["todo-button"]}
+                onClick={handleCancelClick}
+              >
                 <Close width="32" height="32" alt="닫기" />
               </button>
             </div>
-          </div>
-        </>
-      )}
-
-      <div className={styles["todo-column"]}>
-        <div>
-          <section className={styles["todo-chip-container"]}>
-            <div className={styles["todo-chip-container-state"]}>
-              <div className={styles["todo-chip-circle"]}></div>
-              <div className={styles["todo-chip"]}></div>
-              {/* column title */}
-            </div>
-            <div className={styles["todo-chip-container-line"]}></div>
-            <div className={styles["todo-chip-container-tag-container"]}>
-              <div className={styles["todo-chip-container-tag"]}>
-                {values.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className={styles.tag}
-                    style={{
-                      backgroundColor: tagColors[tag]?.backgroundColor,
-                      color: tagColors[tag]?.color,
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
+            <h1 className={styles["todo-h1"]}>{values.title}</h1>
+          </>
+        ) : (
+          <>
+            <div className={styles["todo-top"]}>
+              <h1 className={styles["todo-h1"]}>{values.title}</h1>
+              <div className={styles["todo-top-icon"]}>
+                <Dropdown />
+                <button
+                  className={styles["todo-button"]}
+                  onClick={handleCancelClick}
+                >
+                  <Close width="32" height="32" alt="닫기" />
+                </button>
               </div>
             </div>
-          </section>
+          </>
+        )}
 
-          <section className={styles["todo-description"]}>
-            {values.description}
-          </section>
+        <div className={styles["todo-column"]}>
+          <div>
+            <section className={styles["todo-chip-container"]}>
+              <div className={styles["todo-chip-container-state"]}>
+                <div className={styles["todo-chip-circle"]}></div>
+                <div className={styles["todo-chip"]}></div>
+                {/* column title */}
+              </div>
+              <div className={styles["todo-chip-container-line"]}></div>
+              <div className={styles["todo-chip-container-tag-container"]}>
+                <div className={styles["todo-chip-container-tag"]}>
+                  {values.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className={styles.tag}
+                      style={{
+                        backgroundColor: tagColors[tag]?.backgroundColor,
+                        color: tagColors[tag]?.color,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </section>
 
-          <img
-            src={values.imageUrl}
-            alt="카드 이미지"
-            className={styles["todo-img"]}
-          />
-          <Modalcomment />
-        </div>
-        <section className={styles["todo-user-container"]}>
-          <div
-            className={`${styles["todo-user-container-top"]} ${styles["todo-margin"]}`}
-          >
-            <h2 className={styles["todo-user-top"]}>담당자</h2>
-            <div className={styles["todo-user-img-container"]}>
-              <img
-                src={
-                  values.assignee.profileImageUrl
-                    ? values.assignee.profileImageUrl
-                    : generateProfileImageUrl(values.assignee.nickname)
-                }
-                alt="프로필 이미지"
-                className={styles["todo-user-img"]}
-              />
-              <span className={styles["todo-user-name"]}>
-                {values.assignee.nickname}
-              </span>
+            <section className={styles["todo-description"]}>
+              {values.description}
+            </section>
+
+            <img
+              src={values.imageUrl}
+              alt="카드 이미지"
+              className={styles["todo-img"]}
+            />
+            <Modalcomment
+              cardId={cardId}
+              columnId={columnId}
+              dashboardId={dashboardId}
+            />
+          </div>
+          <section className={styles["todo-user-container"]}>
+            <div
+              className={`${styles["todo-user-container-top"]} ${styles["todo-margin"]}`}
+            >
+              <h2 className={styles["todo-user-top"]}>담당자</h2>
+              <div className={styles["todo-user-img-container"]}>
+                <img
+                  src={
+                    values.assignee.profileImageUrl
+                      ? values.assignee.profileImageUrl
+                      : generateProfileImageUrl(values.assignee.nickname)
+                  }
+                  alt="프로필 이미지"
+                  className={styles["todo-user-img"]}
+                />
+                <span className={styles["todo-user-name"]}>
+                  {values.assignee.nickname}
+                </span>
+              </div>
             </div>
-          </div>
-          <div className={styles["todo-user-container-top"]}>
-            <h2 className={styles["todo-user-top"]}>마감일</h2>
-            <div className={styles["todo-user-name"]}>{values.dueDate}</div>
-          </div>
-        </section>
+            <div className={styles["todo-user-container-top"]}>
+              <h2 className={styles["todo-user-top"]}>마감일</h2>
+              <div className={styles["todo-user-name"]}>{values.dueDate}</div>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
     </Dialog>
   );
 }

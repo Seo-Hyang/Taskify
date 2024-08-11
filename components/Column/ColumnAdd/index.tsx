@@ -19,9 +19,7 @@ export default function ColumnAdd({ dashboardId }: Props) {
   const [existingColumns, setExistingColumns] = useState<string[]>([]);
   const [columnLimitReached, setColumnLimitReached] = useState(false);
   const columnLimit = 10;
-  const {closeModal}=useModalStore();
-
-  // dashboardId를 가지고 오려면 현재 내가 어느 대시보드에 있는지를 알아야 하는데..내가 지금 아는건가?
+  const { closeModal } = useModalStore();
 
   // 칼럼 이름이 빈 값인지
   useEffect(() => {
@@ -74,43 +72,45 @@ export default function ColumnAdd({ dashboardId }: Props) {
     }
   };
 
-  const handleCancelClick= ()=>{
-    closeModal();
+  const handleCancelClick = () => {
+    closeModal("columnAdd");
     setColumnName("");
-  }
+  };
 
   return (
-    <Dialog className={styles["dialog-container"]}>
-    <div className={styles["column-auth"]}>
-      <div className={styles["column-auth-container"]}>
-        <h1 className={styles["column-h1"]}>새 칼럼 생성</h1>
-        <div className={styles["column-add-label-container"]}>
-          <label className={styles["column-label"]}>이름</label>
-          <Input
-            placeholder="이름을 입력해주세요"
-            value={columnName}
-            onChange={handleInputChange}
-            hasError={!!error}
-          />
-          {error && <div className={styles["error-message"]}>{error}</div>}
-          {columnLimitReached && (
-            <div className={styles["error-message"]}>
-              칼럼은 최대 {columnLimit}개까지 생성이 가능합니다.
-            </div>
-          )}
-        </div>
-        <div className={styles["column-button-container"]}>
-          <ModalButton isCancled={true} onClick={handleCancelClick}>취소</ModalButton>
-          <ModalButton
-            isComment={true}
-            isDisabled={isDisabled || !!error}
-            onClick={handleSubmit}
-          >
-            생성
-          </ModalButton>
+    <Dialog id="columnAdd" className={styles["dialog-container"]}>
+      <div className={styles["column-auth"]}>
+        <div className={styles["column-auth-container"]}>
+          <h1 className={styles["column-h1"]}>새 칼럼 생성</h1>
+          <div className={styles["column-add-label-container"]}>
+            <label className={styles["column-label"]}>이름</label>
+            <Input
+              placeholder="이름을 입력해주세요"
+              value={columnName}
+              onChange={handleInputChange}
+              hasError={!!error}
+            />
+            {error && <div className={styles["error-message"]}>{error}</div>}
+            {columnLimitReached && (
+              <div className={styles["error-message"]}>
+                칼럼은 최대 {columnLimit}개까지 생성이 가능합니다.
+              </div>
+            )}
+          </div>
+          <div className={styles["column-button-container"]}>
+            <ModalButton isCancled={true} onClick={handleCancelClick}>
+              취소
+            </ModalButton>
+            <ModalButton
+              isComment={true}
+              isDisabled={isDisabled || !!error}
+              onClick={handleSubmit}
+            >
+              생성
+            </ModalButton>
+          </div>
         </div>
       </div>
-    </div>
     </Dialog>
   );
 }

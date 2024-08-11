@@ -4,7 +4,7 @@ import { putcolumnDelete, getColumnAdd } from "@/lib/columnApi";
 import useModalStore from "@/hooks/useModalStore";
 import Dialog from "@/components/Modal/modal";
 
-export default function ColumnDelete(columnId: string) {
+export default function ColumnDelete(columnId: number) {
   const {closeModal}=useModalStore();
   // 칼럼 삭제
   const handleDeleteClick = async (e: React.MouseEvent) => {

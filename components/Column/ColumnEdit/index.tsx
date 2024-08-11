@@ -12,7 +12,7 @@ import Dialog from "@/components/Modal/modal";
 import useModalStore from "@/hooks/useModalStore";
 
 interface Props {
-  columnId: string;
+  columnId: number;
   title?: string;
   dashboardId: string;
 }
@@ -21,7 +21,6 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
   const router = useRouter();
   const [newColumn, setNewColumn] = useState<string>("");
   const { width } = useWindowSize();
-  const {closeModal}=useModalStore();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewColumn(e.target.value);
@@ -39,7 +38,7 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
   };
 
   return (
-    <Dialog>
+    // <Dialog>
     <div className={styles["column-auth"]}>
       <div className={styles["column-auth-container"]}>
         <div className={styles["column-container-close"]}>
@@ -65,6 +64,6 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
         </div>
       </div>
     </div>
-    </Dialog>
+    {/* </Dialog> */}
   );
 }

@@ -17,6 +17,8 @@ import ColumnInvite from "@/components/Column/ColumnInvite";
 import useInviteStore from "@/hooks/useInviteStore";
 import useModalStore from "@/hooks/useModalStore";
 import ColumnAdd from "@/components/Column/ColumnAdd";
+import ToDoCreate from "@/components/Modal/ToDoCreate";
+import ToDoModal from "@/components/Modal/TodoModal";
 
 export type Column = {
   id: number;
@@ -32,17 +34,14 @@ export default function DashBoard() {
   const { setDashboard } = useDashboard();
   const { dashboardId } = router.query;
   const { isShowModal, setIsShowModal } = useInviteStore();
-  const {openModal}=useModalStore();
+  const { openModal } = useModalStore();
 
   //칼럼 목록
   const [columsList, setColumnList] = useState<Column[]>([]);
 
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${localStorage.getItem(
-        "currentDashboardId"
-      )}`
-      // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419"
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${dashboardId}`
     );
     const nextColumnList = res.data;
     const { result, data } = nextColumnList;
@@ -58,15 +57,15 @@ export default function DashBoard() {
   useEffect(() => {
     setDashboardContext();
     getColumnList();
-  }, [localStorage.getItem("currentDashboardId")]);
+  }, [dashboardId]);
 
   const closeModal = () => {
     setIsShowModal(false);
   };
 
-  const handleNewColumnClick = ()=>{
-    openModal();
-  }
+  const handleNewColumnClick = () => {
+    openModal("columnAdd");
+  };
 
   return (
     <>
@@ -83,21 +82,28 @@ export default function DashBoard() {
         <section className={styles.dashboardColumns}>
           {columsList.map((item) => (
             <section key={item.id} className={styles.dashboardColumns}>
-              <DashboardColumn columnId={item.id}>{item.title}</DashboardColumn>
+              <DashboardColumn
+                dashboardId={Number(dashboardId)}
+                columnId={item.id}
+              >
+                {item.title}
+              </DashboardColumn>
             </section>
           ))}
         </section>
         <div className={styles.add_newColumn}>
-          <AddButton addColumn={true} onClick={handleNewColumnClick}>새로운 칼럼 추가하기</AddButton>
+          <AddButton addColumn={true} onClick={handleNewColumnClick}>
+            새로운 칼럼 추가하기
+          </AddButton>
         </div>
       </section>
       <ColumnInvite
-        dashboardId={11370}
+        dashboardId={Number(dashboardId)}
         isAttached={true}
         isShow={isShowModal}
         onClickCancle={closeModal}
       />
-      <ColumnAdd dashboardId={11370} />
+      <ColumnAdd dashboardId={Number(dashboardId)} />
     </>
   );
 }
