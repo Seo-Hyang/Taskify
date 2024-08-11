@@ -64,6 +64,5 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
         </div>
       </div>
     </div>
-    {/* </Dialog> */}
   );
 }

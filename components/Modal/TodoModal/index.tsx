@@ -12,6 +12,7 @@ import { useTagColors } from "@/hooks/useTagColors";
 import useModalStore from "@/hooks/useModalStore";
 import Dialog from "../modal";
 import { getColumnAdd } from "@/lib/columnApi";
+import Image from "next/image";
 
 interface Assignee {
   nickname: string;
@@ -19,7 +20,7 @@ interface Assignee {
 }
 
 interface CardData {
-  id?:number;
+  id?: number;
   title: string;
   description: string;
   imageUrl: string;
@@ -92,7 +93,7 @@ export default function ToDoModal({
       try {
         const response = await getColumnAdd(dashboardId);
         const matchedColumn = response.data.find(
-          (column:CardData) => column.id === columnId
+          (column: CardData) => column.id === columnId
         );
         if (matchedColumn) {
           setColumnValues({
@@ -154,9 +155,7 @@ export default function ToDoModal({
             <section className={styles["todo-chip-container"]}>
               <div className={styles["todo-chip-container-state"]}>
                 <div className={styles["todo-chip-circle"]}></div>
-                <div className={styles["todo-chip"]}>
-                  {columnValues.title}
-                </div>
+                <div className={styles["todo-chip"]}>{columnValues.title}</div>
               </div>
               <div className={styles["todo-chip-container-line"]}></div>
               <div className={styles["todo-chip-container-tag-container"]}>
@@ -181,7 +180,7 @@ export default function ToDoModal({
               {values.description}
             </section>
 
-            <img
+            <Image
               src={values.imageUrl}
               alt="카드 이미지"
               className={styles["todo-img"]}
@@ -198,7 +197,7 @@ export default function ToDoModal({
             >
               <h2 className={styles["todo-user-top"]}>담당자</h2>
               <div className={styles["todo-user-img-container"]}>
-                <img
+                <Image
                   src={
                     values.assignee.profileImageUrl
                       ? values.assignee.profileImageUrl

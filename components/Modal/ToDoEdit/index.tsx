@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
 import Dialog from "../modal";
 import useModalStore from "@/hooks/useModalStore";
+import Image from "next/image";
 
 interface Assignee {
   userId?: number;
@@ -332,7 +333,7 @@ export default function ToDoEdit(
               >
                 {selectedAssignee ? (
                   <div className={styles["toggle-assign-item-container"]}>
-                    <img
+                    <Image
                       src={
                         selectedAssignee.profileImageUrl
                           ? selectedAssignee.profileImageUrl
@@ -347,7 +348,7 @@ export default function ToDoEdit(
                   </div>
                 ) : (
                   <div className={styles["toggle-assign-item-container"]}>
-                    <img
+                    <Image
                       src={
                         values.assignee.profileImageUrl
                           ? values.assignee.profileImageUrl
@@ -380,7 +381,7 @@ export default function ToDoEdit(
                             <Check_icon width="22" height="22" />
                           )}
                         </div>
-                        <img
+                        <Image
                           src={
                             assignee.profileImageUrl
                               ? assignee.profileImageUrl

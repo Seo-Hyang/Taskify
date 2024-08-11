@@ -20,8 +20,6 @@ export default function SideMenu() {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
   const router = useRouter(); //라우터를 이용하여 페이지 이동(로컬스토리지의 현재대시보드 아이디에 따라)
 
-  const { openModal } = useModalStore();
-
   //페이지 스테이트
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(0);
@@ -38,14 +36,9 @@ export default function SideMenu() {
 
   useEffect(() => {
     getDashboardList();
-    const currentDashboardId = router.query.dashboardId;
-    if (currentDashboardId) {
-      setSelectedDashboardId(Number(currentDashboardId));
-    }
-  }, [router.asPath]);
+  }, []);
 
   const handleDashboardClick = (id: number) => {
-    setSelectedDashboardId(id);
     localStorage.setItem("currentDashboardId", id.toString());
     router.push(`/dashboards/${id}`);
   };
@@ -70,7 +63,7 @@ export default function SideMenu() {
                 <DashboardButton
                   isOwn={item.createdByMe}
                   color={item.color}
-                    onClick={() => {
+                  onClick={() => {
                     localStorage.setItem(
                       "currentDashboardId",
                       item.id.toString()
