@@ -11,6 +11,7 @@ import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import { useTagColors } from "@/hooks/useTagColors";
 import useModalStore from "@/hooks/useModalStore";
 import Dialog from "../modal";
+import { getColumnAdd } from "@/lib/columnApi";
 
 interface Assignee {
   nickname: string;
@@ -18,6 +19,7 @@ interface Assignee {
 }
 
 interface CardData {
+  id?:number;
   title: string;
   description: string;
   imageUrl: string;
@@ -41,6 +43,10 @@ export default function ToDoModal({
 }: Props) {
   const { width } = useWindowSize();
   const { tagColors, addTagColor } = useTagColors();
+  const [columnValues, setColumnValues] = useState({
+    id: 0,
+    title: "",
+  });
 
   const [values, setValues] = useState<CardData>({
     title: "",
@@ -80,12 +86,38 @@ export default function ToDoModal({
     fetchCard();
   }, []);
 
+  // 대시보드 칼럼 목록 조회(칼럼 title과 id 들고와서) columnValues.id랑 columnId랑 같으면 columnValues.title 보여주기
+  useEffect(() => {
+    const fetchColumnTitle = async () => {
+      try {
+        const response = await getColumnAdd(dashboardId);
+        const matchedColumn = response.data.find(
+          (column:CardData) => column.id === columnId
+        );
+        if (matchedColumn) {
+          setColumnValues({
+            id: matchedColumn.id,
+            title: matchedColumn.title,
+          });
+        } else {
+          console.log("일치하는 컬럼을 찾을 수 없습니다.");
+        }
+      } catch (error) {
+        console.log("카드를 가져올 수 없습니다");
+      }
+    };
+    fetchColumnTitle();
+  }, []);
+
   const handleCancelClick = () => {
     closeModal(`${id}`);
   };
 
+  console.log(columnId);
+  console.log(columnValues.id);
+
   return (
-    <Dialog id={`${id}`}>
+    <Dialog id={`${id}`} className={styles["dialog-container"]}>
       <div className={styles["todo-modal"]}>
         {width <= MOBILE_MAX_WIDTH ? (
           <>
@@ -122,8 +154,9 @@ export default function ToDoModal({
             <section className={styles["todo-chip-container"]}>
               <div className={styles["todo-chip-container-state"]}>
                 <div className={styles["todo-chip-circle"]}></div>
-                <div className={styles["todo-chip"]}></div>
-                {/* column title */}
+                <div className={styles["todo-chip"]}>
+                  {columnValues.title}
+                </div>
               </div>
               <div className={styles["todo-chip-container-line"]}></div>
               <div className={styles["todo-chip-container-tag-container"]}>

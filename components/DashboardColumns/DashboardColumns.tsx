@@ -8,7 +8,6 @@ import Cards from "@/components/Card/Card";
 import AddButton from "@/components/Button/AddButton/AddButton";
 //카드 타입 인터페이스
 import { Card } from "@/types/Card";
-import useInviteStore from "@/hooks/useInviteStore";
 import useModalStore from "@/hooks/useModalStore";
 import ToDoCreate from "../Modal/ToDoCreate";
 
@@ -50,7 +49,7 @@ export default function Column({
         <div className={styles.cards_counts}>{totalCount}</div>
       </section>
       <section className={styles.cards}>
-        <AddButton addTodo={true} onClick={handleCreateCardClick} />
+        <AddButton addTodo={true} onClick={handleCreateCardClick} columnId={columnId}/>
         {cardList.map((item) => (
           <Cards
             key={item.id}

@@ -9,6 +9,7 @@ interface AddButtonProps {
   addTodo?: boolean;
   addColumn?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  columnId?:number;
 }
 
 export default function AddButton({
@@ -17,6 +18,7 @@ export default function AddButton({
   addTodo = false,
   addColumn = false,
   onClick,
+  columnId,
 }: AddButtonProps) {
   return (
     <button

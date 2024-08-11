@@ -50,8 +50,6 @@ const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
   );
 };
 
-// dashboardId columnId 가져오기
-
 export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -153,7 +151,6 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
       console.error("Error creating card:", error);
     }
   };
-
   useEffect(() => {
     const { assigneeUserId, title, description } = values;
     if (assigneeUserId && title && description) {
@@ -173,7 +170,7 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await getMember(11370);
+        const response = await getMember(dashboardId);
         setAssignees(response.members);
       } catch (err) {
         console.error("멤버를 조회할 수 없습니다.");
@@ -186,6 +183,7 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
     setSelectedAssignee(assignee);
     setValues({ ...values, assigneeUserId: assignee.userId });
     setIsOpen(false);
+    console.log(values.assigneeUserId);
   };
 
   useEffect(() => {
@@ -318,6 +316,7 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
             <FileInput
               onImageUpload={handleImageUpload}
               initialImageUrl={imgUrl}
+              columnId={columnId}
             />
           </div>
         </div>

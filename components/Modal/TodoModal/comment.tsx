@@ -67,6 +67,7 @@ export function Modalcomment({
       setPage(1);
       setCommentValues([]);
       fetchComents(1);
+      setIsDisabled(true);
     } catch (err) {
       console.error("댓글 생성에 실패했습니다.");
     }
@@ -161,9 +162,7 @@ export function Modalcomment({
       console.error("댓글 수정에 실패했습니다.");
     }
   };
-  useEffect(() => {
-    console.log(commentValues);
-  }, [commentValues]);
+
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
     setContent(newValue);

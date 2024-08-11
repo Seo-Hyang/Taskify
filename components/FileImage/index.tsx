@@ -7,9 +7,10 @@ import { postImage } from "@/lib/modalApi";
 interface Props {
   onImageUpload: (url: string) => void;
   initialImageUrl?: string;
+  columnId:number;
 }
 
-export default function FileInput({ onImageUpload, initialImageUrl }: Props) {
+export default function FileInput({ onImageUpload, initialImageUrl,columnId }: Props) {
   const [currentImage, setCurrentImage] = useState<File | null>(null);
   const [prevImage, setPrevImage] = useState<string | undefined>(
     initialImageUrl
@@ -40,7 +41,7 @@ export default function FileInput({ onImageUpload, initialImageUrl }: Props) {
       setCurrentImage(file);
 
       try {
-        const response = await postImage("38425", file); // postImage 함수 호출
+        const response = await postImage(columnId, file); // postImage 함수 호출
         onImageUpload(response.imageUrl); // 업로드된 이미지 URL을 부모 컴포넌트로 전달
         setPrevImage(response.imageUrl); // 서버에서 받은 URL로 업데이트
         e.target.value = ""; // 입력 값을 초기화하여 같은 파일을 재선택할 수 있게 함
