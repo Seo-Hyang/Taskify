@@ -7,6 +7,7 @@ interface ButtonProps {
   isOwn: boolean;
   color: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  isCursorNow: boolean;
 }
 
 export default function DashboardButton({
@@ -14,9 +15,15 @@ export default function DashboardButton({
   isOwn,
   color,
   onClick,
+  isCursorNow,
 }: ButtonProps) {
   return (
-    <button className={styles.container} onClick={onClick}>
+    <button
+      className={`${styles.container} ${
+        isCursorNow ? styles.container_cursor : ""
+      }`}
+      onClick={onClick}
+    >
       <section className={styles.contents}>
         <div
           className={styles.contents_color}

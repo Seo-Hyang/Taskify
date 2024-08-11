@@ -27,9 +27,6 @@ export default function SideMenu() {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(0);
   const pageSize = 10;
-  /** To do
-   * 버튼 onClick > page 이동(setPage 이용)
-   */
 
   async function getDashboardList() {
     const res = await instance.get(
@@ -98,6 +95,10 @@ export default function SideMenu() {
                       )}`
                     );
                   }}
+                  isCursorNow={
+                    item.id.toString() ===
+                    localStorage.getItem("currentDashboardId")
+                  }
                 >
                   {item.title}
                 </DashboardButton>
