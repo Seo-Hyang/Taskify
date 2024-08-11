@@ -141,6 +141,10 @@ export function Modalcomment({
     }
   };
 
+  useEffect(()=>{
+    handleDeleteClick
+  },[commentValues]);
+
   // 댓글 수정
   const handleEditChange = async (commentId: number, content: string) => {
     try {
@@ -237,9 +241,10 @@ export function Modalcomment({
                       onChange={handleEditedCommentChange}
                     />
                     <div className={styles["edit-container"]}>
-                      <button className={styles["todo-user-button"]}>
+                      <button className={styles["todo-user-button"]} onClick={handlecommentClick}>
                         취소
                       </button>
+                      {/* 수정하기 */}
                       <button
                         className={styles["todo-user-button"]}
                         onClick={() =>
