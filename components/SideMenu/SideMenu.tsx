@@ -19,11 +19,13 @@ import { useRouter } from "next/router";
 export default function SideMenu() {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
   const router = useRouter(); //라우터를 이용하여 페이지 이동(로컬스토리지의 현재대시보드 아이디에 따라)
-  const [selectedDashboardId, setSelectedDashboardId] = useState<number | null>(
-    null
-  ); //선택된 대시보드 색깔 설정
-  const { dashboardId } = router.query;
 
+  const { openModal } = useModalStore();
+
+  //페이지 스테이트
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState<number>(0);
+  const pageSize = 10;
   async function getDashboardList() {
     const res = await instance.get(
       "/dashboards?navigationMethod=pagination&page=1&size=10"
@@ -68,8 +70,21 @@ export default function SideMenu() {
                 <DashboardButton
                   isOwn={item.createdByMe}
                   color={item.color}
-                  isSelected={item.id === selectedDashboardId}
-                  onClick={() => handleDashboardClick(item.id)}
+                    onClick={() => {
+                    localStorage.setItem(
+                      "currentDashboardId",
+                      item.id.toString()
+                    );
+                    router.push(
+                      `/dashboards/${localStorage.getItem(
+                        "currentDashboardId"
+                      )}`
+                    );
+                  }}
+                  isCursorNow={
+                    item.id.toString() ===
+                    localStorage.getItem("currentDashboardId")
+                  }
                 >
                   {item.title}
                 </DashboardButton>
