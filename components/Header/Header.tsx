@@ -10,6 +10,7 @@ import { getHeader, getMyPage } from "@/lib/headerApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import useInviteStore from "@/hooks/useInviteStore";
 import instance from "@/lib/axios";
+import Image from "next/image";
 
 const getRandomPastelColor = () => {
   const randomValue = () => Math.floor(Math.random() * 56 + 200);
@@ -143,7 +144,7 @@ export default function Header({
           </div>
           <div className={styles["dashboard-members-container"]}>
             {displayedMembers.map((member, index) => (
-              <img
+              <Image
                 key={member.userId}
                 src={
                   member.profileImageUrl
@@ -177,7 +178,7 @@ export default function Header({
       </section>
 
       <section className={styles.header_usersContainer}>
-        <img
+        <Image
           src={
             values.profileImageUrl
               ? values.profileImageUrl

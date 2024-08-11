@@ -12,7 +12,7 @@ import { MouseEvent } from "react";
  */
 
 export default function PageButton({
-  children,
+  children = "",
   isCancled = false,
   isInvitation = false,
   isEditDashboard = false,

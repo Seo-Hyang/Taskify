@@ -3,14 +3,19 @@ import styles from "../FileImage/FileImage.module.scss";
 import File_input from "@/public/icons/file_input.svg";
 import File_input_img from "@/public/icons/file_input_img.svg";
 import { postImage } from "@/lib/modalApi";
+import Image from "next/image";
 
 interface Props {
   onImageUpload: (url: string) => void;
   initialImageUrl?: string;
-  columnId:number;
+  columnId: number;
 }
 
-export default function FileInput({ onImageUpload, initialImageUrl,columnId }: Props) {
+export default function FileInput({
+  onImageUpload,
+  initialImageUrl,
+  columnId,
+}: Props) {
   const [currentImage, setCurrentImage] = useState<File | null>(null);
   const [prevImage, setPrevImage] = useState<string | undefined>(
     initialImageUrl
@@ -64,7 +69,7 @@ export default function FileInput({ onImageUpload, initialImageUrl,columnId }: P
       <label htmlFor="file-input" className={styles["file-input-button"]}>
         {prevImage ? (
           <div className={styles["file-input-preview-input"]}>
-            <img
+            <Image
               src={prevImage}
               alt="Selected"
               width="30"
@@ -78,7 +83,7 @@ export default function FileInput({ onImageUpload, initialImageUrl,columnId }: P
       </label>
       {prevImage && (
         <div className={styles["file-input-preview"]}>
-          <img
+          <Image
             src={prevImage}
             alt="Selected"
             className={styles["file-input-img"]}
