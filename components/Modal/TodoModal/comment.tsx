@@ -136,6 +136,9 @@ export function Modalcomment({
   const handleDeleteClick = async (commentId: number) => {
     try {
       await deleteComment(commentId);
+      setCommentValues((prevComments) =>
+        prevComments.filter((comment) => comment.id !== commentId)
+      );
     } catch (err) {
       console.error("댓글 삭제에 실패했습니다.");
     }
@@ -180,6 +183,12 @@ export function Modalcomment({
     setEditedContent(newValue);
     console.log(editedContent);
   };
+
+  const handleCancelEdit = () => {
+    setEditCommentId(null);
+    setEditedContent("");
+  };
+  
 
   return (
     <div className={styles["todo-comment-input-container"]}>
@@ -241,7 +250,7 @@ export function Modalcomment({
                       onChange={handleEditedCommentChange}
                     />
                     <div className={styles["edit-container"]}>
-                      <button className={styles["todo-user-button"]} onClick={handlecommentClick}>
+                      <button className={styles["todo-user-button"]} onClick={handleCancelEdit}>
                         취소
                       </button>
                       {/* 수정하기 */}

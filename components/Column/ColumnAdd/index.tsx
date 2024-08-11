@@ -7,11 +7,7 @@ import { useRouter } from "next/router";
 import Dialog from "@/components/Modal/modal";
 import useModalStore from "@/hooks/useModalStore";
 
-interface Props {
-  dashboardId: number;
-}
-
-export default function ColumnAdd({ dashboardId }: Props) {
+export default function ColumnAdd({ dashboardId, onColumnAdded }: { dashboardId: number; onColumnAdded: () => void; }) {
   const router = useRouter();
   const [columnName, setColumnName] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +62,9 @@ export default function ColumnAdd({ dashboardId }: Props) {
     }
     try {
       await postColumnAdd(columnName, dashboardId);
-      router.push(`/dashboards/${dashboardId}`);
+      closeModal("columnAdd");
+      setColumnName("");
+      onColumnAdded();
     } catch (err) {
       console.error("칼럼 생성에 실패했습니다.");
     }

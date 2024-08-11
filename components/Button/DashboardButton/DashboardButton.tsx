@@ -18,7 +18,6 @@ export default function DashboardButton({
   onClick,
   isCursorNow,
 }: ButtonProps) {
-  console.log(isSelected);
   return (
     <button
 className={`${styles.container} ${
