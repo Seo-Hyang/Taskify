@@ -6,6 +6,8 @@ import styles from "@/pages/dashboards/style.module.scss";
 import { useEffect, useState } from "react";
 import { Dashboard, DashboardInvitation } from "@/types/dashboard";
 import instance from "@/lib/axios";
+import useWindowSize from "@/hooks/useDevice";
+import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 
 //컴포넌트 import
 import DashboardListButton from "@/components/Button/DashboardListButton/DashboardListButton";
@@ -24,6 +26,7 @@ import useModalStore from "@/hooks/useModalStore";
  */
 
 export default function DashBoards() {
+  const { width } = useWindowSize();
   //나의 대시보드
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
   const [dashboardTotalCount, setDashboardTotalCount] = useState<number>(0); //대시보드 전체 개수
@@ -120,7 +123,13 @@ export default function DashBoards() {
       <section className={styles.dashboardContainer}>
         <section className={styles.dashboard_inner}>
           <section className={styles.dashboard_myListContainer}>
-            <section className={styles.dashboard_myList}>
+            <section
+              className={`${styles.dashboard_myList} ${
+                dashboardTotalCount === 0
+                  ? styles["dashboard_myList-empty"]
+                  : ""
+              }`}
+            >
               {page === 1 ? (
                 <AddButton onClick={handleAddDashboardClick}>
                   새로운 대시보드
@@ -172,51 +181,114 @@ export default function DashBoards() {
                     onChange={handleChange}
                     placeholder="검색"
                   />
-                  <section className={styles.invited_list}>
-                    <div className={styles.dashboard_invitedColumnTitle}>
-                      <p className={styles.column_title}>이름</p>
-                      <p className={styles.column_inviter}>초대자</p>
-                      <p className={styles.column_button}>수락여부</p>
-                    </div>
-                    {invitedList.map((item) =>
-                      searchValue.length === 0 ? (
-                        <section
-                          key={item.id}
-                          className={styles.dashboard_invitedContainer}
-                        >
-                          <div className={styles.invited_title}>
-                            {item.dashboard.title}
-                          </div>
-                          <div className={styles.invited_inviter}>
-                            {item.inviter.nickname}
-                          </div>
-                          <div className={styles.dashboard_invitedButtons}>
-                            <PageButton isEditDashboard={true}>수락</PageButton>
-                            <PageButton isCancled={true}>거절</PageButton>
-                          </div>
-                        </section>
-                      ) : item.dashboard.title.indexOf(searchValue) != -1 ||
-                        item.inviter.nickname.indexOf(searchValue) != -1 ? (
-                        <section
-                          key={item.id}
-                          className={styles.dashboard_invitedContainer}
-                        >
-                          <div className={styles.invited_title}>
-                            {item.dashboard.title}
-                          </div>
-                          <div className={styles.invited_inviter}>
-                            {item.inviter.nickname}
-                          </div>
-                          <div className={styles.dashboard_invitedButtons}>
-                            <PageButton>수락</PageButton>
-                            <PageButton isCancled={true}>거절</PageButton>
-                          </div>
-                        </section>
-                      ) : (
-                        <></>
-                      )
-                    )}
-                  </section>
+                  {width > MOBILE_MAX_WIDTH ? (
+                    <section className={styles.invited_list}>
+                      <div className={styles.dashboard_invitedColumnTitle}>
+                        <p className={styles.column_title}>이름</p>
+                        <p className={styles.column_inviter}>초대자</p>
+                        <p className={styles.column_button}>수락여부</p>
+                      </div>
+                      {invitedList.map((item) =>
+                        searchValue.length === 0 ? (
+                          <section
+                            key={item.id}
+                            className={styles.dashboard_invitedContainer}
+                          >
+                            <div className={styles.invited_title}>
+                              {item.dashboard.title}
+                            </div>
+                            <div className={styles.invited_inviter}>
+                              {item.inviter.nickname}
+                            </div>
+                            <div className={styles.dashboard_invitedButtons}>
+                              <PageButton isAccept={true}>수락</PageButton>
+                              <PageButton isDecline={true}>거절</PageButton>
+                            </div>
+                          </section>
+                        ) : item.dashboard.title.indexOf(searchValue) != -1 ||
+                          item.inviter.nickname.indexOf(searchValue) != -1 ? (
+                          <section
+                            key={item.id}
+                            className={styles.dashboard_invitedContainer}
+                          >
+                            <div className={styles.invited_title}>
+                              {item.dashboard.title}
+                            </div>
+                            <div className={styles.invited_inviter}>
+                              {item.inviter.nickname}
+                            </div>
+                            <div className={styles.dashboard_invitedButtons}>
+                              <PageButton isAccept={true}>수락</PageButton>
+                              <PageButton isDecline={true}>거절</PageButton>
+                            </div>
+                          </section>
+                        ) : (
+                          <></>
+                        )
+                      )}
+                    </section>
+                  ) : (
+                    <>
+                      {invitedList.map((item) =>
+                        searchValue.length === 0 ? (
+                          <section
+                            key={item.id}
+                            className={styles.dashboard_invitedContainer}
+                          >
+                            <div className={styles["column_section-mobile"]}>
+                              <p>이름</p>
+                              <div className={styles["invited_item-mobile"]}>
+                                {item.dashboard.title}
+                              </div>
+                            </div>
+                            <div className={styles["column_section-mobile"]}>
+                              <p>초대자</p>
+                              <div className={styles["invited_item-mobile"]}>
+                                {item.inviter.nickname}
+                              </div>
+                            </div>
+                            <div
+                              className={
+                                styles["dashboard_invitedButtons-mobile"]
+                              }
+                            >
+                              <PageButton isAccept={true}>수락</PageButton>
+                              <PageButton isDecline={true}>거절</PageButton>
+                            </div>
+                          </section>
+                        ) : item.dashboard.title.indexOf(searchValue) != -1 ||
+                          item.inviter.nickname.indexOf(searchValue) != -1 ? (
+                          <section
+                            key={item.id}
+                            className={styles.dashboard_invitedContainer}
+                          >
+                            <div className={styles["column_section-mobile"]}>
+                              <p>이름</p>
+                              <div className={styles["invited_item-mobile"]}>
+                                {item.dashboard.title}
+                              </div>
+                            </div>
+                            <div className={styles["column_section-mobile"]}>
+                              <p>초대자</p>
+                              <div className={styles["invited_item-mobile"]}>
+                                {item.inviter.nickname}
+                              </div>
+                            </div>
+                            <div
+                              className={
+                                styles["dashboard_invitedButtons-mobile"]
+                              }
+                            >
+                              <PageButton isAccept={true}>수락</PageButton>
+                              <PageButton isDecline={true}>거절</PageButton>
+                            </div>
+                          </section>
+                        ) : (
+                          <></>
+                        )
+                      )}
+                    </>
+                  )}
                 </section>
               )}
             </section>

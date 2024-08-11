@@ -16,13 +16,17 @@ export default function PageButton({
   isCancled = false,
   isInvitation = false,
   isEditDashboard = false,
+  isAccept = false,
+  isDecline = false,
   onClick = (e: MouseEvent<HTMLButtonElement>) => {},
 }) {
   return (
     <button
       className={`${styles.Button} ${isCancled ? styles.cancled : ""} ${
         isInvitation ? styles.invitation : ""
-      } ${isEditDashboard ? styles.editDashboard : ""}`}
+      } ${isEditDashboard ? styles.editDashboard : ""} ${
+        isAccept ? styles.accepted : ""
+      } ${isDecline ? styles.declined : ""}`}
       onClick={onClick}
     >
       <AddBox
