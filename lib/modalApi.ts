@@ -9,7 +9,7 @@ interface RequestOptions {
 }
 
 interface Assignee {
-  userId?:number;
+  userId?: number;
   nickname: string;
   profileImageUrl: string | null;
 }
@@ -20,7 +20,7 @@ interface CardData {
   imageUrl: string;
   tags: string[];
   dueDate: string;
-  assignee:Assignee;
+  assignee: Assignee;
 }
 
 interface Comment {
@@ -128,9 +128,9 @@ export function getCardId(cardId: string): Promise<CardData> {
 
 // 카드 수정
 export function putCard(
-  cardId:number,
+  cardId: number,
   assigneeUserId: number,
-  columnId:number,
+  columnId: number,
   title: string,
   description: string,
   dueDate: string,
@@ -168,9 +168,9 @@ export function deleteCard(cardId: string) {
   return fetchRequest(url, options);
 }
 
-// 댓글 조회 - O
-export function getComment(cardId: string) {
-  const url = `/comments?size=10&cardId=${cardId}`;
+// 댓글 조회
+export function getComment(cardId: string, page: number, size: number) {
+  const url = `/comments?size=${size}&page=${page}&cardId=${cardId}`;
   const options = {
     method: "GET",
     headers: {
@@ -179,6 +179,20 @@ export function getComment(cardId: string) {
   };
   return fetchRequest(url, options);
 }
+
+/**
+// 댓글 조회 - O
+export function getComment(cardId: string, page: number, size: number) {
+  const url = `/comments?size=${size}&cardId=${cardId}&page=${page}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  return fetchRequest(url, options);
+}
+   */
 
 // 댓글 수정 - O
 export function putComment(commentId: string, content: string) {
