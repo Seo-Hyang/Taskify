@@ -9,7 +9,9 @@
   &:hover {
     background-color: var(--color-violet-8);
   }
-
+  .selected {
+    background-color: var(--color-violet-8);
+  }
   .contents {
     display: flex;
     align-items: center;
@@ -47,6 +49,13 @@
       display: block;
       width: 18px;
     }
+  }
+}
+
+.container_cursor {
+  background-color: var(--color-violet-20) !important;
+  .contents_name {
+    color: var(--color-white) !important;
   }
 }
 

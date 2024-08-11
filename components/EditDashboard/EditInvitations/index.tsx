@@ -29,6 +29,7 @@ export default function EditInvitations({ dashboardId, sizePerPage }: Props) {
   const [isLoadInvitations, loadInvitationsError, loadInvitations] = useAsync(
     getDashboardInvitations
   );
+  
 
   const handleloadInvitations = async (
     dashboardId: number,

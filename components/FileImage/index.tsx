@@ -3,15 +3,23 @@ import styles from "../FileImage/FileImage.module.scss";
 import File_input from "@/public/icons/file_input.svg";
 import File_input_img from "@/public/icons/file_input_img.svg";
 import { postImage } from "@/lib/modalApi";
+import Image from "next/image";
 
 interface Props {
   onImageUpload: (url: string) => void;
-  initialImageUrl?: string; // 선택적 초기 이미지 URL 속성
+  initialImageUrl?: string;
+  columnId: number;
 }
 
-export default function FileInput({ onImageUpload, initialImageUrl }: Props) {
+export default function FileInput({
+  onImageUpload,
+  initialImageUrl,
+  columnId,
+}: Props) {
   const [currentImage, setCurrentImage] = useState<File | null>(null);
-  const [prevImage, setPrevImage] = useState<string | undefined>(initialImageUrl);
+  const [prevImage, setPrevImage] = useState<string | undefined>(
+    initialImageUrl
+  );
 
   useEffect(() => {
     if (initialImageUrl) {
@@ -34,21 +42,16 @@ export default function FileInput({ onImageUpload, initialImageUrl }: Props) {
     const file = e.target.files?.[0];
 
     if (file) {
-      // 파일이 이전 이미지와 다를 경우만 업로드 수행
-      if (!prevImage || URL.createObjectURL(file) !== prevImage) {
-        setCurrentImage(file);
-        try {
-          const response = await postImage("38425", file); // postImage 함수 호출
-          onImageUpload(response.imageUrl); // 업로드된 이미지 URL을 부모 컴포넌트로 전달
-          // 이전 이미지를 업데이트하여 중복 업로드 방지
-          setPrevImage(response.imageUrl);
-          // 입력 값을 초기화하여 같은 파일을 재선택할 수 있게 함
-          e.target.value = "";
-        } catch (err) {
-          console.error("Image upload failed.");
-        }
-      } else {
-        console.log("Same file, no upload needed.");
+      const objectURL = URL.createObjectURL(file);
+      setCurrentImage(file);
+
+      try {
+        const response = await postImage(columnId, file); // postImage 함수 호출
+        onImageUpload(response.imageUrl); // 업로드된 이미지 URL을 부모 컴포넌트로 전달
+        setPrevImage(response.imageUrl); // 서버에서 받은 URL로 업데이트
+        e.target.value = ""; // 입력 값을 초기화하여 같은 파일을 재선택할 수 있게 함
+      } catch (err) {
+        console.error("Image upload failed.");
       }
     } else {
       setCurrentImage(null);
@@ -66,7 +69,9 @@ export default function FileInput({ onImageUpload, initialImageUrl }: Props) {
       <label htmlFor="file-input" className={styles["file-input-button"]}>
         {prevImage ? (
           <div className={styles["file-input-preview-input"]}>
-            <File_input_img
+            <Image
+              src={prevImage}
+              alt="Selected"
               width="30"
               height="30"
               className={styles["file-input-img-already"]}
@@ -78,7 +83,7 @@ export default function FileInput({ onImageUpload, initialImageUrl }: Props) {
       </label>
       {prevImage && (
         <div className={styles["file-input-preview"]}>
-          <img
+          <Image
             src={prevImage}
             alt="Selected"
             className={styles["file-input-img"]}

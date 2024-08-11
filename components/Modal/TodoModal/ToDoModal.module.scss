@@ -1,5 +1,13 @@
-.todo-modal {
+.dialog-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 730px;
+  border: none;
+  border-radius: 16px;
+}
+.todo-modal {
   height: 100%;
   background-color: var(--color-white);
   padding: 30px 38px 33px 18px;
@@ -72,7 +80,11 @@
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;
+<<<<<<< HEAD
   padding: 2px 6px;
+=======
+  padding:4px 6px;
+>>>>>>> develop
   border-radius: 4px;
 }
 .todo-description {
@@ -277,6 +289,9 @@
 }
 
 @media screen and (max-width: 743px) {
+  .dialog-container {
+    width: 100%;
+  }
   .todo-modal {
     padding: 16px;
     width: 100%;
