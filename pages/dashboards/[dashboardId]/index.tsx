@@ -13,6 +13,12 @@ import DashboardColumn from "@/components/DashboardColumns/DashboardColumns";
 import AddButton from "@/components/Button/AddButton/AddButton";
 import Column from "@/components/DashboardColumns/DashboardColumns";
 import { getDashboard } from "@/services/dashboards";
+import ColumnInvite from "@/components/Column/ColumnInvite";
+import useInviteStore from "@/hooks/useInviteStore";
+import useModalStore from "@/hooks/useModalStore";
+import ColumnAdd from "@/components/Column/ColumnAdd";
+import ToDoCreate from "@/components/Modal/ToDoCreate";
+import ToDoModal from "@/components/Modal/TodoModal";
 
 export type Column = {
   id: number;
@@ -27,17 +33,15 @@ export default function DashBoard() {
   const router = useRouter();
   const { setDashboard } = useDashboard();
   const { dashboardId } = router.query;
+  const { isShowModal, setIsShowModal } = useInviteStore();
+  const { openModal } = useModalStore();
 
   //칼럼 목록
   const [columsList, setColumnList] = useState<Column[]>([]);
 
   async function getColumnList() {
     const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${localStorage.getItem(
-        "currentDashboardId"
-      )}`
-      //테스트 api
-      // "https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=11419"
+      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${dashboardId}`
     );
     const nextColumnList = res.data;
     const { result, data } = nextColumnList;
@@ -53,7 +57,15 @@ export default function DashBoard() {
   useEffect(() => {
     setDashboardContext();
     getColumnList();
-  }, [localStorage.getItem("currentDashboardId"), columsList, dashboardId]);
+  }, [dashboardId]);
+
+  const closeModal = () => {
+    setIsShowModal(false);
+  };
+
+  const handleNewColumnClick = () => {
+    openModal("columnAdd");
+  };
 
   return (
     <>
@@ -71,7 +83,7 @@ export default function DashBoard() {
           {columsList.map((item) => (
             <section key={item.id} className={styles.dashboardColumns}>
               <DashboardColumn
-                dashboardId={item.dashboardId}
+                dashboardId={Number(dashboardId)}
                 columnId={item.id}
               >
                 {item.title}
@@ -80,9 +92,19 @@ export default function DashBoard() {
           ))}
         </section>
         <div className={styles.add_newColumn}>
-          <AddButton addColumn={true}>새로운 칼럼 추가하기</AddButton>
+          <AddButton addColumn={true} onClick={handleNewColumnClick}>
+            새로운 칼럼 추가하기
+          </AddButton>
         </div>
       </section>
+      <ColumnInvite
+        dashboardId={Number(dashboardId)}
+        isAttached={true}
+        isShow={isShowModal}
+        onClickCancle={closeModal}
+      />
+      <ColumnAdd dashboardId={Number(dashboardId)} />
     </>
   );
 }
+

@@ -9,6 +9,7 @@ import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { getHeader, getMyPage } from "@/lib/headerApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import useInviteStore from "@/hooks/useInviteStore";
+import instance from "@/lib/axios";
 
 const getRandomPastelColor = () => {
   const randomValue = () => Math.floor(Math.random() * 56 + 200);
@@ -32,25 +33,31 @@ interface My {
   profileImageUrl: string | null;
 }
 
+interface CreateProps {
+  createdByMe: boolean;
+}
+
 export default function Header({
   children,
   dashboardId,
 }: {
   children?: React.ReactNode;
-  dashboardId?: number;
+  dashboardId: number;
 }) {
   const randomBackgroundColor = getRandomPastelColor();
   const { width } = useWindowSize();
   const router = useRouter();
   const { dashboard } = useDashboard();
   const { setIsShowModal } = useInviteStore();
-  const [isOwner, setIsOwner] = useState<Assignee | null>(null);
   const [nonOwners, setNonOwners] = useState<Assignee[]>([]);
   const [values, setValues] = useState<My>({
     email: "",
     nickname: "",
     profileImageUrl: null,
   });
+
+  const firstPageSize = 5;
+  const [createdByMe, setCreatedByMe] = useState<boolean>(false);
 
   const clickSetting = () => {
     router.push(`/dashboards/${dashboard?.id}/edit`);
@@ -60,10 +67,7 @@ export default function Header({
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const response = await getHeader(11370);
-        const owners = response.members.filter(
-          (member: Assignee) => member.isOwner
-        );
+        const response = await getHeader(dashboardId);
         const nonOwners = response.members.filter(
           (member: Assignee) => !member.isOwner
         );
@@ -74,6 +78,24 @@ export default function Header({
     };
     fetchMember();
   }, []);
+
+  // 내가 만든건지 아닌지
+  useEffect(() => {
+    const fetchCreatedByMe = async () => {
+      try {
+        const res = await instance.get(
+          `/dashboards?navigationMethod=pagination&page=1&size=${firstPageSize}`
+        );
+        const CreatedByMe = res.data.dashboards.some(
+          (dashboards: CreateProps) => dashboards.createdByMe
+        );
+        setCreatedByMe(CreatedByMe);
+      } catch {
+        console.error("대시보드 목록 조회에 실패하였습니다.");
+      }
+    };
+    fetchCreatedByMe();
+  });
 
   const displayedMembers = nonOwners.slice(0, 3); // 보여지는 멤버 (3명만) - 수정 가능
   const remaininCount = nonOwners.length - 3; //숨기는 멤버
@@ -100,8 +122,7 @@ export default function Header({
           {width >= TABLET_MAX_WIDTH ? (
             <div className={styles.header_title}>
               {dashboard?.title ?? children}
-              {/* 여긴 내가 만든 대시보드가 안 들어가도 되는건가... */}
-              {isOwner ? <CROWNSVG className={styles.crown_icon} /> : <></>}
+              {createdByMe ? <CROWNSVG className={styles.crown_icon} /> : <></>}
             </div>
           ) : (
             <></>

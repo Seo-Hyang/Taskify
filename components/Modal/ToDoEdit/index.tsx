@@ -13,9 +13,11 @@ import ReactDatePicker from "react-datepicker";
 import CalendarIcon from "@/public/icons/calendar_today_icon.svg";
 import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
+import Dialog from "../modal";
+import useModalStore from "@/hooks/useModalStore";
 
 interface Assignee {
-  userId: number;
+  userId?: number;
   id?: number;
   nickname: string;
   profileImageUrl?: string;
@@ -56,7 +58,11 @@ const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
   );
 };
 
-export default function ToDoEdit(cardId: string, dashboardId: string) {
+export default function ToDoEdit(
+  cardId: number,
+  columnId: number,
+  dashboardId: number
+) {
   const router = useRouter();
   const { tagColors, addTagColor } = useTagColors();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -86,6 +92,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
       profileImageUrl: "",
     },
   });
+  const { closeModal } = useModalStore();
 
   const toggleColumnDropdown = () => setIsColumnOpen(!isColumnOpen);
   const toggleAssignDropdown = () => setIsAssignOpen(!isAssignOpen);
@@ -149,7 +156,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
   useEffect(() => {
     const fetchCardData = async () => {
       try {
-        const response = await getCardId(9829);
+        const response = await getCardId(cardId);
         console.log(response);
         setTags(response.tags);
         response.tags.forEach((tag) => addTagColor(tag));
@@ -160,7 +167,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
           tags: response.tags,
           imageUrl: response.imageUrl,
           assignee: {
-            userId: response.assignee.id,
+            userId: response.assignee.userId ?? 0,
             nickname: response.assignee.nickname,
             profileImageUrl: response.assignee.profileImageUrl || undefined,
           },
@@ -182,15 +189,16 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
     e.preventDefault();
     try {
       await putCard(
-        9829,
-        values.assignee.userId,
-        38425,
+        cardId,
+        values.assignee.userId ?? 0,
+        columnId,
         values.title,
         values.description,
         values.dueDate,
         values.tags,
         values.imageUrl
       );
+      closeModal();
     } catch (err) {
       console.error("카드 수정에 실패했습니다.");
     }
@@ -199,7 +207,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await getMember(11370);
+        const response = await getMember(dashboardId);
         setAssignees(response.members);
       } catch (err) {
         console.error("멤버를 조회할 수 없습니다.");
@@ -218,7 +226,7 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
   useEffect(() => {
     const fetchColumns = async () => {
       try {
-        const response = await getColumnAdd(11370);
+        const response = await getColumnAdd(dashboardId);
         setColumns(response.data);
       } catch (err) {
         console.error("칼럼을 조회할 수 없습니다.");
@@ -256,202 +264,209 @@ export default function ToDoEdit(cardId: string, dashboardId: string) {
     }));
     setImgUrl(url);
   };
+  const handleCancelClick = () => {
+    closeModal();
+  };
   return (
-    <div className={styles["todo-create"]}>
-      <h1 className={styles["todo-create-h1"]}>할일 수정</h1>
-      <div className={styles["todo-create-input-section"]}>
-        <div className={styles["todo-create-input-container"]}>
-          <div
-            className={styles["todo-create-input-auth"]}
-            ref={dropdownColumnRef}
-          >
-            <label className={styles["todo-create-label"]}>상태</label>
-            <div className={styles["todo-edit-dropdown"]}>
-              {selectedColumns ? (
-                <div className={styles["toggle-column-item-container"]}>
-                  <div className={styles["toggle-column-item-circle"]}></div>
-                  <span className={styles["toggle-column-item"]}>
-                    {selectedColumns.title}
+    <Dialog>
+      <div className={styles["todo-create"]}>
+        <h1 className={styles["todo-create-h1"]}>할일 수정</h1>
+        <div className={styles["todo-create-input-section"]}>
+          <div className={styles["todo-create-input-container"]}>
+            <div
+              className={styles["todo-create-input-auth"]}
+              ref={dropdownColumnRef}
+            >
+              <label className={styles["todo-create-label"]}>상태</label>
+              <div className={styles["todo-edit-dropdown"]}>
+                {selectedColumns ? (
+                  <div className={styles["toggle-column-item-container"]}>
+                    <div className={styles["toggle-column-item-circle"]}></div>
+                    <span className={styles["toggle-column-item"]}>
+                      {selectedColumns.title}
+                    </span>
+                  </div>
+                ) : (
+                  <span className={styles["placeholder"]}>
+                    {/* columnId의 title */}
                   </span>
-                </div>
-              ) : (
-                <span className={styles["placeholder"]}>
-                  {/* columnId의 title */}
-                </span>
-              )}
-              <Arrow_drop
-                onClick={toggleColumnDropdown}
-                width="26"
-                height="26"
-                className={styles["arrow-drop-icon"]}
-              />
-              {isColumnOpen && (
-                <div className={styles["dropdown-menu"]}>
-                  {columns.map((column) => (
-                    <div
-                      className={styles["toggle-assign-item-container"]}
-                      key={column.id}
-                      onClick={() => handleColumnSelect(column)}
-                    >
-                      <div className={styles["check-icon"]}>
-                        {selectedColumns?.id === column.id && (
-                          <Check_icon width="22" height="22" />
-                        )}
+                )}
+                <Arrow_drop
+                  onClick={toggleColumnDropdown}
+                  width="26"
+                  height="26"
+                  className={styles["arrow-drop-icon"]}
+                />
+                {isColumnOpen && (
+                  <div className={styles["dropdown-menu"]}>
+                    {columns.map((column) => (
+                      <div
+                        className={styles["toggle-assign-item-container"]}
+                        key={column.id}
+                        onClick={() => handleColumnSelect(column)}
+                      >
+                        <div className={styles["check-icon"]}>
+                          {selectedColumns?.id === column.id && (
+                            <Check_icon width="22" height="22" />
+                          )}
+                        </div>
+                        <div className={styles["toggle-column-item-container"]}>
+                          <div
+                            className={styles["toggle-column-item-circle"]}
+                          ></div>
+                          <span className={styles["toggle-column-item"]}>
+                            {column.title}
+                          </span>
+                        </div>
                       </div>
-                      <div className={styles["toggle-column-item-container"]}>
-                        <div
-                          className={styles["toggle-column-item-circle"]}
-                        ></div>
-                        <span className={styles["toggle-column-item"]}>
-                          {column.title}
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className={styles["todo-create-input-auth"]}>
+              <label className={styles["todo-create-label"]}>담당자</label>
+              <div
+                className={styles["todo-edit-dropdown"]}
+                ref={dropdownAssigneeRef}
+              >
+                {selectedAssignee ? (
+                  <div className={styles["toggle-assign-item-container"]}>
+                    <img
+                      src={
+                        selectedAssignee.profileImageUrl
+                          ? selectedAssignee.profileImageUrl
+                          : generateProfileImageUrl(selectedAssignee.nickname)
+                      }
+                      alt="프로필"
+                      className={styles["toggle-assign-item-img"]}
+                    />
+                    <span className={styles["toggle-assign-item"]}>
+                      {selectedAssignee.nickname}
+                    </span>
+                  </div>
+                ) : (
+                  <div className={styles["toggle-assign-item-container"]}>
+                    <img
+                      src={
+                        values.assignee.profileImageUrl
+                          ? values.assignee.profileImageUrl
+                          : generateProfileImageUrl(values.assignee.nickname)
+                      }
+                      className={styles["toggle-assign-item-img"]}
+                      alt="기존 담당자"
+                    />
+                    <span className={styles["toggle-assign-item"]}>
+                      {values.assignee.nickname}
+                    </span>
+                  </div>
+                )}
+                <Arrow_drop
+                  onClick={toggleAssignDropdown}
+                  width="26"
+                  height="26"
+                  className={styles["arrow-drop-icon"]}
+                />
+                {isAssignOpen && (
+                  <div className={styles["dropdown-menu"]}>
+                    {assignees.map((assignee) => (
+                      <div
+                        className={styles["toggle-assign-item-container"]}
+                        key={assignee.userId}
+                        onClick={() => handleAssigneeSelect(assignee)}
+                      >
+                        <div className={styles["check-icon"]}>
+                          {selectedAssignee?.userId === assignee.userId && (
+                            <Check_icon width="22" height="22" />
+                          )}
+                        </div>
+                        <img
+                          src={
+                            assignee.profileImageUrl
+                              ? assignee.profileImageUrl
+                              : generateProfileImageUrl(assignee.nickname)
+                          }
+                          alt="프로필"
+                          className={styles["toggle-assign-item-img"]}
+                        />
+                        <span className={styles["toggle-assign-item"]}>
+                          {assignee.nickname}
                         </span>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className={styles["todo-create-input-auth"]}>
-            <label className={styles["todo-create-label"]}>담당자</label>
-            <div
-              className={styles["todo-edit-dropdown"]}
-              ref={dropdownAssigneeRef}
-            >
-              {selectedAssignee ? (
-                <div className={styles["toggle-assign-item-container"]}>
-                  <img
-                    src={
-                      selectedAssignee.profileImageUrl
-                        ? selectedAssignee.profileImageUrl
-                        : generateProfileImageUrl(selectedAssignee.nickname)
-                    }
-                    alt="프로필"
-                    className={styles["toggle-assign-item-img"]}
-                  />
-                  <span className={styles["toggle-assign-item"]}>
-                    {selectedAssignee.nickname}
-                  </span>
-                </div>
-              ) : (
-                <div className={styles["toggle-assign-item-container"]}>
-                  <img
-                    src={
-                      values.assignee.profileImageUrl
-                        ? values.assignee.profileImageUrl
-                        : generateProfileImageUrl(values.assignee.nickname)
-                    }
-                    className={styles["toggle-assign-item-img"]}
-                    alt="기존 담당자"
-                  />
-                  <span className={styles["toggle-assign-item"]}>
-                    {values.assignee.nickname}
-                  </span>
-                </div>
-              )}
-              <Arrow_drop
-                onClick={toggleAssignDropdown}
-                width="26"
-                height="26"
-                className={styles["arrow-drop-icon"]}
-              />
-              {isAssignOpen && (
-                <div className={styles["dropdown-menu"]}>
-                  {assignees.map((assignee) => (
-                    <div
-                      className={styles["toggle-assign-item-container"]}
-                      key={assignee.userId}
-                      onClick={() => handleAssigneeSelect(assignee)}
-                    >
-                      <div className={styles["check-icon"]}>
-                        {selectedAssignee?.userId === assignee.userId && (
-                          <Check_icon width="22" height="22" />
-                        )}
-                      </div>
-                      <img
-                        src={
-                          assignee.profileImageUrl
-                            ? assignee.profileImageUrl
-                            : generateProfileImageUrl(assignee.nickname)
-                        }
-                        alt="프로필"
-                        className={styles["toggle-assign-item-img"]}
-                      />
-                      <span className={styles["toggle-assign-item"]}>
-                        {assignee.nickname}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
+            <label className={styles["todo-create-auth-label"]}>제목 *</label>
+            <Input
+              value={values.title}
+              name="title"
+              onChange={handleInputChange}
+              className={styles["todo-input"]}
+            />
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-auth-label"]}>설명 *</label>
+            <Input
+              value={values.description}
+              name="description"
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-auth-label"]}>마감일</label>
+            <DatePicker startDate={startDate} setStartDate={setStartDate} />
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-auth-label"]}>태그</label>
+            <Input
+              name="tag"
+              value={isTag}
+              onChange={handleTagInput}
+              onKeyDown={handleKeyDown}
+              className={styles["todo-input"]}
+              placeholder="입력 후 Enter"
+            />
+            <div className={styles["prev-tag"]}>
+              {values.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className={styles.tag}
+                  style={{
+                    backgroundColor: tagColors[tag]?.backgroundColor,
+                    color: tagColors[tag]?.color,
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>제목 *</label>
-          <Input
-            value={values.title}
-            name="title"
-            onChange={handleInputChange}
-            className={styles["todo-input"]}
-          />
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>설명 *</label>
-          <Input
-            value={values.description}
-            name="description"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>마감일</label>
-          <DatePicker startDate={startDate} setStartDate={setStartDate} />
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>태그</label>
-          <Input
-            name="tag"
-            value={isTag}
-            onChange={handleTagInput}
-            onKeyDown={handleKeyDown}
-            className={styles["todo-input"]}
-            placeholder="입력 후 Enter"
-          />
-          <div className={styles["prev-tag"]}>
-            {values.tags.map((tag, index) => (
-              <span
-                key={index}
-                className={styles.tag}
-                style={{
-                  backgroundColor: tagColors[tag]?.backgroundColor,
-                  color: tagColors[tag]?.color,
-                }}
-              >
-                {tag}
-              </span>
-            ))}
+          <div className={styles["todo-create-input-img"]}>
+            <label className={styles["todo-create-auth-label"]}>이미지</label>
+            <FileInput
+              onImageUpload={handleNewImageUpload}
+              initialImageUrl={imgUrl}
+            />
           </div>
         </div>
-        <div className={styles["todo-create-input-img"]}>
-          <label className={styles["todo-create-auth-label"]}>이미지</label>
-          <FileInput
-            onImageUpload={handleNewImageUpload}
-            initialImageUrl={imgUrl}
-          />
+
+        <div className={styles["todo-create-button-container"]}>
+          <ModalButton isCancled={true} onClick={handleCancelClick}>
+            취소
+          </ModalButton>
+          <ModalButton
+            isComment={true}
+            isDisabled={isDisabled}
+            onClick={handleEditClick}
+          >
+            수정
+          </ModalButton>
         </div>
       </div>
-
-      <div className={styles["todo-create-button-container"]}>
-        <ModalButton isCancled={true}>취소</ModalButton>
-        <ModalButton
-          isComment={true}
-          isDisabled={isDisabled}
-          onClick={handleEditClick}
-        >
-          수정
-        </ModalButton>
-      </div>
-    </div>
+    </Dialog>
   );
 }
