@@ -4,11 +4,12 @@ import PLUSSVG from "@/public/icons/plus_icon.svg";
 
 // Props 타입 정의
 interface AddButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   addBoard?: boolean;
   addTodo?: boolean;
   addColumn?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  columnId?:number;
 }
 
 export default function AddButton({
@@ -17,6 +18,7 @@ export default function AddButton({
   addTodo = false,
   addColumn = false,
   onClick,
+  columnId,
 }: AddButtonProps) {
   return (
     <button

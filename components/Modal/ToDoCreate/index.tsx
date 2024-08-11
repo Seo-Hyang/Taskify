@@ -13,6 +13,8 @@ import { getMember, postCards } from "@/lib/modalApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
+import Dialog from "../modal";
+import useModalStore from "@/hooks/useModalStore";
 
 interface Assignee {
   id: number;
@@ -27,7 +29,7 @@ interface DatePickerProps {
   setStartDate: (date: Date | null) => void;
 }
 
-interface Props {
+interface ToDoCreateProps {
   dashboardId: number;
   columnId: number;
 }
@@ -48,9 +50,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
   );
 };
 
-// dashboardId columnId 가져오기
-
-export default function ToDoCreate({ dashboardId, columnId }: Props) {
+export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -62,19 +62,18 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   const [initiallySelected, setInitiallySelected] = useState(false);
   const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<Date | null>(null);
-
-  // Use the custom hook for tag colors
   const { tagColors, addTagColor } = useTagColors();
+  const { closeModal } = useModalStore();
 
   const [values, setValues] = useState({
     assigneeUserId: selectedAssignee?.userId,
-    dashboardId: 11370,
-    columnId: 38425,
+    dashboardId: 0,
+    columnId: 0,
     title: "",
     description: "",
     dueDate: "",
     tags: tags,
-    imageUrl: imgUrl,
+    imageUrl: "",
   });
 
   useEffect(() => {
@@ -96,10 +95,10 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
+    setValues((prevValues) => ({
+      ...prevValues,
       [name]: value,
-    });
+    }));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -119,11 +118,11 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   };
 
   const handleImageUpload = (url: string) => {
-    setImgUrl(url);
     setValues((prevValues) => ({
       ...prevValues,
       imageUrl: url,
     }));
+    setImgUrl(url);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -140,8 +139,8 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     try {
       await postCards(
         values.assigneeUserId,
-        values.dashboardId,
-        values.columnId,
+        dashboardId,
+        columnId,
         values.title,
         values.description,
         values.dueDate,
@@ -152,7 +151,6 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
       console.error("Error creating card:", error);
     }
   };
-
   useEffect(() => {
     const { assigneeUserId, title, description } = values;
     if (assigneeUserId && title && description) {
@@ -172,7 +170,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await getMember(11370);
+        const response = await getMember(dashboardId);
         setAssignees(response.members);
       } catch (err) {
         console.error("멤버를 조회할 수 없습니다.");
@@ -185,6 +183,7 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     setSelectedAssignee(assignee);
     setValues({ ...values, assigneeUserId: assignee.userId });
     setIsOpen(false);
+    console.log(values.assigneeUserId);
   };
 
   useEffect(() => {
@@ -194,137 +193,150 @@ export default function ToDoCreate({ dashboardId, columnId }: Props) {
     };
   }, []);
 
-  console.log(imgUrl);
+  const handleCancelClick = () => {
+    closeModal("createCard");
+  };
+
   return (
-    <div className={styles["todo-create"]}>
-      <h1 className={styles["todo-create-h1"]}>할일 생성</h1>
-      <div className={styles["todo-create-input-section"]}>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-label"]}>담당자 *</label>
-          <div className={styles["todo-create-assignee"]} ref={dropdownRef}>
-            {selectedAssignee ? (
-              <div className={styles["toggle-assign-item-container"]}>
-                <img
-                  src={
-                    selectedAssignee.profileImageUrl
-                      ? selectedAssignee.profileImageUrl
-                      : generateProfileImageUrl(selectedAssignee.nickname)
-                  }
-                  alt="프로필"
-                  className={styles["toggle-assign-item-img"]}
-                />
-                <span className={styles["toggle-assign-item"]}>
-                  {selectedAssignee.nickname}
+    <Dialog id="createCard" className={styles["dialog-container"]}>
+      <div className={styles["todo-create"]}>
+        <h1 className={styles["todo-create-h1"]}>할일 생성</h1>
+        <div className={styles["todo-create-input-section"]}>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-label"]}>담당자 *</label>
+            <div className={styles["todo-create-assignee"]} ref={dropdownRef}>
+              {selectedAssignee ? (
+                <div className={styles["toggle-assign-item-container"]}>
+                  <img
+                    src={
+                      selectedAssignee.profileImageUrl
+                        ? selectedAssignee.profileImageUrl
+                        : generateProfileImageUrl(selectedAssignee.nickname)
+                    }
+                    alt="프로필"
+                    className={styles["toggle-assign-item-img"]}
+                  />
+                  <span className={styles["toggle-assign-item"]}>
+                    {selectedAssignee.nickname}
+                  </span>
+                </div>
+              ) : (
+                <span className={styles["placeholder"]}>
+                  이름을 입력해 주세요
                 </span>
-              </div>
-            ) : (
-              <span className={styles["placeholder"]}>
-                이름을 입력해 주세요
-              </span>
-            )}
-            <Arrow_drop
-              className={styles["arrow-drop-icon"]}
-              onClick={toggleDropdown}
-              width="26"
-              height="26"
-            />
-            {isOpen && (
-              <div className={styles["dropdown-menu"]}>
-                {assignees.map((assignee) => (
-                  <div
-                    className={styles["toggle-assign-item-container"]}
-                    key={assignee.userId}
-                    onClick={() => handleAssigneeSelect(assignee)}
-                  >
-                    <div className={styles["check-icon"]}>
-                      {selectedAssignee?.id === assignee.id && (
-                        <Check_icon width="22" height="22" />
-                      )}
+              )}
+              <Arrow_drop
+                className={styles["arrow-drop-icon"]}
+                onClick={toggleDropdown}
+                width="26"
+                height="26"
+              />
+              {isOpen && (
+                <div className={styles["dropdown-menu"]}>
+                  {assignees.map((assignee) => (
+                    <div
+                      className={styles["toggle-assign-item-container"]}
+                      key={assignee.userId}
+                      onClick={() => handleAssigneeSelect(assignee)}
+                    >
+                      <div className={styles["check-icon"]}>
+                        {selectedAssignee?.id === assignee.id && (
+                          <Check_icon width="22" height="22" />
+                        )}
+                      </div>
+                      <img
+                        src={
+                          assignee.profileImageUrl
+                            ? assignee.profileImageUrl
+                            : generateProfileImageUrl(assignee.nickname)
+                        }
+                        alt="프로필"
+                        className={styles["toggle-assign-item-img"]}
+                      />
+                      <span className={styles["toggle-assign-item"]}>
+                        {assignee.nickname}
+                      </span>
                     </div>
-                    <img
-                      src={
-                        assignee.profileImageUrl
-                          ? assignee.profileImageUrl
-                          : generateProfileImageUrl(assignee.nickname)
-                      }
-                      alt="프로필"
-                      className={styles["toggle-assign-item-img"]}
-                    />
-                    <span className={styles["toggle-assign-item"]}>
-                      {assignee.nickname}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-auth-label"]}>제목 *</label>
+            <Input
+              value={values.title}
+              name="title"
+              placeholder="제목을 입력해 주세요"
+              onChange={handleInputChange}
+              type="text"
+            />
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-auth-label"]}>설명 *</label>
+            <Input
+              value={values.description}
+              placeholder="설명을 입력해 주세요"
+              type="text"
+              name="description"
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-auth-label"]}>마감일</label>
+            <DatePicker startDate={startDate} setStartDate={setStartDate} />
+          </div>
+          <div className={styles["todo-create-input-auth"]}>
+            <label className={styles["todo-create-auth-label"]}>태그</label>
+            <Input
+              name="tag"
+              value={isTag}
+              onChange={handleTagInput}
+              onKeyDown={handleKeyDown}
+              className={styles["todo-input"]}
+              placeholder="입력 후 Enter"
+            />
+            <div className={styles["tag-list"]}>
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className={styles.tag}
+                  style={{
+                    backgroundColor: tagColors[tag]?.backgroundColor,
+                    color: tagColors[tag]?.color,
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className={styles["todo-create-input-img"]}>
+            <label className={styles["todo-create-auth-label"]}>이미지</label>
+            <FileInput
+              onImageUpload={handleImageUpload}
+              initialImageUrl={imgUrl}
+              columnId={columnId}
+            />
           </div>
         </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>제목 *</label>
-          <Input
-            value={values.title}
-            name="title"
-            placeholder="제목을 입력해 주세요"
-            onChange={handleInputChange}
-            type="text"
-          />
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>설명 *</label>
-          <Input
-            value={values.description}
-            placeholder="설명을 입력해 주세요"
-            type="text"
-            name="description"
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>마감일</label>
-          <DatePicker startDate={startDate} setStartDate={setStartDate} />
-        </div>
-        <div className={styles["todo-create-input-auth"]}>
-          <label className={styles["todo-create-auth-label"]}>태그</label>
-          <Input
-            name="tag"
-            value={isTag}
-            onChange={handleTagInput}
-            onKeyDown={handleKeyDown}
-            className={styles["todo-input"]}
-            placeholder="입력 후 Enter"
-          />
-          <div className={styles["tag-list"]}>
-            {tags.map((tag, index) => (
-              <span
-                key={index}
-                className={styles.tag}
-                style={{
-                  backgroundColor: tagColors[tag]?.backgroundColor,
-                  color: tagColors[tag]?.color,
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className={styles["todo-create-input-img"]}>
-          <label className={styles["todo-create-auth-label"]}>이미지</label>
-          <FileInput onImageUpload={handleImageUpload} />
+        <div className={styles["todo-create-button-container"]}>
+          <ModalButton
+            className={styles["todo-create-button"]}
+            isCancled={true}
+            onClick={handleCancelClick}
+          >
+            취소
+          </ModalButton>
+          <ModalButton
+            className={styles["todo-create-button"]}
+            onClick={handleSubmit}
+            isDisabled={isDisabled}
+          >
+            생성
+          </ModalButton>
         </div>
       </div>
-      <div className={styles["todo-create-button-container"]}>
-        <ModalButton className={styles["todo-create-button"]} isCancled={true}>
-          취소
-        </ModalButton>
-        <ModalButton
-          className={styles["todo-create-button"]}
-          onClick={handleSubmit}
-          isDisabled={isDisabled}
-        >
-          생성
-        </ModalButton>
-      </div>
-    </div>
+    </Dialog>
   );
 }

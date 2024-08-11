@@ -25,9 +25,9 @@ interface CardData {
 
 interface Comment {
   content: string;
-  cardId: string;
-  columnId: string;
-  dashboardId: string;
+  cardId: number;
+  columnId: number;
+  dashboardId: number;
 }
 
 interface CardPutData {
@@ -65,7 +65,7 @@ export function getMember(dashboardId: number) {
 }
 
 // 이미지 -> string 으로 바꾸기 - O
-export function postImage(columnId: string, image: File) {
+export function postImage(columnId: number, image: File) {
   const url = `/columns/${columnId}/card-image`;
   const formData = new FormData();
   if (image) {
@@ -115,7 +115,7 @@ export function postCards(
 }
 
 // 카드 상세 조회
-export function getCardId(cardId: string): Promise<CardData> {
+export function getCardId(cardId: number): Promise<CardData> {
   const url = `/cards/${cardId}`;
   const options = {
     method: "GET",
@@ -157,7 +157,7 @@ export function putCard(
 }
 
 // 카드 삭제 - O
-export function deleteCard(cardId: string) {
+export function deleteCard(cardId: number) {
   const url = `/cards/${cardId}`;
   const options = {
     method: "DELETE",
@@ -169,7 +169,7 @@ export function deleteCard(cardId: string) {
 }
 
 // 댓글 조회 - O
-export function getComment(cardId: string) {
+export function getComment(cardId: number) {
   const url = `/comments?size=10&cardId=${cardId}`;
   const options = {
     method: "GET",
@@ -181,7 +181,7 @@ export function getComment(cardId: string) {
 }
 
 // 댓글 수정 - O
-export function putComment(commentId: string, content: string) {
+export function putComment(commentId: number, content: string) {
   const url = `/comments/${commentId}`;
   const options = {
     method: "PUT",
@@ -219,7 +219,7 @@ export function postComment({
 }
 
 // 댓글 삭제 - O
-export function deleteComment(commentId: string) {
+export function deleteComment(commentId: number) {
   const url = `/comments/${commentId}`;
   const options = {
     method: "DELETE",

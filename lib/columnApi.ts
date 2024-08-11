@@ -47,7 +47,7 @@ export function getDashboardList() {
 }
 
 // 칼럼 목록 조회 (같은 title 있는지) - O
-export function getColumnAdd(dashboardId: string) {
+export function getColumnAdd(dashboardId: number) {
   const url = `/columns?dashboardId=${dashboardId}`;
   const options = {
     method: "GET",
@@ -59,7 +59,7 @@ export function getColumnAdd(dashboardId: string) {
 }
 
 // 새로운 칼럼 생성 - O
-export function postColumnAdd(title: string, dashboardId: string) {
+export function postColumnAdd(title: string, dashboardId: number) {
   const url = "/columns";
   const options = {
     method: "POST",
@@ -72,7 +72,7 @@ export function postColumnAdd(title: string, dashboardId: string) {
 }
 
 // 칼럼 수정 - O
-export function putColumnEdit(columnId: string, title: string) {
+export function putColumnEdit(columnId: number, title: string) {
   const url = `/columns/${columnId}`;
   const options = {
     method: "PUT",
@@ -85,7 +85,7 @@ export function putColumnEdit(columnId: string, title: string) {
 }
 
 // 칼럼 삭제 - O
-export function putcolumnDelete(columnId: string) {
+export function putcolumnDelete(columnId: number) {
   const url = `/columns/${columnId}`;
   const options = {
     method: "DELETE",
@@ -96,7 +96,7 @@ export function putcolumnDelete(columnId: string) {
 }
 
 // 초대하기 칼럼 - O
-export function postcolumnInvite(dashboardId: string, email: string) {
+export function postcolumnInvite(dashboardId: number, email: string) {
   const url = `/dashboards/${dashboardId}/invitations`;
   const options = {
     method: "POST",
