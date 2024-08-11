@@ -6,11 +6,24 @@ import CardImage from "@/public/images/card_image2.png";
 import CalendarSVG from "@/public/icons/calendar_today_icon.svg";
 import useModalStore from "@/hooks/useModalStore";
 import ToDoModal from "../Modal/TodoModal";
+import { Cards } from "@/types/Card";
 
 /**To-DO
  * 사용자 아이콘 표시
  *
  */
+
+interface Props {
+  id: number;
+  title: string;
+  tags: string[];
+  dueDate: string;
+  imageUrl: string;
+  userEmail: string;
+  columnId: number;
+  dashboardId: number;
+  onCardDeleted: (cardId: number) => void;
+}
 
 export default function Card({
   id = 0,
@@ -21,7 +34,8 @@ export default function Card({
   userEmail = "",
   columnId = 0,
   dashboardId = 0,
-}) {
+  onCardDeleted,
+}: Props) {
   let cardDueDate = new Date(dueDate);
   let year = cardDueDate.getFullYear();
   let month = cardDueDate.getMonth();
@@ -78,6 +92,7 @@ export default function Card({
         cardId={id}
         columnId={columnId}
         dashboardId={dashboardId}
+        onCardDeleted={onCardDeleted}
       />
     </>
   );

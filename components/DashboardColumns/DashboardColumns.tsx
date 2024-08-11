@@ -41,6 +41,11 @@ export default function Column({
     openModal("createCard");
   };
 
+  const handleCardDeleted = (deletedCardId: number) => {
+    setCardList((prevCards) => prevCards.filter((card) => card.id !== deletedCardId));
+    setTotalCount((prevCount) => prevCount - 1); // Optionally update totalCount
+  };
+
   return (
     <div className={styles.container}>
       <section className={styles.column_title}>
@@ -61,6 +66,7 @@ export default function Column({
             userEmail={item.assignee.nickname}
             columnId={columnId}
             dashboardId={dashboardId}
+            onCardDeleted={handleCardDeleted}
           />
         ))}
       </section>

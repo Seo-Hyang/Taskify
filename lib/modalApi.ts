@@ -9,6 +9,7 @@ interface RequestOptions {
 }
 
 interface Assignee {
+  id:number;
   userId?: number;
   nickname: string;
   profileImageUrl: string | null;

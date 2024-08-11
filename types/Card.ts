@@ -18,3 +18,15 @@ export interface Card {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Cards {
+  id: number;
+  title: string;
+  tags: string[];
+  dueDate: string;
+  imageUrl: string;
+  assignee: {
+    nickname: string;
+    profileImageUrl: string;
+  };
+}

@@ -15,6 +15,7 @@ import LogoSmall from "@/public/images/logo/small.svg";
 import AddIcon from "@/public/images/addIcon.svg";
 import { it } from "node:test";
 import { useRouter } from "next/router";
+import useModalStore from "@/hooks/useModalStore";
 
 export default function SideMenu() {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
@@ -34,9 +35,12 @@ export default function SideMenu() {
     setDashboardList(dashboards);
   }
 
-  useEffect(() => {
+   useEffect(() => {
     getDashboardList();
-  }, []);
+    const currentDashboardId = router.query.dashboardId;
+    if (currentDashboardId) {
+    }
+  }, [router.asPath]);
 
   const handleDashboardClick = (id: number) => {
     localStorage.setItem("currentDashboardId", id.toString());

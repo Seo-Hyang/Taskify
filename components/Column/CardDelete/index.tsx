@@ -4,23 +4,29 @@ import { deleteCard } from "@/lib/modalApi";
 import Dialog from "@/components/Modal/modal";
 import useModalStore from "@/hooks/useModalStore";
 
-export default function CardDelete(cardId: number) {
+interface Props{
+  cardId:number;
+  onCardDeleted: (cardId: number) => void;
+}
+
+export default function CardDelete({cardId,onCardDeleted}:Props) {
   const {closeModal}=useModalStore();
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
       await deleteCard(cardId);
-      closeModal();
+      closeModal("deletecard");
+      onCardDeleted(cardId);
     } catch (err) {
       console.error("해당 카드 삭제에 실패했습니다.");
     }
   };
   const handleCancelClick = ()=>{
-    closeModal();
+    closeModal("deletecard");
   }
 
   return (
-    <Dialog>
+    <Dialog id="deletecard" className={styles["dialog-container"]}>
     <div className={styles["column-delete"]}>
       <div className={styles["column-delete-container"]}>
         <h1 className={styles["column-delete-h1"]}>

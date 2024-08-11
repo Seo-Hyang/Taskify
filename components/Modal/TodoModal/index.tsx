@@ -12,7 +12,7 @@ import { useTagColors } from "@/hooks/useTagColors";
 import useModalStore from "@/hooks/useModalStore";
 import Dialog from "../modal";
 import { getColumnAdd } from "@/lib/columnApi";
-import Image from "next/image";
+import { Cards } from "@/types/Card";
 
 interface Assignee {
   nickname: string;
@@ -34,6 +34,7 @@ interface Props {
   cardId: number;
   columnId: number;
   dashboardId: number;
+  onCardDeleted: (cardId: number) => void;
 }
 
 export default function ToDoModal({
@@ -41,6 +42,7 @@ export default function ToDoModal({
   cardId,
   columnId,
   dashboardId,
+  onCardDeleted,
 }: Props) {
   const { width } = useWindowSize();
   const { tagColors, addTagColor } = useTagColors();
@@ -114,16 +116,18 @@ export default function ToDoModal({
     closeModal(`${id}`);
   };
 
-  console.log(columnId);
-  console.log(columnValues.id);
-
   return (
     <Dialog id={`${id}`} className={styles["dialog-container"]}>
       <div className={styles["todo-modal"]}>
         {width <= MOBILE_MAX_WIDTH ? (
           <>
             <div className={styles["todo-top-icon"]}>
-              <Dropdown />
+              <Dropdown
+                cardId={cardId}
+                columnId={columnId}
+                dashboardId={dashboardId}
+                onCardDeleted={onCardDeleted}
+              />
               <button
                 className={styles["todo-button"]}
                 onClick={handleCancelClick}
@@ -138,7 +142,12 @@ export default function ToDoModal({
             <div className={styles["todo-top"]}>
               <h1 className={styles["todo-h1"]}>{values.title}</h1>
               <div className={styles["todo-top-icon"]}>
-                <Dropdown />
+                <Dropdown
+                  cardId={cardId}
+                  columnId={columnId}
+                  dashboardId={dashboardId}
+                  onCardDeleted={onCardDeleted}
+                />
                 <button
                   className={styles["todo-button"]}
                   onClick={handleCancelClick}
@@ -180,7 +189,7 @@ export default function ToDoModal({
               {values.description}
             </section>
 
-            <Image
+            <img
               src={values.imageUrl}
               alt="카드 이미지"
               className={styles["todo-img"]}
@@ -197,7 +206,7 @@ export default function ToDoModal({
             >
               <h2 className={styles["todo-user-top"]}>담당자</h2>
               <div className={styles["todo-user-img-container"]}>
-                <Image
+                <img
                   src={
                     values.assignee.profileImageUrl
                       ? values.assignee.profileImageUrl
@@ -221,3 +230,4 @@ export default function ToDoModal({
     </Dialog>
   );
 }
+

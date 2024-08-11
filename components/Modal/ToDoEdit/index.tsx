@@ -43,6 +43,17 @@ interface PutProps {
   assignee: Assignee;
 }
 
+interface ToDoEditProps {
+  cardId: number;
+  columnId: number;
+  dashboardId: number;
+}
+
+interface CardData{
+id:number;
+title:string;
+}
+
 const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
   return (
     <div className={styles["calendar-container"]}>
@@ -59,11 +70,11 @@ const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
   );
 };
 
-export default function ToDoEdit(
-  cardId: number,
-  columnId: number,
-  dashboardId: number
-) {
+export default function ToDoEdit({
+  cardId,
+  columnId,
+  dashboardId,
+}: ToDoEditProps) {
   const router = useRouter();
   const { tagColors, addTagColor } = useTagColors();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -76,7 +87,7 @@ export default function ToDoEdit(
   const dropdownAssigneeRef = useRef<HTMLDivElement>(null);
   const dropdownColumnRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState<Columns[]>([]); //드롭다운 했을 때 컬럼 상태들
-  const [selectedColumns, setSelectedColumns] = useState<Columns | null>(null); // 선택된 컬럼 상태
+  const [selectedColumn, setSelectedColumn] = useState<Columns | null>(null); // 선택된 컬럼 상태
   const [assignees, setAssignees] = useState<Assignee[]>([]); // 드롭다운 했을 때 담당자들
   const [selectedAssignee, setSelectedAssignee] = useState<
     Assignee | undefined
@@ -158,31 +169,29 @@ export default function ToDoEdit(
     const fetchCardData = async () => {
       try {
         const response = await getCardId(cardId);
-        console.log(response);
         setTags(response.tags);
         response.tags.forEach((tag) => addTagColor(tag));
-        SetValues({
+        SetValues((prevValues) => ({
+          ...prevValues,
           title: response.title,
           description: response.description,
           dueDate: response.dueDate,
           tags: response.tags,
           imageUrl: response.imageUrl,
           assignee: {
-            userId: response.assignee.userId ?? 0,
+            userId: response.assignee.id,
             nickname: response.assignee.nickname,
             profileImageUrl: response.assignee.profileImageUrl || undefined,
           },
-        });
+        }));
         setStartDate(new Date(response.dueDate));
         setImgUrl(response.imageUrl);
-        console.log(imgUrl);
       } catch (err) {
         console.error("카드 조회에 실패했습니다");
       }
     };
     fetchCardData();
   }, [cardId]);
-  console.log(values.assignee.userId);
 
   // 카드 수정
   // (cardId(props), columnId(props),assignessUserId(selectedAssignee.userId랑 같음), title,description,dueDate,tags,imageUrl 필요)
@@ -199,7 +208,8 @@ export default function ToDoEdit(
         values.tags,
         values.imageUrl
       );
-      closeModal();
+      closeModal("editcard");
+      console.log(selectedColumn);
     } catch (err) {
       console.error("카드 수정에 실패했습니다.");
     }
@@ -229,16 +239,22 @@ export default function ToDoEdit(
       try {
         const response = await getColumnAdd(dashboardId);
         setColumns(response.data);
+        const matchedColumn = response.data.find((column: CardData) => column.id === columnId);
+        if (matchedColumn) {
+          setSelectedColumn(matchedColumn);
+        } else {
+          console.log("No matching column found.");
+        }
       } catch (err) {
-        console.error("칼럼을 조회할 수 없습니다.");
+        console.error("Failed to fetch columns.");
       }
     };
     fetchColumns();
-  }, []);
+  }, [dashboardId, columnId]);
 
   // 드롭다운 -> 칼럼 선택
   const handleColumnSelect = (column: Columns) => {
-    setSelectedColumns(column);
+    setSelectedColumn(column);
     setIsColumnOpen(false);
   };
 
@@ -266,10 +282,11 @@ export default function ToDoEdit(
     setImgUrl(url);
   };
   const handleCancelClick = () => {
-    closeModal();
+    closeModal("editcard");
   };
+
   return (
-    <Dialog>
+    <Dialog id="editcard" className={styles["dialog-container"]}>
       <div className={styles["todo-create"]}>
         <h1 className={styles["todo-create-h1"]}>할일 수정</h1>
         <div className={styles["todo-create-input-section"]}>
@@ -280,17 +297,13 @@ export default function ToDoEdit(
             >
               <label className={styles["todo-create-label"]}>상태</label>
               <div className={styles["todo-edit-dropdown"]}>
-                {selectedColumns ? (
+                {selectedColumn && (
                   <div className={styles["toggle-column-item-container"]}>
                     <div className={styles["toggle-column-item-circle"]}></div>
                     <span className={styles["toggle-column-item"]}>
-                      {selectedColumns.title}
+                      {selectedColumn.title}
                     </span>
                   </div>
-                ) : (
-                  <span className={styles["placeholder"]}>
-                    {/* columnId의 title */}
-                  </span>
                 )}
                 <Arrow_drop
                   onClick={toggleColumnDropdown}
@@ -307,7 +320,7 @@ export default function ToDoEdit(
                         onClick={() => handleColumnSelect(column)}
                       >
                         <div className={styles["check-icon"]}>
-                          {selectedColumns?.id === column.id && (
+                          {selectedColumn?.id === column.id && (
                             <Check_icon width="22" height="22" />
                           )}
                         </div>
@@ -451,6 +464,7 @@ export default function ToDoEdit(
             <FileInput
               onImageUpload={handleNewImageUpload}
               initialImageUrl={imgUrl}
+              columnId={columnId}
             />
           </div>
         </div>
