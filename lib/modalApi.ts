@@ -9,7 +9,7 @@ interface RequestOptions {
 }
 
 interface Assignee {
-  id:number;
+  id: number;
   userId?: number;
   nickname: string;
   profileImageUrl: string | null;
@@ -170,7 +170,7 @@ export function deleteCard(cardId: number) {
 }
 
 // 댓글 조회 - O
-export function getComment(cardId: number) {
+export function getComment(cardId: number, page: number) {
   const url = `/comments?size=10&cardId=${cardId}`;
   const options = {
     method: "GET",

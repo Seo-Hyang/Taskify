@@ -5,12 +5,12 @@ import useModalStore from "@/hooks/useModalStore";
 import Dialog from "@/components/Modal/modal";
 import { useRouter } from "next/router";
 
-interface Props{
-  columnId:number;
+interface Props {
+  columnId: number;
 }
 
-export default function ColumnDelete({columnId}:Props) {
-  const {closeModal}=useModalStore();
+export default function ColumnDelete({ columnId }: Props) {
+  const { closeModal } = useModalStore();
   // 칼럼 삭제
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -21,7 +21,6 @@ export default function ColumnDelete({columnId}:Props) {
       console.error("해당 칼럼 삭제에 실패했습니다.");
     }
   };
-
   const handleCancelClick = ()=>{
     closeModal("deletecolumn");
   }
@@ -40,7 +39,6 @@ export default function ColumnDelete({columnId}:Props) {
           </ModalButton>
         </div>
       </div>
-    </div>
     </Dialog>
   );
 }
