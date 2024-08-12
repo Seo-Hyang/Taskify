@@ -197,7 +197,9 @@ function SignUpPage() {
           <p>이용약관에 동의합니다.</p>
         </div>
         <div className={styles["button-container"]}>
-          <AuthButton>회원가입</AuthButton>
+          <AuthButton disabled={false} landing={false} className="authButton">
+            회원가입
+          </AuthButton>
         </div>
       </form>
       <div className={styles["question"]}>

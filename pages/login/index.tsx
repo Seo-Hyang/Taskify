@@ -82,7 +82,7 @@ function LoginPage() {
 
         const { accessToken } = data;
         localStorage.setItem("accessToken", accessToken);
-        router.push("/");
+        router.push("/dashboards");
       } catch (error) {
         if ((error as AxiosError).response?.status === 400) {
           console.error("로그인 실패: 비밀번호 불일치", error);
@@ -120,7 +120,7 @@ function LoginPage() {
 
       const { accessToken } = data;
       localStorage.setItem("accessToken", accessToken);
-      router.push("/");
+      router.push("/dashboards");
     } catch (error) {
       console.error("게스트 로그인 실패:", error);
       setModalMessage("게스트 로그인에 실패했습니다. 다시 시도해 주세요.");
@@ -131,7 +131,7 @@ function LoginPage() {
   };
 
   const handleGuestLogin = () => {
-    setFormState({ email: "test1234@naver.com", password: "test1234" });
+    setFormState({ email: "TestDummy@email.com", password: "1234@pass" });
     setIsGuestLogin(true);
   };
 
@@ -162,7 +162,9 @@ function LoginPage() {
           errorMessage={errors.password}
         />
         <div className={styles["button-container"]}>
-          <AuthButton>로그인</AuthButton>
+          <AuthButton disabled={false} landing={false} className="authButton">
+            로그인
+          </AuthButton>
         </div>
       </form>
       <div className={styles.question}>
