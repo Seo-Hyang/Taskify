@@ -9,18 +9,18 @@ import ColumnDashboard from "@/components/Column/ColumnDashboard";
 import ToDoEdit from "@/components/Modal/ToDoEdit";
 import CardDelete from "@/components/Column/CardDelete";
 
-export default function ModalTest(){
-    return(
-        <div>
-            <ToDoModal />
+export default function ModalTest() {
+  return (
+    <div>
+      {/* <ToDoModal />
             <ToDoEdit />
             <ColumnAdd />
             <ColumnEdit />
             <ColumnInvite />
             <ColumnDelete />
-            <CardDelete />
-            <MypageModal />
-            <ColumnDashboard />
-        </div>
-    )
+            <CardDelete /> */}
+      <MypageModal />
+      <ColumnDashboard />
+    </div>
+  );
 }
