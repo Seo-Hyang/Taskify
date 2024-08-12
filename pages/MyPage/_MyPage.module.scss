@@ -160,15 +160,6 @@
   animation: round 1s forwards;
 }
 
-@keyframes round {
-  from {
-    border-radius: 0;
-  }
-  to {
-    border-radius: 30px;
-  }
-}
-
 // 알림 메시지
 .noti {
   display: inline-block;
@@ -225,10 +216,14 @@
 
 // 에러 스타일
 .error {
-  position: absolute;
-  top: 52px;
-  left: 0;
+  display: block;
   color: var(--color-red);
   font-size: 14px;
-  margin-left: 10px;
+  margin: -10px 0 0 10px;
+
+  @media (max-width: 743px) {
+    font-size: 14px;
+    display: block;
+    margin: -5px 0 0 0;
+  }
 }
