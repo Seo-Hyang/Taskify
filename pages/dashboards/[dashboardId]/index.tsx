@@ -92,7 +92,7 @@ export default function DashBoard() {
       </div>
       <section>
         <SideMenu />
-        <Header dashboardId={Number(dashboardId)}>내 대시보드</Header>
+        <Header dashboardId={Number(dashboardId)} />
       </section>
       <section className={styles.dashboardContainer}>
         <section className={styles.dashboardColumns}>
