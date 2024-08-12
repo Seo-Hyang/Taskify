@@ -92,7 +92,7 @@ export function Modalcomment({
 
           // 새로운 댓글만 필터링
           const newComments = response.comments.filter(
-            (comment) => !existingCommentIds.has(comment.id)
+            (comment: { id: number }) => !existingCommentIds.has(comment.id)
           );
 
           // 기존 댓글과 새로운 댓글을 병합
