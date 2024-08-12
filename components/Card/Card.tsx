@@ -51,7 +51,7 @@ export default function Card({
       <section className={styles.cardBox} onClick={handleCardClick}>
         <div className={styles.container}>
           {`${imageUrl}.length !==0` ? (
-            <Image
+            <img
               src={imageUrl}
               alt="카드 이미지"
               width={500}

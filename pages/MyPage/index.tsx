@@ -215,7 +215,7 @@ export default function MyPage() {
                   }}
                 />
                 {previewUrl && (
-                  <Image
+                  <img
                     src={previewUrl}
                     alt="profile image preview"
                     className={styles.profilePreview}

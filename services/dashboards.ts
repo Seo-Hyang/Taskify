@@ -2,8 +2,12 @@ import axiosInstance from "@/lib/axios";
 
 // 대시보드 상세 조회
 export async function getDashboard(dashboardId: number) {
-  const response = await axiosInstance.get(`/dashboards/${dashboardId}`);
-  return response.data;
+  try{
+    const response = await axiosInstance.get(`/dashboards/${dashboardId}`);
+    return response.data;
+  }catch(err){
+    console.log("대시보드 조회에 실패했습니다.");
+  }
 }
 
 // 대시보드 수정

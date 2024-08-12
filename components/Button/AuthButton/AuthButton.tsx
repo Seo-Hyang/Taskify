@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 interface Props {
   children?: ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
   landing?: boolean;
   className: string;
 }
