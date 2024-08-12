@@ -28,7 +28,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <label className={styles.Label} htmlFor={id}>
         {label}
       </label>
