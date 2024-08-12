@@ -190,7 +190,7 @@ export default function MyPage() {
 
       <header>
         <nav>
-          <Header dashboardId={Number(dashboardId)}>계정관리</Header>
+          <Header dashboardId={Number(dashboardId)} isAccountEdit={true} />
         </nav>
       </header>
 

@@ -118,7 +118,7 @@ export default function DashBoards() {
         </Head>
         <section>
           <SideMenu />
-          <Header dashboardId={11370}>내 대시보드</Header>
+          <Header dashboardId={11370} />
         </section>
       </section>
       <section className={styles.dashboardContainer}>
