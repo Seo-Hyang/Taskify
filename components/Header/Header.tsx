@@ -11,6 +11,7 @@ import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import useInviteStore from "@/hooks/useInviteStore";
 import instance from "@/lib/axios";
 import Image from "next/image";
+import Link from "next/link";
 
 const getRandomPastelColor = () => {
   const randomValue = () => Math.floor(Math.random() * 56 + 200);
@@ -38,13 +39,12 @@ interface CreateProps {
   createdByMe: boolean;
 }
 
-export default function Header({
-  children,
-  dashboardId,
-}: {
-  children?: React.ReactNode;
+interface Props {
   dashboardId: number;
-}) {
+  isAccountEdit?: boolean;
+}
+
+export default function Header({ dashboardId, isAccountEdit = false }: Props) {
   const randomBackgroundColor = getRandomPastelColor();
   const { width } = useWindowSize();
   const router = useRouter();
@@ -101,6 +101,10 @@ export default function Header({
   const displayedMembers = nonOwners.slice(0, 3); // 보여지는 멤버 (3명만) - 수정 가능
   const remaininCount = nonOwners.length - 3; //숨기는 멤버
 
+  const removeCurrentDashboardId = () => {
+    localStorage.removeItem("currentDashboardId");
+  };
+
   // 내 정보 조회
   useEffect(() => {
     const fetchMyData = async () => {
@@ -121,9 +125,25 @@ export default function Header({
       <section className={styles.header_container}>
         <div>
           {width >= TABLET_MAX_WIDTH ? (
-            <div className={styles.header_title}>
-              {dashboard?.title ?? children}
-              {createdByMe ? <CROWNSVG className={styles.crown_icon} /> : <></>}
+            <div>
+              {localStorage.getItem("currentDashboardId") !== null ? (
+                <div className={styles.header_titleContainer}>
+                  <div className={styles.header_title}>{dashboard?.title}</div>
+                  {createdByMe ? (
+                    <CROWNSVG className={styles.crown_icon} />
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              ) : (
+                <>
+                  {isAccountEdit ? (
+                    <div className={styles.header_title}>계정 관리</div>
+                  ) : (
+                    <div className={styles.header_title}>내 대시보드</div>
+                  )}
+                </>
+              )}
             </div>
           ) : (
             <></>
@@ -176,21 +196,27 @@ export default function Header({
           </div>
         </div>
       </section>
-
-      <section className={styles.header_usersContainer}>
-        <img
-          src={
-            values.profileImageUrl
-              ? values.profileImageUrl
-              : generateProfileImageUrl(values.nickname)
-          }
-          alt="프로필"
-          width="38"
-          height="38"
-          className={styles["header-user-img"]}
-        />
-        <div className={styles.header_userNickname}>{values.nickname}</div>
-      </section>
+      <button
+        className={styles.header_userButton}
+        onClick={removeCurrentDashboardId}
+      >
+        <Link href="/MyPage">
+          <section className={styles.header_usersContainer}>
+            <img
+              src={
+                values.profileImageUrl
+                  ? values.profileImageUrl
+                  : generateProfileImageUrl(values.nickname)
+              }
+              alt="프로필"
+              width="38"
+              height="38"
+              className={styles["header-user-img"]}
+            />
+            <div className={styles.header_userNickname}>{values.nickname}</div>
+          </section>
+        </Link>
+      </button>
     </header>
   );
 }

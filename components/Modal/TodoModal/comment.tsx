@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import styles from "./ToDoModal.module.scss";
 import {
   postComment,
@@ -54,6 +54,9 @@ export function Modalcomment({
   const [page, setPage] = useState<number>(1); // 페이지 번호
   const [hasMore, setHasMore] = useState<boolean>(true); // 추가 댓글 여부 확인
 
+  // section 요소에 대한 참조
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+
   // 댓글 생성
   const handlecommentClick = async (e: React.MouseEvent) => {
     try {
@@ -66,24 +69,38 @@ export function Modalcomment({
       setContent("");
       setPage(1);
       setCommentValues([]);
-      fetchComents(1);
+      fetchComments(1);
       setIsDisabled(true);
     } catch (err) {
-      console.error("댓글 생성에 실패했습니다.");
+      console.error("댓글 불러오기에 실패했습니다.");
     }
   };
 
-  const fetchComents = async (page: number) => {
+  // 댓글 불러오기
+  const fetchComments = async (page: number) => {
     try {
-      const response = await getComment(cardId,page);
+      const response = await getComment(cardId, page);
       // const response = await getComment(cardId,page);
       if (response.comments.length === 0) {
-        setHasMore(false); // 댓글이 없는 경우 state 값 설정
+        setHasMore(false); // 댓글이 없는 경우 hasMore를 false로 설정
       } else {
-        setCommentValues((prevComments) => [
-          ...prevComments,
-          ...response.comments,
-        ]);
+        setCommentValues((prevComments) => {
+          // 기존 댓글 ID 집합을 생성
+          const existingCommentIds = new Set(
+            prevComments.map((comment) => comment.id)
+          );
+
+          // 새로운 댓글만 필터링
+          const newComments = response.comments.filter(
+            (comment: { id: number }) => !existingCommentIds.has(comment.id)
+          );
+
+          // 기존 댓글과 새로운 댓글을 병합
+          return [...prevComments, ...newComments];
+        });
+
+        // hasMore 업데이트: 댓글이 존재하면 다음 페이지를 요청할 수 있도록 설정
+        setHasMore(response.comments.length > 0);
       }
     } catch (error) {
       console.log("댓글을 가져올 수 없습니다.", error);
@@ -91,25 +108,36 @@ export function Modalcomment({
     }
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
+  // 스크롤 이벤트 핸들러
+  const handleScroll = useCallback(() => {
+    const section = sectionRef.current;
+    if (section && hasMore) {
       if (
-        window.innerHeight + document.documentElement.scrollTop !==
-          document.documentElement.offsetHeight ||
-        !hasMore
+        section.scrollHeight - section.scrollTop <=
+        section.clientHeight + 1
       ) {
-        return;
+        setPage((prevPage) => prevPage + 1);
       }
-      setPage((prevpage) => prevpage + 1);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    }
   }, [hasMore]);
 
   useEffect(() => {
-    fetchComents(page);
-  }, [page]);
+    const section = sectionRef.current;
+    if (section) {
+      section.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      if (section) {
+        section.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [handleScroll]);
+
+  useEffect(() => {
+    if (hasMore) {
+      fetchComments(page);
+    }
+  }, [page, hasMore]);
 
   /**
   // 댓글 조회 - O
@@ -144,9 +172,9 @@ export function Modalcomment({
     }
   };
 
-  useEffect(()=>{
-    handleDeleteClick
-  },[commentValues]);
+  useEffect(() => {
+    handleDeleteClick;
+  }, [commentValues]);
 
   // 댓글 수정
   const handleEditChange = async (commentId: number, content: string) => {
@@ -188,7 +216,6 @@ export function Modalcomment({
     setEditCommentId(null);
     setEditedContent("");
   };
-  
 
   return (
     <div className={styles["todo-comment-input-container"]}>
@@ -214,7 +241,7 @@ export function Modalcomment({
         </div>
       </div>
 
-      <section className={styles["todo-comment-container"]}>
+      <section className={styles["todo-comment-container"]} ref={sectionRef}>
         {commentValues.map((comment) => (
           <div
             key={comment.id}
@@ -250,7 +277,10 @@ export function Modalcomment({
                       onChange={handleEditedCommentChange}
                     />
                     <div className={styles["edit-container"]}>
-                      <button className={styles["todo-user-button"]} onClick={handleCancelEdit}>
+                      <button
+                        className={styles["todo-user-button"]}
+                        onClick={handleCancelEdit}
+                      >
                         취소
                       </button>
                       {/* 수정하기 */}
@@ -295,4 +325,3 @@ export function Modalcomment({
     </div>
   );
 }
-

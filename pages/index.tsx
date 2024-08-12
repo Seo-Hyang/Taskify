@@ -8,7 +8,8 @@ export default function Home() {
 
   return (
     <>
-      {/* <LandingPage /> - / 페이지 테스트 */}
+      <LandingPage />
+      {/* <LandingPage /> - / 페이지 테스트
       <ul>
         <li>
           <Link href="/LandingPage">▷랜딩 페이지</Link>
@@ -38,9 +39,12 @@ export default function Home() {
           <Link href="/dashboards/11370/edit">▷대시보드 수정 페이지</Link>
         </li>
         <li>
+          <Link href="@/components/Modal/TodoModal/comment">▷무한 스크롤</Link>
+        </li>
+        <li>
           <button onClick={handleLogout}>로그아웃</button>
         </li>
-      </ul>
+      </ul> */}
     </>
   );
 }
