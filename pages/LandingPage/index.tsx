@@ -16,23 +16,38 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { BeatLoader } from "react-spinners";
 import Image from "next/image";
+import { BUILD_ID_FILE } from "next/dist/shared/lib/constants";
+import { set } from "date-fns";
 
 export default function LandingPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { width } = useWindowSize();
+  const [token, setToken] = useState<any>();
+
+  function getToken() {
+    if (token !== null) {
+      console.log(token);
+      return true;
+    } else {
+      console.log(token);
+      return false;
+    }
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      setIsLoading(true);
-      setTimeout(() => {
-        router.push("/dashboards");
-      }, 1000);
-    } else {
-      setIsLoading(false);
-    }
-  }, [router]);
+    setToken(localStorage.getItem("accessToken"));
+
+    // const token = localStorage.getItem("accessToken");
+    // if (token) {
+    //   setIsLoading(true);
+    //   setTimeout(() => {
+    //     router.push("/dashboards");
+    //   }, 1000);
+    // } else {
+    //   setIsLoading(false);
+    // }
+  }, [token]); //[router]
 
   if (isLoading) {
     return (
@@ -41,6 +56,12 @@ export default function LandingPage() {
       </div>
     );
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    setToken(null);
+  };
+
   return (
     <div className={styles.landing}>
       <header className={styles.header}>
@@ -51,15 +72,22 @@ export default function LandingPage() {
             <Header_mobile width="23.63" height="27.13" />
           )}
         </Link>
-
-        <div className={styles["landing-login"]}>
-          <Link href="/login">
-            <span className={styles["landing-login-txt"]}>로그인</span>
-          </Link>
-          <Link href="/signup">
-            <span className={styles["landing-login-txt"]}>회원가입</span>
-          </Link>
-        </div>
+        {getToken() ? (
+          <div className={styles["landing-login"]}>
+            <button className={styles["landing-logout"]} onClick={handleLogout}>
+              <span className={styles["landing-login-txt"]}>로그아웃</span>
+            </button>
+          </div>
+        ) : (
+          <div className={styles["landing-login"]}>
+            <Link href="/login">
+              <span className={styles["landing-login-txt"]}>로그인</span>
+            </Link>
+            <Link href="/signup">
+              <span className={styles["landing-login-txt"]}>회원가입</span>
+            </Link>
+          </div>
+        )}
       </header>
 
       <div className={styles["top-section"]}>
@@ -74,15 +102,27 @@ export default function LandingPage() {
           <h1 className={styles.white}>새로운 일정 관리</h1>
           <h1 className={styles.purple}>Taskify</h1>
         </div>
-        <Link href="/Login" className={styles["loginBtn-link"]}>
-          <AuthButton
-            disabled={false}
-            landing={true}
-            className={styles.loginBtn}
-          >
-            로그인하기
-          </AuthButton>
-        </Link>
+        {getToken() ? (
+          <Link href="/dashboards" className={styles["loginBtn-link"]}>
+            <AuthButton
+              disabled={false}
+              landing={true}
+              className={styles.loginBtn}
+            >
+              내 대시보드로
+            </AuthButton>
+          </Link>
+        ) : (
+          <Link href="/login" className={styles["loginBtn-link"]}>
+            <AuthButton
+              disabled={false}
+              landing={true}
+              className={styles.loginBtn}
+            >
+              로그인하기
+            </AuthButton>
+          </Link>
+        )}
       </div>
 
       <div className={styles["landing-container"]}>

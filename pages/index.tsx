@@ -8,7 +8,8 @@ export default function Home() {
 
   return (
     <>
-      {/* <LandingPage /> - / 페이지 테스트 */}
+      <LandingPage />
+      {/* <LandingPage /> - / 페이지 테스트
       <ul>
         <li>
           <Link href="/LandingPage">▷랜딩 페이지</Link>
@@ -43,7 +44,7 @@ export default function Home() {
         <li>
           <button onClick={handleLogout}>로그아웃</button>
         </li>
-      </ul>
+      </ul> */}
     </>
   );
 }

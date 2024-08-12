@@ -4,7 +4,7 @@ import Logo from "@/components/Logo/Logo";
 import AuthButton from "@/components/Button/AuthButton/AuthButton";
 import InputItem from "@/components/Input/InputItem";
 import PasswordInput from "@/components/Input/PasswordInput";
-import { LoginInputId, getErrorMessage } from "../authUtils";
+import { LoginInputId, getErrorMessage } from "../../types/authUtils";
 import Link from "next/link";
 import instance from "@/lib/axios";
 import { useRouter } from "next/navigation";
