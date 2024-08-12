@@ -11,6 +11,7 @@ import { generateProfileImageUrl } from "@/lib/avatarsApi";
 import useInviteStore from "@/hooks/useInviteStore";
 import instance from "@/lib/axios";
 import Image from "next/image";
+import Link from "next/link";
 
 const getRandomPastelColor = () => {
   const randomValue = () => Math.floor(Math.random() * 56 + 200);
@@ -177,20 +178,22 @@ export default function Header({
         </div>
       </section>
 
-      <section className={styles.header_usersContainer}>
-        <img
-          src={
-            values.profileImageUrl
-              ? values.profileImageUrl
-              : generateProfileImageUrl(values.nickname)
-          }
-          alt="프로필"
-          width="38"
-          height="38"
-          className={styles["header-user-img"]}
-        />
-        <div className={styles.header_userNickname}>{values.nickname}</div>
-      </section>
+      <Link href="/MyPage">
+        <section className={styles.header_usersContainer}>
+          <img
+            src={
+              values.profileImageUrl
+                ? values.profileImageUrl
+                : generateProfileImageUrl(values.nickname)
+            }
+            alt="프로필"
+            width="38"
+            height="38"
+            className={styles["header-user-img"]}
+          />
+          <div className={styles.header_userNickname}>{values.nickname}</div>
+        </section>
+      </Link>
     </header>
   );
 }

@@ -378,7 +378,7 @@ export default function ToDoEdit({
                       }
                       alt="프로필"
                       className={styles["toggle-assign-item-img"]}
-                    />
+                    /> */}
                     <span className={styles["toggle-assign-item"]}>
                       {selectedAssignee.nickname}
                     </span>
@@ -393,7 +393,7 @@ export default function ToDoEdit({
                       }
                       className={styles["toggle-assign-item-img"]}
                       alt="기존 담당자"
-                    />
+                    /> */}
                     <span className={styles["toggle-assign-item"]}>
                       {values.assignee.nickname}
                     </span>
@@ -426,7 +426,7 @@ export default function ToDoEdit({
                           }
                           alt="프로필"
                           className={styles["toggle-assign-item-img"]}
-                        />
+                        /> */}
                         <span className={styles["toggle-assign-item"]}>
                           {assignee.nickname}
                         </span>

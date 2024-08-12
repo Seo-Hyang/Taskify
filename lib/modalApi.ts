@@ -172,6 +172,7 @@ export function deleteCard(cardId: number) {
 // 댓글 조회 - O
 export function getComment(cardId: number, page: number) {
   const url = `/comments?size=10&cardId=${cardId}`;
+
   const options = {
     method: "GET",
     headers: {
@@ -180,6 +181,20 @@ export function getComment(cardId: number, page: number) {
   };
   return fetchRequest(url, options);
 }
+
+/**
+// 댓글 조회 - O
+export function getComment(cardId: string, page: number, size: number) {
+  const url = `/comments?size=${size}&cardId=${cardId}&page=${page}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  return fetchRequest(url, options);
+}
+   */
 
 // 댓글 수정 - O
 export function putComment(commentId: number, content: string) {

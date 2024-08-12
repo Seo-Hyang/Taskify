@@ -19,6 +19,7 @@ import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 import MessageModal from "@/components/Modal/MessageModal";
 import SideMenu from "@/components/SideMenu/SideMenu";
 import { useRouter } from "next/router";
+import PasswordInput from "@/components/Input/PasswordInput";
 
 // interface 설정
 interface UserInfo {
@@ -146,7 +147,8 @@ export default function MyPage() {
     if (
       currentPassword?.length > 0 &&
       newPassword.length > 0 &&
-      confirmNewPassword.length > 0
+      confirmNewPassword.length > 0 &&
+      newPassword === confirmNewPassword
     ) {
       setIsPasswordChangeDisabled(false);
     } else {
@@ -267,18 +269,34 @@ export default function MyPage() {
               <div className={styles.width}>
                 <div className={styles.passwordInputContainer}>
                   <div>
-                    <span className={styles.inputName}>현재 비밀번호</span>
-                    <input
+                    {/* <span className={styles.inputName}>현재 비밀번호</span> */}
+                    <PasswordInput
+                      id="password"
+                      label="현재 비밀번호"
+                      onBlur={() => {}}
+                      value={currentPassword}
+                      placeholder="현재 비밀번호를 입력해 주세요"
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                    />
+                    {/* <input
                       className={styles.input}
                       placeholder="현재 비밀번호 입력"
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       type="password"
-                    />
+                    /> */}
                   </div>
                   <div>
-                    <span className={styles.inputName}>새 비밀번호</span>
-                    <input
+                    {/* <span className={styles.inputName}>새 비밀번호</span> */}
+                    <PasswordInput
+                      id="password"
+                      label="새 비밀번호"
+                      onBlur={() => {}}
+                      value={newPassword}
+                      placeholder="새 비밀번호를 입력해 주세요"
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                    {/* <input
                       className={`${styles.input} ${
                         isInputHightLight ? styles.inputHightLight : ""
                       }`}
@@ -286,12 +304,20 @@ export default function MyPage() {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       type="password"
-                    />
+                    /> */}
                   </div>
                   <div>
-                    <span className={styles.inputName}>새 비밀번호 확인</span>
+                    {/* <span className={styles.inputName}>새 비밀번호 확인</span> */}
                     <div className={styles.newPassword}>
-                      <input
+                      <PasswordInput
+                        id="password"
+                        label="새 비밀번호 확인"
+                        onBlur={() => {}}
+                        value={confirmNewPassword}
+                        placeholder="새 비밀번호를 입력해 주세요"
+                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      />
+                      {/* <input
                         className={`${styles.input} ${
                           isInputHightLight ? styles.inputHightLight : ""
                         }`}
@@ -299,7 +325,7 @@ export default function MyPage() {
                         value={confirmNewPassword}
                         onChange={(e) => setConfirmNewPassword(e.target.value)}
                         type="password"
-                      />
+                      /> */}
                       {isNewPasswordError && (
                         <span className={styles.error}>
                           {isNewPasswordError}
