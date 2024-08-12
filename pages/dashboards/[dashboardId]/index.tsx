@@ -40,18 +40,31 @@ export default function DashBoard() {
   const [columsList, setColumnList] = useState<Column[]>([]);
 
   async function getColumnList() {
-    const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${dashboardId}`
-    );
-    const nextColumnList = res.data;
-    const { result, data } = nextColumnList;
+    try {
+      const res = await instance.get(
+        `https://sp-taskify-api.vercel.app/7-1/columns?dashboardId=${dashboardId}`
+      );
+      const nextColumnList = res.data;
+      const { result, data } = nextColumnList;
 
-    setColumnList(data);
+      setColumnList(data);
+    } catch (err) {
+      console.log("칼럼 조회에 실패했습니다.");
+    }
   }
 
   async function setDashboardContext() {
-    const dashboard = await getDashboard(Number(dashboardId));
-    setDashboard({ id: Number(dashboardId), title: dashboard.title });
+    try {
+      const dashboard = await getDashboard(Number(dashboardId));
+      if (!dashboard) {
+        console.error('Dashboard not found');
+        return;
+      }
+      setDashboard({ id: Number(dashboardId), title: String(dashboard.title) });
+    } catch (error) {
+      console.error('Error fetching dashboard:', error);
+    }
+  
   }
 
   useEffect(() => {
@@ -68,7 +81,7 @@ export default function DashBoard() {
   };
 
   const handleColumnAdded = () => {
-    getColumnList(); 
+    getColumnList();
   };
 
   return (
@@ -107,8 +120,10 @@ export default function DashBoard() {
         isShow={isShowModal}
         onClickCancle={closeModal}
       />
-      <ColumnAdd dashboardId={Number(dashboardId)} onColumnAdded={handleColumnAdded}/>
+      <ColumnAdd
+        dashboardId={Number(dashboardId)}
+        onColumnAdded={handleColumnAdded}
+      />
     </>
   );
 }
-
