@@ -4,6 +4,7 @@ import { generateProfileImageUrl } from "@/utils/userProfile";
 import useAsync from "@/hooks/useAsync";
 import { deleteDashboardMember } from "@/services/dashboards";
 import { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
 
 interface Props {
   memberId: number;
@@ -38,7 +39,7 @@ export default function MemberItem({
       <div className={styles.memberItem}>
         <div className={styles.name}>
           {/* <UserIcon userEmail={email} /> */}
-          <img
+          <Image
             src={imageUrl ?? generateProfileImageUrl(name)}
             alt="프로필"
             width="38"

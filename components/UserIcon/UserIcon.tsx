@@ -13,7 +13,7 @@
 
 //   return (
 //     <section className={styles.header_usersContainer}>
-//       <img
+//       <Image
 //         src={profileImageUrl}
 //         alt="User Profile"
 //         className={styles.header_userImage} // 스타일 클래스 이름을 확인하세요
