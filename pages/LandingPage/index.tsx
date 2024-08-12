@@ -26,10 +26,8 @@ export default function LandingPage() {
 
   function getToken() {
     if (token !== null) {
-      console.log(token);
       return true;
     } else {
-      console.log(token);
       return false;
     }
   }
