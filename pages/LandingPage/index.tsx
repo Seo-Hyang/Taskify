@@ -75,7 +75,11 @@ export default function LandingPage() {
           <h1 className={styles.purple}>Taskify</h1>
         </div>
         <Link href="/Login" className={styles["loginBtn-link"]}>
-          <AuthButton landing={true} className={styles.loginBtn}>
+          <AuthButton
+            disabled={false}
+            landing={true}
+            className={styles.loginBtn}
+          >
             로그인하기
           </AuthButton>
         </Link>

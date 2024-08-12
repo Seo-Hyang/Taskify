@@ -18,6 +18,7 @@ import Button from "@/components/Button/Button/Button";
 import ReturnButton from "@/components/Button/ReturnButton/ReturnButton";
 import MessageModal from "@/components/Modal/MessageModal";
 import SideMenu from "@/components/SideMenu/SideMenu";
+import { useRouter } from "next/router";
 
 // interface 설정
 interface UserInfo {
@@ -39,6 +40,10 @@ const getUserInfo = async () => {
 };
 
 export default function MyPage() {
+  //dashboardId 저장
+  const router = useRouter();
+  const { dashboardId } = router.query;
+
   // 프로필 이미지 state
   const [profileImageUrl, setProfileImageUrl] = useState<string>("");
   const [previewUrl, setPreviewUrl] = useState<string>("");
@@ -183,7 +188,7 @@ export default function MyPage() {
 
       <header>
         <nav>
-          <Header>계정관리</Header>
+          <Header dashboardId={Number(dashboardId)}>계정관리</Header>
         </nav>
       </header>
 

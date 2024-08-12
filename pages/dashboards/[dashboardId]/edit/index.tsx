@@ -53,7 +53,7 @@ export default function Edit() {
       </div>
       <section>
         <SideMenu />
-        <Header>내 대시보드</Header>
+        <Header dashboardId={Number(dashboardId)}>내 대시보드</Header>
       </section>
       <div className={styles.dashboardEditPage}>
         <div className={styles.header}>
