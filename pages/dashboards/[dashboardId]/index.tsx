@@ -67,6 +67,10 @@ export default function DashBoard() {
     openModal("columnAdd");
   };
 
+  const handleColumnAdded = () => {
+    getColumnList(); 
+  };
+
   return (
     <>
       <div>
@@ -76,7 +80,7 @@ export default function DashBoard() {
       </div>
       <section>
         <SideMenu />
-        <Header>내 대시보드</Header>
+        <Header dashboardId={Number(dashboardId)}>내 대시보드</Header>
       </section>
       <section className={styles.dashboardContainer}>
         <section className={styles.dashboardColumns}>
@@ -103,7 +107,7 @@ export default function DashBoard() {
         isShow={isShowModal}
         onClickCancle={closeModal}
       />
-      <ColumnAdd dashboardId={Number(dashboardId)} />
+      <ColumnAdd dashboardId={Number(dashboardId)} onColumnAdded={handleColumnAdded}/>
     </>
   );
 }

@@ -7,7 +7,6 @@ import {
   putComment,
 } from "@/lib/modalApi";
 import { generateProfileImageUrl } from "@/lib/avatarsApi";
-import Image from "next/image";
 
 interface Author {
   nickname: string;
@@ -80,7 +79,7 @@ export function Modalcomment({
   // 댓글 불러오기
   const fetchComments = async (page: number) => {
     try {
-      const response = await getComment(cardId, page);
+      const response = await getComment(cardId,page);
       // const response = await getComment(cardId,page);
       if (response.comments.length === 0) {
         setHasMore(false); // 댓글이 없는 경우 hasMore를 false로 설정
@@ -165,14 +164,17 @@ export function Modalcomment({
   const handleDeleteClick = async (commentId: number) => {
     try {
       await deleteComment(commentId);
+      setCommentValues((prevComments) =>
+        prevComments.filter((comment) => comment.id !== commentId)
+      );
     } catch (err) {
       console.error("댓글 삭제에 실패했습니다.");
     }
   };
 
-  useEffect(() => {
-    handleDeleteClick;
-  }, [commentValues]);
+  useEffect(()=>{
+    handleDeleteClick
+  },[commentValues]);
 
   // 댓글 수정
   const handleEditChange = async (commentId: number, content: string) => {
@@ -210,6 +212,12 @@ export function Modalcomment({
     console.log(editedContent);
   };
 
+  const handleCancelEdit = () => {
+    setEditCommentId(null);
+    setEditedContent("");
+  };
+  
+
   return (
     <div className={styles["todo-comment-input-container"]}>
       <div className={styles["todo-comment-span-container"]}>
@@ -240,7 +248,7 @@ export function Modalcomment({
             key={comment.id}
             className={styles["todo-user-comment-container"]}
           >
-            <Image
+            <img
               src={
                 comment.author.profileImageUrl ||
                 generateProfileImageUrl(comment.author.nickname)
@@ -270,10 +278,7 @@ export function Modalcomment({
                       onChange={handleEditedCommentChange}
                     />
                     <div className={styles["edit-container"]}>
-                      <button
-                        className={styles["todo-user-button"]}
-                        onClick={handlecommentClick}
-                      >
+                      <button className={styles["todo-user-button"]} onClick={handleCancelEdit}>
                         취소
                       </button>
                       {/* 수정하기 */}
@@ -318,3 +323,4 @@ export function Modalcomment({
     </div>
   );
 }
+

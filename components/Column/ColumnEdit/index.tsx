@@ -14,9 +14,9 @@ import useModalStore from "@/hooks/useModalStore";
 interface Props {
   columnId: number;
   title?: string;
-  dashboardId: string;
+  dashboardId: number;
 }
-//이중모달
+
 export default function ColumnEdit({ columnId, dashboardId }: Props) {
   const router = useRouter();
   const [newColumn, setNewColumn] = useState<string>("");
@@ -38,7 +38,7 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
   };
 
   return (
-    // <Dialog>
+    <Dialog id="" className={styles["dialog-container"]}>
     <div className={styles["column-auth"]}>
       <div className={styles["column-auth-container"]}>
         <div className={styles["column-container-close"]}>
@@ -57,12 +57,12 @@ export default function ColumnEdit({ columnId, dashboardId }: Props) {
         </div>
         <div className={styles["column-button-container"]}>
           <ModalButton isCancled={true}>삭제</ModalButton>
-          {/* 이중모달 */}
           <ModalButton isComment={true} onClick={handleEditClick}>
             변경
           </ModalButton>
         </div>
       </div>
     </div>
+    </Dialog>
   );
 }
