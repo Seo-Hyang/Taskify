@@ -30,8 +30,9 @@
     gap: 4px;
 
     .contents_name {
-      width: 150px;
+      max-width: 150px;
       display: -webkit-box;
+      overflow: hidden;
       text-overflow: ellipsis;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
