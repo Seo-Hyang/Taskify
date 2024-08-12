@@ -69,7 +69,7 @@ export function Modalcomment({
       setContent("");
       setPage(1);
       setCommentValues([]);
-      fetchComents(1);
+      fetchComments(1);
       setIsDisabled(true);
     } catch (err) {
       console.error("댓글 불러오기에 실패했습니다.");
@@ -79,7 +79,7 @@ export function Modalcomment({
   // 댓글 불러오기
   const fetchComments = async (page: number) => {
     try {
-      const response = await getComment(cardId,page);
+      const response = await getComment(cardId, page);
       // const response = await getComment(cardId,page);
       if (response.comments.length === 0) {
         setHasMore(false); // 댓글이 없는 경우 hasMore를 false로 설정
@@ -172,9 +172,9 @@ export function Modalcomment({
     }
   };
 
-  useEffect(()=>{
-    handleDeleteClick
-  },[commentValues]);
+  useEffect(() => {
+    handleDeleteClick;
+  }, [commentValues]);
 
   // 댓글 수정
   const handleEditChange = async (commentId: number, content: string) => {
@@ -216,7 +216,6 @@ export function Modalcomment({
     setEditCommentId(null);
     setEditedContent("");
   };
-  
 
   return (
     <div className={styles["todo-comment-input-container"]}>
@@ -278,7 +277,10 @@ export function Modalcomment({
                       onChange={handleEditedCommentChange}
                     />
                     <div className={styles["edit-container"]}>
-                      <button className={styles["todo-user-button"]} onClick={handleCancelEdit}>
+                      <button
+                        className={styles["todo-user-button"]}
+                        onClick={handleCancelEdit}
+                      >
                         취소
                       </button>
                       {/* 수정하기 */}
@@ -323,4 +325,3 @@ export function Modalcomment({
     </div>
   );
 }
-
