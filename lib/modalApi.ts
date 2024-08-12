@@ -168,15 +168,10 @@ export function deleteCard(cardId: number) {
   return fetchRequest(url, options);
 }
 
-<<<<<<< HEAD
-// 댓글 조회
-export function getComment(cardId: string, page: number, size: number) {
-  const url = `/comments?size=${size}&page=${page}&cardId=${cardId}`;
-=======
 // 댓글 조회 - O
 export function getComment(cardId: number) {
   const url = `/comments?size=10&cardId=${cardId}`;
->>>>>>> develop
+
   const options = {
     method: "GET",
     headers: {
