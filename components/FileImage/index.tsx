@@ -69,7 +69,7 @@ export default function FileInput({
       <label htmlFor="file-input" className={styles["file-input-button"]}>
         {prevImage ? (
           <div className={styles["file-input-preview-input"]}>
-            <Image
+            <img
               src={prevImage}
               alt="Selected"
               width="30"
@@ -83,7 +83,7 @@ export default function FileInput({
       </label>
       {prevImage && (
         <div className={styles["file-input-preview"]}>
-          <Image
+          <img
             src={prevImage}
             alt="Selected"
             className={styles["file-input-img"]}
