@@ -16,18 +16,17 @@ export default function ColumnDelete({ columnId }: Props) {
     e.preventDefault();
     try {
       await putcolumnDelete(columnId);
-      closeModal("");
+      closeModal("deletecolumn");
     } catch (err) {
       console.error("해당 칼럼 삭제에 실패했습니다.");
     }
   };
-
   const handleCancelClick = () => {
-    closeModal("");
+    closeModal("deletecolumn");
   };
 
   return (
-    <Dialog id="" className={styles["dialog-container"]}>
+    <Dialog id="deletecolumn" className={styles["dialog-container"]}>
       <div className={styles["column-delete"]}>
         <div className={styles["column-delete-container"]}>
           <h1 className={styles["column-delete-h1"]}>

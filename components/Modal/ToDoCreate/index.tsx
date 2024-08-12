@@ -208,7 +208,7 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
             <div className={styles["todo-create-assignee"]} ref={dropdownRef}>
               {selectedAssignee ? (
                 <div className={styles["toggle-assign-item-container"]}>
-                  <Image
+                  <img
                     src={
                       selectedAssignee.profileImageUrl
                         ? selectedAssignee.profileImageUrl
@@ -245,7 +245,7 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
                           <Check_icon width="22" height="22" />
                         )}
                       </div>
-                      <Image
+                      <img
                         src={
                           assignee.profileImageUrl
                             ? assignee.profileImageUrl

@@ -29,7 +29,7 @@ const InputItem: React.FC<InputItemProps> = ({
   type = "text",
 }) => {
   return (
-    <div>
+    <div className={styles.container}>
       {label && (
         <label className={styles.Label} htmlFor={id}>
           {label}

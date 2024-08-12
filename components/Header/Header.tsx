@@ -144,7 +144,7 @@ export default function Header({
           </div>
           <div className={styles["dashboard-members-container"]}>
             {displayedMembers.map((member, index) => (
-              <Image
+              <img
                 key={member.userId}
                 src={
                   member.profileImageUrl
@@ -178,7 +178,7 @@ export default function Header({
       </section>
 
       <section className={styles.header_usersContainer}>
-        <Image
+        <img
           src={
             values.profileImageUrl
               ? values.profileImageUrl

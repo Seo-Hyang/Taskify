@@ -42,7 +42,7 @@
 .todo-chip-container {
   display: flex;
   align-items: center;
-  column-gap: 20px;
+  column-gap: 10px;
 }
 .todo-chip-container-state {
   width: auto;
@@ -75,6 +75,8 @@
   align-items: center;
   flex-wrap: wrap;
   column-gap: 6px;
+  row-gap:6px;
+  width: 330px
 }
 .tag {
   font-size: 12px;

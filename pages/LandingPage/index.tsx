@@ -63,7 +63,7 @@ export default function LandingPage() {
       </header>
 
       <div className={styles["top-section"]}>
-        <Image
+        <img
           src={Top_Image.src}
           alt="상단 이미지"
           width={722}
@@ -75,7 +75,11 @@ export default function LandingPage() {
           <h1 className={styles.purple}>Taskify</h1>
         </div>
         <Link href="/Login" className={styles["loginBtn-link"]}>
-          <AuthButton landing={true} className={styles.loginBtn}>
+          <AuthButton
+            disabled={false}
+            landing={true}
+            className={styles.loginBtn}
+          >
             로그인하기
           </AuthButton>
         </Link>
@@ -90,7 +94,7 @@ export default function LandingPage() {
                 일의 우선순위를 <br /> 관리하세요
               </h2>
             </div>
-            <Image
+            <img
               src={Landing_section1.src}
               alt="우선순위"
               width={594}
@@ -108,7 +112,7 @@ export default function LandingPage() {
                 해야 할 일을 <br /> 등록하세요
               </h2>
             </div>
-            <Image
+            <img
               src={Landing_section2.src}
               alt="할 일 생성"
               width={436}
@@ -125,7 +129,7 @@ export default function LandingPage() {
           <div className={styles["bottom-section-container"]}>
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
+                <img
                   src={Landing_section3.src}
                   alt="대시보드"
                   width={300}
@@ -145,7 +149,7 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
+                <img
                   src={Landing_section4.src}
                   alt="초대"
                   width="300"
@@ -163,7 +167,7 @@ export default function LandingPage() {
 
             <section className={styles["bottom-section-container-section"]}>
               <div className={styles["bottom-section-container-img"]}>
-                <Image
+                <img
                   src={Landing_section5.src}
                   alt="구성원"
                   width={300}

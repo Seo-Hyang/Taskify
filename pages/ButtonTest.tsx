@@ -14,11 +14,11 @@ export default function TestPage() {
         <div>
           <HeaderButton setting={true}>관리</HeaderButton>
           <HeaderButton isInvitation={true}>초대하기</HeaderButton>
-          <DashboardButton isOwn={true}>비브리지</DashboardButton>
+          {/* <DashboardButton isOwn={true}>비브리지</DashboardButton>
           <AuthButton>로그인</AuthButton>
           <AuthButton>회원가입</AuthButton>
           <AuthButton disabled={true}>사용 불가</AuthButton>
-          <AuthButton landing={true}>랜딩 페이지 로그인</AuthButton>
+          <AuthButton landing={true}>랜딩 페이지 로그인</AuthButton> */}
           <ModalButton>수락</ModalButton>
           <ModalButton isCancled={true}>거절</ModalButton>
           <ModalButton isComment={true}>입력</ModalButton>
