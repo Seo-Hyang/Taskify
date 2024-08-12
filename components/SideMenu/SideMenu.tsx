@@ -16,35 +16,62 @@ import AddIcon from "@/public/images/addIcon.svg";
 import { it } from "node:test";
 import { useRouter } from "next/router";
 import useModalStore from "@/hooks/useModalStore";
+import Link from "next/link";
 
 export default function SideMenu() {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
   const router = useRouter(); //라우터를 이용하여 페이지 이동(로컬스토리지의 현재대시보드 아이디에 따라)
-
+  const { openModal } = useModalStore();
   //페이지 스테이트
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(0);
   const pageSize = 10;
+
   async function getDashboardList() {
     const res = await instance.get(
-      "/dashboards?navigationMethod=pagination&page=1&size=10"
+      `/dashboards?navigationMethod=pagination&page=${page}&size=${pageSize}`
     );
     const nextDashboardList = res.data;
     const { dashboards, totalCount, cursorId } = nextDashboardList;
 
+    const pageCnt = Math.trunc(totalCount / pageSize) + 1;
+    setPageCount(pageCnt);
     setDashboardList(dashboards);
   }
 
-   useEffect(() => {
+  //이전 페이지로
+  const handlePagePrevClick = (e: React.MouseEvent) => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+    } else return;
+  };
+
+  //다음 페이지로
+  const handlePageNextClick = (e: React.MouseEvent) => {
+    if (page < pageCount) {
+      setPage((prev) => prev + 1);
+    } else return;
+  };
+
+  useEffect(() => {
     getDashboardList();
     const currentDashboardId = router.query.dashboardId;
     if (currentDashboardId) {
     }
-  }, [router.asPath]);
+  }, [router.asPath, page]);
 
   const handleDashboardClick = (id: number) => {
     localStorage.setItem("currentDashboardId", id.toString());
     router.push(`/dashboards/${id}`);
+  };
+
+  // 대시보드 생성 칼럼
+  const handleAddDashboardClick = (e: React.MouseEvent) => {
+    openModal("column");
+  };
+
+  const removeCurrentDashboardId = () => {
+    localStorage.removeItem("currentDashboardId");
   };
 
   return (
@@ -58,10 +85,17 @@ export default function SideMenu() {
             </a>
           </div>
           <div className={styles.addDashBoard}>
-            <div className={styles.dashboard_name}>Dash Boards</div>
-            <AddIcon />
+            <button
+              onClick={removeCurrentDashboardId}
+              className={styles.dashboard_link}
+            >
+              <Link href={"/dashboards"}>Dash Boards</Link>
+            </button>
+            <div className={styles.dashboard_add}>
+              <AddIcon onClick={handleAddDashboardClick} />
+            </div>
           </div>
-          <div>
+          <section className={styles.dashboard_list}>
             {dashboardList.map((item) => (
               <section key={item.id} className={styles.sideMenuContent}>
                 <DashboardButton
@@ -87,10 +121,10 @@ export default function SideMenu() {
                 </DashboardButton>
               </section>
             ))}
-          </div>
+          </section>
           <section className={styles.arrowButtons}>
-            <ArrowButton leftArrow />
-            <ArrowButton rightArrow />
+            <ArrowButton leftArrow onClick={handlePagePrevClick} />
+            <ArrowButton rightArrow onClick={handlePageNextClick} />
           </section>
         </div>
       </div>

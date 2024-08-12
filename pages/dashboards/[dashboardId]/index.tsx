@@ -57,14 +57,13 @@ export default function DashBoard() {
     try {
       const dashboard = await getDashboard(Number(dashboardId));
       if (!dashboard) {
-        console.error('Dashboard not found');
+        console.error("Dashboard not found");
         return;
       }
       setDashboard({ id: Number(dashboardId), title: String(dashboard.title) });
     } catch (error) {
-      console.error('Error fetching dashboard:', error);
+      console.error("Error fetching dashboard:", error);
     }
-  
   }
 
   useEffect(() => {

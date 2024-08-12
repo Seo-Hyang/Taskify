@@ -14,23 +14,20 @@ import useWindowSize from "@/hooks/useDevice";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { BeatLoader } from "react-spinners";
 import Image from "next/image";
 import { BUILD_ID_FILE } from "next/dist/shared/lib/constants";
 import { set } from "date-fns";
 
 export default function LandingPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const { width } = useWindowSize();
   const [token, setToken] = useState<any>();
 
   function getToken() {
     if (token !== null) {
-      console.log(token);
       return true;
     } else {
-      console.log(token);
       return false;
     }
   }
@@ -49,13 +46,13 @@ export default function LandingPage() {
     // }
   }, [token]); //[router]
 
-  if (isLoading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <BeatLoader color="#9747FF" margin={5} size={15} />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className={styles.loadingContainer}>
+  //       <BeatLoader color="#9747FF" margin={5} size={15} />
+  //     </div>
+  //   );
+  // }
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
