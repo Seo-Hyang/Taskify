@@ -13,10 +13,13 @@ import useModalStore from "@/hooks/useModalStore";
 import Dialog from "../modal";
 import { getColumnAdd } from "@/lib/columnApi";
 import { Cards } from "@/types/Card";
+import { useCardStore } from "@/hooks/useCarStore";
 
 interface Assignee {
-  nickname: string;
-  profileImageUrl: string | null;
+  userId?: number;
+  id?: number;
+  nickname?: string;
+  profileImageUrl?: string;
 }
 
 interface CardData {
@@ -35,6 +38,10 @@ interface Props {
   columnId: number;
   dashboardId: number;
   onCardDeleted: (cardId: number) => void;
+  selectedColumn?: {
+    id: number;
+    title: string;
+  };
 }
 
 export default function ToDoModal({
@@ -43,7 +50,12 @@ export default function ToDoModal({
   columnId,
   dashboardId,
   onCardDeleted,
+  selectedColumn,
 }: Props) {
+  const { card, setCard } = useCardStore((state) => ({
+    card: state.card,
+    setCard: state.setCard,
+  }));
   const { width } = useWindowSize();
   const { tagColors, addTagColor } = useTagColors();
   const [columnValues, setColumnValues] = useState({
@@ -70,6 +82,7 @@ export default function ToDoModal({
       try {
         const response = await getCardId(cardId);
         response.tags.forEach((tag) => addTagColor(tag));
+        setCard(response);
         setValues({
           title: response.title,
           description: response.description,
@@ -87,7 +100,23 @@ export default function ToDoModal({
     };
 
     fetchCard();
-  }, []);
+  }, [cardId, setCard]);
+
+  useEffect(() => {
+    if (card) {
+      setValues({
+        title: card.title,
+        description: card.description,
+        tags: card.tags,
+        imageUrl: card.imageUrl,
+        dueDate: card.dueDate,
+        assignee: {
+          nickname: card.assignee.nickname,
+          profileImageUrl: card.assignee.profileImageUrl || "",
+        },
+      });
+    }
+  }, [card]);
 
   // 대시보드 칼럼 목록 조회(칼럼 title과 id 들고와서) columnValues.id랑 columnId랑 같으면 columnValues.title 보여주기
   useEffect(() => {
@@ -110,11 +139,20 @@ export default function ToDoModal({
       }
     };
     fetchColumnTitle();
-  }, []);
+  }, [dashboardId,columnId]);
 
   const handleCancelClick = () => {
     closeModal(`${id}`);
   };
+
+  useEffect(() => {
+    if (selectedColumn) {
+      setColumnValues({
+        id: selectedColumn.id,
+        title: selectedColumn.title,
+      });
+    }
+  }, [selectedColumn]);
 
   return (
     <Dialog id={`${id}`} className={styles["dialog-container"]}>
@@ -210,7 +248,7 @@ export default function ToDoModal({
                   src={
                     values.assignee.profileImageUrl
                       ? values.assignee.profileImageUrl
-                      : generateProfileImageUrl(values.assignee.nickname)
+                      : generateProfileImageUrl(values.assignee.nickname || "")
                   }
                   alt="프로필 이미지"
                   className={styles["todo-user-img"]}
