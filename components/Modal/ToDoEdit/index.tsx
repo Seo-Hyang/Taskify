@@ -49,9 +49,9 @@ interface ToDoEditProps {
   dashboardId: number;
 }
 
-interface CardData{
-id:number;
-title:string;
+interface CardData {
+  id: number;
+  title: string;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
@@ -239,7 +239,9 @@ export default function ToDoEdit({
       try {
         const response = await getColumnAdd(dashboardId);
         setColumns(response.data);
-        const matchedColumn = response.data.find((column: CardData) => column.id === columnId);
+        const matchedColumn = response.data.find(
+          (column: CardData) => column.id === columnId
+        );
         if (matchedColumn) {
           setSelectedColumn(matchedColumn);
         } else {
@@ -346,7 +348,7 @@ export default function ToDoEdit({
               >
                 {selectedAssignee ? (
                   <div className={styles["toggle-assign-item-container"]}>
-                    <Image
+                    {/* <Image
                       src={
                         selectedAssignee.profileImageUrl
                           ? selectedAssignee.profileImageUrl
@@ -354,14 +356,14 @@ export default function ToDoEdit({
                       }
                       alt="프로필"
                       className={styles["toggle-assign-item-img"]}
-                    />
+                    /> */}
                     <span className={styles["toggle-assign-item"]}>
                       {selectedAssignee.nickname}
                     </span>
                   </div>
                 ) : (
                   <div className={styles["toggle-assign-item-container"]}>
-                    <Image
+                    {/* <Image
                       src={
                         values.assignee.profileImageUrl
                           ? values.assignee.profileImageUrl
@@ -369,7 +371,7 @@ export default function ToDoEdit({
                       }
                       className={styles["toggle-assign-item-img"]}
                       alt="기존 담당자"
-                    />
+                    /> */}
                     <span className={styles["toggle-assign-item"]}>
                       {values.assignee.nickname}
                     </span>
@@ -394,7 +396,7 @@ export default function ToDoEdit({
                             <Check_icon width="22" height="22" />
                           )}
                         </div>
-                        <Image
+                        {/* <Image
                           src={
                             assignee.profileImageUrl
                               ? assignee.profileImageUrl
@@ -402,7 +404,7 @@ export default function ToDoEdit({
                           }
                           alt="프로필"
                           className={styles["toggle-assign-item-img"]}
-                        />
+                        /> */}
                         <span className={styles["toggle-assign-item"]}>
                           {assignee.nickname}
                         </span>
