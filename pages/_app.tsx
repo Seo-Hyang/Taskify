@@ -4,8 +4,8 @@ import { DashboardProvider } from "@/contexts/DashboardContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <DashboardProvider>
-      <Component {...pageProps} />
-    </DashboardProvider>
+      <DashboardProvider>
+        <Component {...pageProps} />
+      </DashboardProvider>
   );
 }

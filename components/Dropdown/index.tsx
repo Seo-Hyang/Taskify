@@ -2,19 +2,41 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./Dropdown.module.scss";
 import More_vert from "@/public/icons/more_vert_icon.svg";
 import useModalStore from "@/hooks/useModalStore";
-import ColumnEdit from "../Column/ColumnEdit";
-import ColumnDelete from "../Column/ColumnDelete";
 import ToDoEdit from "../Modal/ToDoEdit";
 import CardDelete from "../Column/CardDelete";
 
-interface Props{
-  cardId:number;
-  columnId:number;
-  dashboardId:number;
-  onCardDeleted: (cardId: number) => void;
+interface Assignee {
+  userId?: number;
+  id?: number;
+  nickname?: string;
+  profileImageUrl?: string | null;
 }
 
-export default function Dropdown({cardId,columnId,dashboardId,onCardDeleted}:Props) {
+interface CardData {
+  title: string;
+  description: string;
+  dueDate: string;
+  tags: string[];
+  imageUrl: string;
+  assignee: Assignee;
+  columnId?: number;
+}
+
+interface Props {
+  cardId: number;
+  columnId: number;
+  dashboardId: number;
+  onCardDeleted: (cardId: number) => void;
+  onUpdate?: (updatedCard: CardData) => void;
+}
+
+export default function Dropdown({
+  cardId,
+  columnId,
+  dashboardId,
+  onCardDeleted,
+  onUpdate
+}: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<"edit" | "delete">();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -54,7 +76,7 @@ export default function Dropdown({cardId,columnId,dashboardId,onCardDeleted}:Pro
   return (
     <div ref={dropdownRef} className={styles["dropdown-container"]}>
       <ToDoEdit cardId={cardId} columnId={columnId} dashboardId={dashboardId} />
-      <CardDelete cardId={cardId} onCardDeleted={onCardDeleted}/>
+      <CardDelete cardId={cardId} onCardDeleted={onCardDeleted} />
       <button className={styles["dropdown-button"]} onClick={toggleDropdown}>
         <More_vert width="28" height="28" />
       </button>

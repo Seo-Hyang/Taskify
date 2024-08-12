@@ -2,7 +2,7 @@ import styles from "../ToDoCreate.module.scss";
 import ModalButton from "@/components/Button/ModalButton/ModalButton";
 import Arrow_drop from "@/public/icons/arrow_drop.svg";
 import Check_icon from "@/public/icons/check_icon.svg";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import Input from "@/components/Input/ModalInput";
 import FileInput from "@/components/FileImage";
 import { useRouter } from "next/router";
@@ -15,7 +15,7 @@ import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
 import Dialog from "../modal";
 import useModalStore from "@/hooks/useModalStore";
-import Image from "next/image";
+import { useCardStore } from "@/hooks/useCarStore";
 
 interface Assignee {
   userId?: number;
@@ -41,17 +41,19 @@ interface PutProps {
   tags: string[];
   imageUrl: string;
   assignee: Assignee;
+  columnId?: number;
 }
 
 interface ToDoEditProps {
   cardId: number;
   columnId: number;
   dashboardId: number;
+  onUpdate?: (updatedCard: CardData) => void;
 }
 
-interface CardData{
-id:number;
-title:string;
+interface CardData {
+  id: number;
+  title: string;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
@@ -74,10 +76,11 @@ export default function ToDoEdit({
   cardId,
   columnId,
   dashboardId,
+  onUpdate,
 }: ToDoEditProps) {
   const router = useRouter();
+  const { setCard } = useCardStore();
   const { tagColors, addTagColor } = useTagColors();
-  const [isDisabled, setIsDisabled] = useState(true);
   const [isColumnOpen, setIsColumnOpen] = useState(false);
   const [isAssignOpen, setIsAssignOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -198,6 +201,21 @@ export default function ToDoEdit({
   const handleEditClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
+      const columnId = selectedColumn ? Number(selectedColumn.id) : 0;
+      values.tags.forEach((tag) => addTagColor(tag));
+      const updatedCard = {
+        id: values.assignee.userId || 0,
+        title: values.title,
+        description: values.description,
+        dueDate: values.dueDate,
+        tags: values.tags,
+        imageUrl: values.imageUrl,
+        assignee: {
+          userId: values.assignee.id,
+          nickname: values.assignee.nickname,
+          profileImageUrl: values.assignee.profileImageUrl || undefined,
+        },
+      };
       await putCard(
         cardId,
         values.assignee.userId ?? 0,
@@ -208,12 +226,16 @@ export default function ToDoEdit({
         values.tags,
         values.imageUrl
       );
-      closeModal("editcard");
-      console.log(selectedColumn);
+      setCard(updatedCard);
+      if (onUpdate) {
+        onUpdate(updatedCard);
+      }
     } catch (err) {
       console.error("카드 수정에 실패했습니다.");
     }
+    closeModal("editcard");
   };
+
   // 담당자 get
   useEffect(() => {
     const fetchMembers = async () => {
@@ -239,7 +261,9 @@ export default function ToDoEdit({
       try {
         const response = await getColumnAdd(dashboardId);
         setColumns(response.data);
-        const matchedColumn = response.data.find((column: CardData) => column.id === columnId);
+        const matchedColumn = response.data.find(
+          (column: CardData) => column.id === columnId
+        );
         if (matchedColumn) {
           setSelectedColumn(matchedColumn);
         } else {
@@ -346,7 +370,7 @@ export default function ToDoEdit({
               >
                 {selectedAssignee ? (
                   <div className={styles["toggle-assign-item-container"]}>
-                    <Image
+                    <img
                       src={
                         selectedAssignee.profileImageUrl
                           ? selectedAssignee.profileImageUrl
@@ -361,7 +385,7 @@ export default function ToDoEdit({
                   </div>
                 ) : (
                   <div className={styles["toggle-assign-item-container"]}>
-                    <Image
+                    <img
                       src={
                         values.assignee.profileImageUrl
                           ? values.assignee.profileImageUrl
@@ -394,7 +418,7 @@ export default function ToDoEdit({
                             <Check_icon width="22" height="22" />
                           )}
                         </div>
-                        <Image
+                        <img
                           src={
                             assignee.profileImageUrl
                               ? assignee.profileImageUrl
@@ -473,11 +497,7 @@ export default function ToDoEdit({
           <ModalButton isCancled={true} onClick={handleCancelClick}>
             취소
           </ModalButton>
-          <ModalButton
-            isComment={true}
-            isDisabled={isDisabled}
-            onClick={handleEditClick}
-          >
+          <ModalButton isComment={true} onClick={handleEditClick}>
             수정
           </ModalButton>
         </div>
