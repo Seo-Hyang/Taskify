@@ -41,6 +41,11 @@
   height: 15px;
   fill: var(--color-gray-500);
 }
+.isDisabled {
+  background-color: #b0b0b0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
 
 /* Tablet */
 @media screen and (max-width: 1199px) {

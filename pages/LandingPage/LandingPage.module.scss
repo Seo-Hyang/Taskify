@@ -1,3 +1,9 @@
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 .landing {
   background-color: var(--color-black);
 }
@@ -8,6 +14,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 80px;
+}
+.landing-logout {
+  background: none;
+  border: none;
 }
 .landing-login {
   display: flex;
@@ -24,6 +34,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 180px;
 }
 .top-section-h1-container {
   font-weight: 700;
@@ -31,6 +42,7 @@
   align-items: center;
   column-gap: 28px;
   letter-spacing: -2px;
+  margin-bottom: 50px;
 }
 .white {
   margin-top: 48px;
@@ -48,23 +60,13 @@
   letter-spacing: -1px;
   font-family: "Montserrat";
 }
-.top-section-description {
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 21.48px;
-  color: var(--color-white);
-  margin-bottom: 66px;
-}
-.loginBtn-link {
-  margin-bottom: 184px;
-}
 .loginBtn {
-  padding: 15px 101px;
+  padding: 15px auto;
 }
 .landing-container {
   max-width: 1200px;
   margin: 0 auto;
-  width:100%;
+  width: 100%;
 }
 .section-point-div {
   display: flex;
@@ -122,6 +124,7 @@
   display: flex;
   gap: 33px;
   margin-bottom: 160px;
+  align-items: center;
 }
 .bottom-section-container-section {
   display: flex;
@@ -166,11 +169,13 @@
 
 @media screen and (min-width: 744px) and (max-width: 1199px) {
   .header {
-    padding: 0 40px;
+    padding: 15px 40px;
   }
-  .topImg {
-    width: 537px;
-    height: 314px;
+  .topImg,
+  .section_1 {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
   .white {
     font-size: 56px;
@@ -178,29 +183,28 @@
   .purple {
     font-size: 70px;
   }
-  .top-section-description {
-    font-size: 16px;
-  }
   .landing-container {
     padding: 0 40px;
   }
   .section-point {
     flex-direction: column;
     row-gap: 200px;
-    height:100%;
+    height: 100%;
   }
   .section-point-container-div {
     padding-top: 63px;
   }
-  .section_1 {
-    width: 519px;
-    height: 435px;
+  .padding-left {
+    padding-left: 60px;
   }
   .reverse {
-    padding-left: 60px;
+    padding-left: 0;
   }
   .section_2 {
     margin: 0 auto;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
   .bottom-section-h1 {
     text-align: center;
@@ -212,15 +216,36 @@
     gap: 48px;
     padding: 0 143px;
   }
+  .bottom-section-container-section {
+    width: 80%;
+    height: auto;
+  }
+  .section_3,
+  .section_4,
+  .section_5 {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+  }
+  .bottom-section-container-img {
+    height: auto;
+    padding: 30px 25px;
+  }
 }
 
 @media screen and (max-width: 743px) {
   .header {
-    padding: 0 24px;
+    padding: 15px 24px;
   }
-  .topImg {
-    width: 287px;
-    height: 168px;
+  .topImg,
+  .section_1 {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+  }
+  .top-section {
+    margin-top: 42px;
+    margin-bottom: 76px;
   }
   .top-section-h1-container {
     flex-direction: column;
@@ -243,7 +268,6 @@
   }
   .loginBtn {
     padding: 12px 87px;
-    margin-bottom: 80px;
   }
   .landing-container {
     padding: 0 16px;
@@ -256,7 +280,7 @@
     row-gap: 194px;
     padding-left: 0;
     align-items: center;
-    height:100%;
+    height: 100%;
   }
   .section-point-container-div {
     padding-top: 60px;
@@ -272,14 +296,11 @@
     font-size: 36px;
     line-height: 50px;
   }
-  .section_1 {
-    width: 296px;
-    height: 248px;
-  }
   .section_2 {
-    width: 217px;
-    height: 250px;
     margin: 0 auto;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
   .bottom-section-h1 {
     text-align: center;
@@ -295,19 +316,18 @@
   .bottom-section-container-section {
     min-width: 343px;
   }
-  .section_3{
-    width:260px;
-    height:107px;
+  .section_3,
+  .section_4,
+  .section_5 {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
-  .section_4{
-    width:260px;
-    height:200px;
+  .bottom-section-container-img {
+    height: auto;
+    padding: 30px 25px;
   }
-  .section_5{
-    width:260px;
-    height:169px;
-  }
-  .bottom-section-container{
+  .bottom-section-container {
     margin-bottom: 120px;
   }
 }

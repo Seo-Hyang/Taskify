@@ -2,14 +2,14 @@ import styles from "./Footer.module.scss";
 import Email from "@/public/icons/envelope_email_icon.svg";
 import Insta from "@/public/icons/social_media_instagram_icon.svg";
 import Facebook from "@/public/icons/social_media_facebook_icon.svg";
-import { TABLET_MAX_WIDTH } from "@/constants/screensize";
+import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
 import useWindowSize from "@/hooks/useDevice";
 
 export default function Footer() {
   const { width } = useWindowSize();
   return (
     <div className={styles["footer-container"]}>
-      {width >= TABLET_MAX_WIDTH ? (
+      {width > MOBILE_MAX_WIDTH ? (
         <>
           <span className={styles["footer-container-span"]}>@codeit-2023</span>
           <div className={styles["footer-container-span-container"]}>

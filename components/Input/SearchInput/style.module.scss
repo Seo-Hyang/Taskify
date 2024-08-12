@@ -1,0 +1,45 @@
+.Input {
+  width: 100%;
+  height: 50px;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-black-500);
+  outline-color: #5534da;
+  text-indent: 48px;
+  &:placeholder {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    color: var(--color-gray-400);
+  }
+}
+
+.ErrorMessage {
+  color: red;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.InputError {
+  border: 1px solid red;
+}
+
+.SVG_Container {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin-left: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.SVG {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+}

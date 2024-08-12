@@ -24,6 +24,7 @@
 
   --color-violet: #5534da;
   --color-violet-8: #f1effd;
+  --color-violet-20: #8c7bf2;
   --color-violet-100: #5e1bb7;
 
   --color-red: #d6173a;
@@ -48,6 +49,7 @@
   padding: 0;
   margin: 0;
   text-decoration: none;
+  transition: all 0.3s;
 }
 
 html {

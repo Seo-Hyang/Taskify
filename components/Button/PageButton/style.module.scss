@@ -20,6 +20,8 @@
   }
 }
 
+.accepted,
+.declined,
 .invitation {
   display: flex;
   width: 105px;
@@ -40,6 +42,7 @@
   fill: var(--color-white);
 }
 
+.declined,
 .cancled {
   color: var(--color-violet);
   background: var(--color-white);
@@ -47,6 +50,11 @@
   &:hover {
     background: var(--color-violet-8);
   }
+}
+
+.accepted,
+.declined {
+  width: 84px;
 }
 
 /* Mobile */
@@ -71,5 +79,15 @@
   .addboxSvg {
     width: 14px;
     height: 14px;
+  }
+
+  .editDashboard {
+    width: 52px;
+    height: 32px;
+  }
+
+  .accepted,
+  .declined {
+    width: 45%;
   }
 }

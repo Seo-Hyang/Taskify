@@ -1,5 +1,6 @@
 import styles from "@/components/Button/PageButton/style.module.scss";
 import AddBox from "@/public/icons/add_box_icon.svg";
+import { MouseEvent } from "react";
 
 /**
  * 버튼 상태(종류)
@@ -11,18 +12,25 @@ import AddBox from "@/public/icons/add_box_icon.svg";
  */
 
 export default function PageButton({
-  children,
+  children = "",
   isCancled = false,
   isInvitation = false,
+  isEditDashboard = false,
+  isAccept = false,
+  isDecline = false,
+  onClick = (e: MouseEvent<HTMLButtonElement>) => {},
 }) {
   return (
     <button
-      className={`${styles.Button} ${isCancled && styles.cancled} ${
-        isInvitation && styles.invitation
-      }`}
+      className={`${styles.Button} ${isCancled ? styles.cancled : ""} ${
+        isInvitation ? styles.invitation : ""
+      } ${isEditDashboard ? styles.editDashboard : ""} ${
+        isAccept ? styles.accepted : ""
+      } ${isDecline ? styles.declined : ""}`}
+      onClick={onClick}
     >
       <AddBox
-        className={`${styles.noneSvg} ${isInvitation && styles.addboxSvg}`}
+        className={`${styles.noneSvg} ${isInvitation ? styles.addboxSvg : ""}`}
       />
       {children}
     </button>

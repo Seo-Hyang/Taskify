@@ -1,0 +1,38 @@
+.editMembers {
+  background-color: var(--color-white);
+  border-radius: 16px;
+  height: 464px; // 항목 5개에 최적 높이
+
+  .headerWrapper {
+    padding: 26px 28px 1px;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 27px;
+    }
+  }
+
+  .memberList {
+    & > *:not(:last-child) {
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+  }
+}
+
+/* Tablet */
+@media screen and (max-width: 1199px) {
+}
+
+/* Mobile */
+@media screen and (max-width: 743px) {
+  .editMembers {
+    height: 411px; // 항목 5개에 최적 높이
+    .headerWrapper {
+      padding: 22px 20px 1px;
+      .header {
+        margin-bottom: 18px;
+      }
+    }
+  }
+}

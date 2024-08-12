@@ -5,29 +5,92 @@
   top: 0;
   left: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 1);
-  padding: 8px 8px 97px;
-}
-
-.sideMenuLogo {
-  width: 108px;
-  height: 33px;
-}
-
-.sideMenuContentBox {
-  height: 766px;
+  background: var(--color-white);
+  padding: 20px 8px;
+  border-right: 1px solid var(--color-gray-300);
 }
 
 .sideMenuContentHeader {
-  margin-bottom: 56px;
+  height: 90px;
+
+  .sideMenuLogo {
+    height: 33px;
+  }
+
+  .sideMenu_LogoSmall {
+    display: none;
+  }
 }
 
 .addDashBoard {
-  display: flex;
+  width: 100%;
+  display: inline-flex;
   justify-content: space-between;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gray-500);
+  .dashboard_add {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+}
+
+.dashboard_list {
+  // 화살표가 고정되도록 리스트 목록
+  //크기 고정하고 싶음,,,,
+}
+.sideMenuContentBox {
+  height: 766px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .sideMenuContent {
-  padding: 16px 0 32px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.arrowButtons {
+  margin-top: 20px;
+}
+
+/*Tablet*/
+@media screen and (max-width: 1199px) {
+  .sideMenuContainer {
+    width: 160px;
+  }
+  .sideMenuContentBox {
+    align-items: center;
+  }
+}
+
+/*Mobile*/
+@media screen and (max-width: 743px) {
+  .sideMenuContainer {
+    width: 67px;
+  }
+  .sideMenuContentHeader {
+    height: 50px;
+    .sideMenuLogo {
+      display: none;
+    }
+    .sideMenu_LogoSmall {
+      display: flex;
+    }
+  }
+  .addDashBoard {
+    justify-content: center;
+  }
+  .dashboard_name {
+    display: none;
+  }
+
+  .arrowButtons {
+    display: none;
+  }
 }

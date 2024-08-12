@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 520px;
+  box-sizing: border-box;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+  max-width: 520px;
+}
+
+.button-container {
+  margin-bottom: 24px;
+}
+
+.question {
+  text-align: center;
+  .Link {
+    color: #5534da;
+  }
+}
+
+.guestButton {
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  color: green;
+}

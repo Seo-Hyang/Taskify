@@ -33,10 +33,36 @@
   height: 24px;
 }
 
+.header-button-member-container {
+  display: flex;
+  column-gap: 40px;
+}
+
 .header_buttons {
   display: inline-flex;
   align-items: center;
   gap: 16px;
+}
+
+.dashboard-members-container {
+  position: relative;
+  display: flex;
+}
+
+.dashboard-members {
+  border: 2px solid var(--color-white);
+  border-radius: 50%;
+  position: relative;
+}
+
+.header-remain-incount {
+  border: 2px solid var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
 }
 
 .header_usersContainer {
@@ -44,9 +70,14 @@
   align-items: center;
   width: 230px;
   height: 40px;
-  padding-left: 30px;
+  padding-left: 32px;
+  gap: 12px;
   border-left: 1px solid var(--color-gray-300);
   transition: all 0.3s;
+}
+
+.header-user-img {
+  border: 2px solid var(--color-white);
 }
 
 .header_userNickname {
