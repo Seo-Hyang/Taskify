@@ -17,12 +17,12 @@ import useModalStore from "@/hooks/useModalStore";
 import useEditModalStore from "@/hooks/useEditModalStore";
 import ToDoCreate from "../Modal/ToDoCreate";
 
-interface Props{
-  children?:React.ReactNode;
-  columnId:number;
-  cardCounts?:number;
-  dashboardId:number;
-  onUpdateColumns :()=> void;
+interface Props {
+  children?: React.ReactNode;
+  columnId: number;
+  cardCounts?: number;
+  dashboardId: number;
+  onUpdateColumns: () => void;
 }
 
 export default function Column({
@@ -31,19 +31,23 @@ export default function Column({
   cardCounts = 0,
   dashboardId = 0,
   onUpdateColumns,
-}:Props) {
+}: Props) {
   const [cardList, setCardList] = useState<Card[]>([]); //카드 목록
   const [totalCount, setTotalCount] = useState(0);
   const { openModal } = useModalStore();
 
   async function getCardList() {
-    const res = await instance.get(
-      `https://sp-taskify-api.vercel.app/7-1/cards?size=50&columnId=${columnId}`
-    );
-    const nextCardList = res.data;
-    const { cards, totalCount, cursorId } = nextCardList;
-    setTotalCount(totalCount);
-    setCardList(cards);
+    try {
+      const res = await instance.get(
+        `https://sp-taskify-api.vercel.app/7-1/cards?size=50&columnId=${columnId}`
+      );
+      const nextCardList = res.data;
+      const { cards, totalCount, cursorId } = nextCardList;
+      setTotalCount(totalCount);
+      setCardList(cards);
+    } catch (err) {
+      console.error("데이터를 가져오는 데 실패했습니다");
+    }
   }
 
   useEffect(() => {
@@ -63,6 +67,11 @@ export default function Column({
 
   const handleEditColumn = (e: React.MouseEvent) => {
     openModal("editColumn");
+  };
+
+  const handleCardCreated = (newCard: Card) => {
+    setCardList((prevCards) => [newCard, ...prevCards]);
+    setTotalCount((prevCount) => prevCount + 1);
   };
 
   return (
@@ -100,7 +109,11 @@ export default function Column({
         ))}
       </section>
       <ToDoCreate dashboardId={dashboardId} columnId={columnId} />
-      <ColumnEdit dashboardId={dashboardId} columnId={columnId} onUpdateColumns={onUpdateColumns}/>
+      <ColumnEdit
+        dashboardId={dashboardId}
+        columnId={columnId}
+        onUpdateColumns={onUpdateColumns}
+      />
     </div>
   );
 }

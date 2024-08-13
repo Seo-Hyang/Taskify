@@ -61,7 +61,6 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
   const [assignees, setAssignees] = useState<Assignee[]>([]);
   const [selectedAssignee, setSelectedAssignee] = useState<Assignee>();
   const [initiallySelected, setInitiallySelected] = useState(false);
-  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const { tagColors, addTagColor } = useTagColors();
   const { closeModal } = useModalStore();
@@ -123,7 +122,6 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
       ...prevValues,
       imageUrl: url,
     }));
-    setImgUrl(url);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -148,13 +146,15 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
         values.tags,
         values.imageUrl || ""
       );
+      closeModal("createCard");
     } catch (error) {
       console.error("Error creating card:", error);
     }
   };
   useEffect(() => {
-    const { assigneeUserId, title, description } = values;
-    if (assigneeUserId && title && description) {
+    const { assigneeUserId, title, description, tags, dueDate, imageUrl } =
+      values;
+    if (assigneeUserId && title && description && tags && dueDate && imageUrl) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
@@ -284,11 +284,11 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
             />
           </div>
           <div className={styles["todo-create-input-auth"]}>
-            <label className={styles["todo-create-auth-label"]}>마감일</label>
+            <label className={styles["todo-create-auth-label"]}>마감일 *</label>
             <DatePicker startDate={startDate} setStartDate={setStartDate} />
           </div>
           <div className={styles["todo-create-input-auth"]}>
-            <label className={styles["todo-create-auth-label"]}>태그</label>
+            <label className={styles["todo-create-auth-label"]}>태그 *</label>
             <Input
               name="tag"
               value={isTag}
@@ -313,10 +313,12 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
             </div>
           </div>
           <div className={styles["todo-create-input-img"]}>
-            <label className={styles["todo-create-auth-label"]}>이미지</label>
+            <label className={styles["todo-create-auth-label"]}>
+              이미지 (변경 불가능한 항목입니다)
+            </label>
             <FileInput
               onImageUpload={handleImageUpload}
-              initialImageUrl={imgUrl}
+              initialImageUrl={values.imageUrl}
               columnId={columnId}
             />
           </div>
