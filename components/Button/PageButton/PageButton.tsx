@@ -18,7 +18,7 @@ export default function PageButton({
   isEditDashboard = false,
   isAccept = false,
   isDecline = false,
-  onClick = (e: MouseEvent<HTMLButtonElement>) => {},
+  onClick = () => {},
 }) {
   return (
     <button
