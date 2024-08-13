@@ -137,7 +137,7 @@ export default function DashBoards() {
             dashboardId={
               localStorage.getItem("currentDashboardId") !== null
                 ? Number(localStorage.getItem("currentDashboardId"))
-                : 0
+                : 11655
             }
           />
         </section>
