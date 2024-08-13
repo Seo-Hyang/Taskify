@@ -8,6 +8,7 @@ import { Dashboard, DashboardInvitation } from "@/types/dashboard";
 import instance from "@/lib/axios";
 import useWindowSize from "@/hooks/useDevice";
 import { MOBILE_MAX_WIDTH } from "@/constants/screensize";
+import { useRouter } from "next/router";
 
 //컴포넌트 import
 import DashboardListButton from "@/components/Button/DashboardListButton/DashboardListButton";
@@ -23,6 +24,7 @@ import ColumnInvite from "@/components/Column/ColumnInvite";
 
 export default function DashBoards() {
   const { width } = useWindowSize();
+  const router = useRouter();
   //나의 대시보드
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]); //대시모드 목록
   const [dashboardTotalCount, setDashboardTotalCount] = useState<number>(0); //대시보드 전체 개수
@@ -138,6 +140,17 @@ export default function DashBoards() {
                   key={item.id}
                   isOwn={item.createdByMe}
                   color={item.color}
+                  onClick={() => {
+                    localStorage.setItem(
+                      "currentDashboardId",
+                      item.id.toString()
+                    );
+                    router.push(
+                      `/dashboards/${localStorage.getItem(
+                        "currentDashboardId"
+                      )}`
+                    );
+                  }}
                 >
                   {item.title}
                 </DashboardListButton>
