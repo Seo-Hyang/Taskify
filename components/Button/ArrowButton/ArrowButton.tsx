@@ -6,11 +6,13 @@ export default function ArrowButton({
   rightArrow = false,
   leftArrow = false,
   onClick = (e: MouseEvent<HTMLButtonElement>) => {},
+  disable = false,
 }) {
   return (
     <button
       className={`${styles.Button} ${leftArrow ? styles.Arrowleft : ""}`}
       onClick={onClick}
+      disabled={disable}
     >
       <RIGHTARROWSVG
         className={`${rightArrow ? styles.ArrowRightSvg : ""} ${

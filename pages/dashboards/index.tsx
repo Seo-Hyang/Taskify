@@ -28,7 +28,9 @@ export default function DashBoards() {
   const [dashboardTotalCount, setDashboardTotalCount] = useState<number>(0); //대시보드 전체 개수
   const [pageCount, setPageCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1); //페이지 이동에 따라 변경
-  const [pageSize, setPageSize] = useState<number>(5);
+  const [pageSize, setPageSize] = useState<number>(6);
+  const [prevPageState, setPrevPageState] = useState<Boolean>(true);
+  const [nextPageState, setNextPageState] = useState<Boolean>(false);
   //초대받은 대시보드
   const [invitedList, setInvitedList] = useState<DashboardInvitation[]>([]); //초대받은 대시보드 목록
   const [invitedCount, setInvitedCount] = useState<number>(0);
@@ -41,18 +43,13 @@ export default function DashBoards() {
   const { openModal } = useModalStore();
 
   async function getDashboardList() {
-    if (page === 1) {
-      setPageSize(5);
-    } else {
-      setPageSize(6);
-    }
     const res = await instance.get(
       `/dashboards?navigationMethod=pagination&page=${page}&size=${pageSize}`
     );
     const nextDashboardList = res.data;
     const { dashboards, totalCount, cursorId } = nextDashboardList;
 
-    const pageCnt = Math.trunc(totalCount / pageSize) + 1;
+    const pageCnt = Math.ceil(totalCount / 6);
 
     setDashboardList(dashboards);
     setDashboardTotalCount(totalCount);
@@ -61,22 +58,21 @@ export default function DashBoards() {
 
   //이전 페이지로
   const handlePagePrevClick = (e: React.MouseEvent) => {
-    if (page > 1) {
-      if (page === 2) {
-        setPageSize(5);
-      }
-      setPage((prev) => prev - 1);
-    } else return;
+    setPage((page) => page - 1);
+    setNextPageState(false);
+    if (page === 2) {
+      setPrevPageState(true);
+    }
   };
 
   //다음 페이지로
   const handlePageNextClick = (e: React.MouseEvent) => {
-    if (page < pageCount) {
-      if (page === 1) {
-        setPageSize(6);
-      }
-      setPage((prev) => prev + 1);
-    } else return;
+    setPage((page) => page + 1);
+    setPrevPageState(false);
+
+    if (page === pageCount - 1) {
+      setNextPageState(true);
+    }
   };
 
   async function getInvitedList() {
@@ -97,7 +93,10 @@ export default function DashBoards() {
   useEffect(() => {
     getDashboardList();
     getInvitedList();
-  }, [page]);
+    if (pageCount === 1) {
+      setNextPageState(true);
+    }
+  }, [page, pageCount]);
 
   // 대시보드 생성 칼럼
   const handleAddDashboardClick = (e: React.MouseEvent) => {
@@ -124,6 +123,9 @@ export default function DashBoards() {
       <section className={styles.dashboardContainer}>
         <section className={styles.dashboard_inner}>
           <section className={styles.dashboard_myListContainer}>
+            <AddButton onClick={handleAddDashboardClick}>
+              새로운 대시보드
+            </AddButton>
             <section
               className={`${styles.dashboard_myList} ${
                 dashboardTotalCount === 0
@@ -131,13 +133,6 @@ export default function DashBoards() {
                   : ""
               }`}
             >
-              {page === 1 ? (
-                <AddButton onClick={handleAddDashboardClick}>
-                  새로운 대시보드
-                </AddButton>
-              ) : (
-                <></>
-              )}
               {dashboardList.map((item) => (
                 <DashboardListButton
                   key={item.id}
@@ -154,10 +149,15 @@ export default function DashBoards() {
               <div className={styles.dashboard_pageCursor}>
                 {pageCount} 페이지 중 {page}
                 <div>
-                  <ArrowButton leftArrow={true} onClick={handlePagePrevClick} />
+                  <ArrowButton
+                    leftArrow={true}
+                    onClick={handlePagePrevClick}
+                    disable={prevPageState}
+                  />
                   <ArrowButton
                     rightArrow={true}
                     onClick={handlePageNextClick}
+                    disable={nextPageState}
                   />
                 </div>
               </div>
