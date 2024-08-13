@@ -26,8 +26,8 @@ export default function SideMenu() {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(0);
   const pageSize = 10;
-  const [prevPageState, setPrevPageState] = useState<Boolean>(true);
-  const [nextPageState, setNextPageState] = useState<Boolean>(false);
+  const [prevPageState, setPrevPageState] = useState(true);
+  const [nextPageState, setNextPageState] = useState(false);
 
   async function getDashboardList() {
     const res = await instance.get(
@@ -133,12 +133,12 @@ export default function SideMenu() {
             <ArrowButton
               leftArrow
               onClick={handlePagePrevClick}
-              disable={prevPageState}
+              disabled={prevPageState}
             />
             <ArrowButton
               rightArrow
               onClick={handlePageNextClick}
-              disable={nextPageState}
+              disabled={nextPageState}
             />
           </section>
         </div>
