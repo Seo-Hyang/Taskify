@@ -31,8 +31,8 @@ export default function DashBoards() {
   const [pageCount, setPageCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1); //페이지 이동에 따라 변경
   const [pageSize, setPageSize] = useState<number>(6);
-  const [prevPageState, setPrevPageState] = useState<Boolean>(true);
-  const [nextPageState, setNextPageState] = useState<Boolean>(false);
+  const [prevPageState, setPrevPageState] = useState(true);
+  const [nextPageState, setNextPageState] = useState(false);
   //초대받은 대시보드
   const [invitedList, setInvitedList] = useState<DashboardInvitation[]>([]); //초대받은 대시보드 목록
   const [invitedCount, setInvitedCount] = useState<number>(0);
@@ -165,12 +165,12 @@ export default function DashBoards() {
                   <ArrowButton
                     leftArrow={true}
                     onClick={handlePagePrevClick}
-                    disable={prevPageState}
+                    disabled={prevPageState}
                   />
                   <ArrowButton
                     rightArrow={true}
                     onClick={handlePageNextClick}
-                    disable={nextPageState}
+                    disabled={nextPageState}
                   />
                 </div>
               </div>
