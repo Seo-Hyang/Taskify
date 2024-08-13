@@ -14,6 +14,7 @@ import ColumnEdit from "@/components/Column/ColumnEdit/";
 //카드 타입 인터페이스
 import { Card } from "@/types/Card";
 import useModalStore from "@/hooks/useModalStore";
+import useEditModalStore from "@/hooks/useEditModalStore";
 import ToDoCreate from "../Modal/ToDoCreate";
 
 interface Props{

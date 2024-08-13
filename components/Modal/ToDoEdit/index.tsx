@@ -14,7 +14,7 @@ import CalendarIcon from "@/public/icons/calendar_today_icon.svg";
 import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
 import Dialog from "../modal";
-import useModalStore from "@/hooks/useModalStore";
+import useEditModalStore from "@/hooks/useEditModalStore";
 import { useCardStore } from "@/hooks/useCarStore";
 
 interface Assignee {
@@ -107,7 +107,7 @@ export default function ToDoEdit({
       profileImageUrl: "",
     },
   });
-  const { closeModal } = useModalStore();
+  const {editcloseModal}=useEditModalStore();
 
   const toggleColumnDropdown = () => setIsColumnOpen(!isColumnOpen);
   const toggleAssignDropdown = () => setIsAssignOpen(!isAssignOpen);
@@ -233,7 +233,7 @@ export default function ToDoEdit({
     } catch (err) {
       console.error("카드 수정에 실패했습니다.");
     }
-    closeModal("editcard");
+    editcloseModal("editcard");
   };
 
   // 담당자 get
@@ -306,7 +306,7 @@ export default function ToDoEdit({
     setImgUrl(url);
   };
   const handleCancelClick = () => {
-    closeModal("editcard");
+    editcloseModal("editcard");
   };
 
   return (
