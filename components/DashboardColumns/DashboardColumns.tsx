@@ -16,12 +16,21 @@ import { Card } from "@/types/Card";
 import useModalStore from "@/hooks/useModalStore";
 import ToDoCreate from "../Modal/ToDoCreate";
 
+interface Props{
+  children?:React.ReactNode;
+  columnId:number;
+  cardCounts?:number;
+  dashboardId:number;
+  onUpdateColumns :()=> void;
+}
+
 export default function Column({
   children = "",
   columnId = 0,
   cardCounts = 0,
   dashboardId = 0,
-}) {
+  onUpdateColumns,
+}:Props) {
   const [cardList, setCardList] = useState<Card[]>([]); //카드 목록
   const [totalCount, setTotalCount] = useState(0);
   const { openModal } = useModalStore();
@@ -90,7 +99,7 @@ export default function Column({
         ))}
       </section>
       <ToDoCreate dashboardId={dashboardId} columnId={columnId} />
-      <ColumnEdit dashboardId={dashboardId} columnId={columnId} />
+      <ColumnEdit dashboardId={dashboardId} columnId={columnId} onUpdateColumns={onUpdateColumns}/>
     </div>
   );
 }

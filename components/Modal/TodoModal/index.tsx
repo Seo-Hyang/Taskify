@@ -100,7 +100,7 @@ export default function ToDoModal({
     };
 
     fetchCard();
-  }, [cardId, setCard]);
+  }, [cardId, setCard,tagColors]);
 
   useEffect(() => {
     if (card) {
@@ -268,4 +268,3 @@ export default function ToDoModal({
     </Dialog>
   );
 }
-

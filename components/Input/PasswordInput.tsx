@@ -61,10 +61,10 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
             alt="비밀번호 표시 상태 아이콘"
           />
         </button>
-        {errorMessage && (
-          <div className={styles.ErrorMessage}>{errorMessage}</div>
-        )}
       </div>
+      {errorMessage && (
+        <div className={styles.ErrorMessage}>{errorMessage}</div>
+      )}
     </div>
   );
 };

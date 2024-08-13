@@ -82,6 +82,9 @@ export default function DashBoard() {
   const handleColumnAdded = () => {
     getColumnList();
   };
+  const handleUpdateColumns=()=>{
+    getColumnList();
+  }
 
   return (
     <>
@@ -101,6 +104,7 @@ export default function DashBoard() {
               <DashboardColumn
                 dashboardId={Number(dashboardId)}
                 columnId={item.id}
+                onUpdateColumns={handleUpdateColumns}
               >
                 {item.title}
               </DashboardColumn>
