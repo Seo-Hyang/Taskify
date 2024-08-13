@@ -33,6 +33,7 @@ export default function DashBoards() {
   const [pageSize, setPageSize] = useState<number>(6);
   const [prevPageState, setPrevPageState] = useState(true);
   const [nextPageState, setNextPageState] = useState(false);
+  const [currentId, setCurrentId] = useState(0);
   //초대받은 대시보드
   const [invitedList, setInvitedList] = useState<DashboardInvitation[]>([]); //초대받은 대시보드 목록
   const [invitedCount, setInvitedCount] = useState<number>(0);
@@ -133,13 +134,7 @@ export default function DashBoards() {
         </Head>
         <section>
           <SideMenu />
-          <Header
-            dashboardId={
-              localStorage.getItem("currentDashboardId") !== null
-                ? Number(localStorage.getItem("currentDashboardId"))
-                : 11655
-            }
-          />
+          <Header dashboardId={currentId !== 0 ? currentId : 11655} />
         </section>
       </section>
       <section className={styles.dashboardContainer}>
@@ -164,6 +159,9 @@ export default function DashBoards() {
                     localStorage.setItem(
                       "currentDashboardId",
                       item.id.toString()
+                    );
+                    setCurrentId(
+                      Number(localStorage.getItem("currentDashboardId"))
                     );
                     router.push(
                       `/dashboards/${localStorage.getItem(
