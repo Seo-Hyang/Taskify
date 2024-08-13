@@ -67,6 +67,7 @@ function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { email, password } = formState;
+
     const newErrors = {
       email: getErrorMessage("email", formState.email),
       password: getErrorMessage("password", formState.password),

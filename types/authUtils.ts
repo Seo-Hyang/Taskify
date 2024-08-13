@@ -15,21 +15,29 @@ export const isValidEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
+const containsKorean = (value: string) => {
+  const koreanCharRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+  return koreanCharRegex.test(value);
+};
+
 export const getErrorMessage = (
   type: "email" | "nickname" | "password" | "passwordConfirmation",
   value: string,
   password?: string
 ): string => {
   const trimmedValue = value.trim();
+
   switch (type) {
     case "email":
       if (!trimmedValue) return "이메일을 입력해 주세요";
-      if (!isValidEmail(trimmedValue)) return "잘못된 이메일 형식입니다";
+      if (!isValidEmail(trimmedValue) || containsKorean(trimmedValue))
+        return "잘못된 이메일 형식입니다";
       return "";
     case "nickname":
       return trimmedValue ? "" : "닉네임을 입력해 주세요";
     case "password":
       if (!trimmedValue) return "비밀번호를 입력해 주세요";
+      if (containsKorean(trimmedValue)) return "잘못된 비밀번호 형식입니다";
       if (trimmedValue.length < 8) return "비밀번호를 8자 이상 입력해 주세요";
       return "";
     case "passwordConfirmation":
