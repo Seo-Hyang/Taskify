@@ -14,15 +14,15 @@
 
   &:hover {
     transition: 0.5s;
-    background: var(--color-violet-8); // 확인용
+    background: var(--color-violet-8);
   }
 
   &:active {
-    background: var(--color-red); // 확인용
+    background: var(--color-violet-20);
   }
 
   &:disabled {
-    background: var(--color-gray-400);
+    background: var(--color-gray-200);
     cursor: not-allowed;
   }
 }
