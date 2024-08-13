@@ -7,15 +7,17 @@ interface DashboardListButtonProps {
   children: ReactNode;
   isOwn?: boolean;
   color: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function DashboardListButton({
   children,
   isOwn = false,
   color = "#000000",
+  onClick,
 }: DashboardListButtonProps) {
   return (
-    <button className={styles.container}>
+    <button className={styles.container} onClick={onClick}>
       <section className={styles.contents}>
         <div className={styles.contents_inner}>
           <div

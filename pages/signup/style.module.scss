@@ -10,7 +10,7 @@
 .Form {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 0.5em;
 }
 
 .checkbox-container {
@@ -26,6 +26,7 @@
 
 .question {
   text-align: center;
+  margin-bottom: 40px;
   .Link {
     color: #5534da;
   }

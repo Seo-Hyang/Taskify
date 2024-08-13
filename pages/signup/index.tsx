@@ -109,7 +109,7 @@ function SignUpPage() {
           password,
         });
 
-        router.push("/LoginPage");
+        router.push("/login");
       } catch (error) {
         if ((error as AxiosError).response?.status === 409) {
           console.error("회원가입 실패:", error);

@@ -26,6 +26,8 @@ export default function SideMenu() {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState<number>(0);
   const pageSize = 10;
+  const [prevPageState, setPrevPageState] = useState(true);
+  const [nextPageState, setNextPageState] = useState(false);
 
   async function getDashboardList() {
     try {
@@ -45,16 +47,21 @@ export default function SideMenu() {
 
   //이전 페이지로
   const handlePagePrevClick = (e: React.MouseEvent) => {
-    if (page > 1) {
-      setPage((prev) => prev - 1);
-    } else return;
+    setPage((page) => page - 1);
+    setNextPageState(false);
+    if (page === 2) {
+      setPrevPageState(true);
+    }
   };
 
   //다음 페이지로
   const handlePageNextClick = (e: React.MouseEvent) => {
-    if (page < pageCount) {
-      setPage((prev) => prev + 1);
-    } else return;
+    setPage((page) => page + 1);
+    setPrevPageState(false);
+
+    if (page === pageCount - 1) {
+      setNextPageState(true);
+    }
   };
 
   useEffect(() => {
@@ -127,8 +134,16 @@ export default function SideMenu() {
             ))}
           </section>
           <section className={styles.arrowButtons}>
-            <ArrowButton leftArrow onClick={handlePagePrevClick} />
-            <ArrowButton rightArrow onClick={handlePageNextClick} />
+            <ArrowButton
+              leftArrow
+              onClick={handlePagePrevClick}
+              disabled={prevPageState}
+            />
+            <ArrowButton
+              rightArrow
+              onClick={handlePageNextClick}
+              disabled={nextPageState}
+            />
           </section>
         </div>
       </div>
