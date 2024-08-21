@@ -33,12 +33,15 @@ export default function DashBoards() {
   const [pageSize, setPageSize] = useState<number>(6);
   const [prevPageState, setPrevPageState] = useState(true);
   const [nextPageState, setNextPageState] = useState(false);
+  const [currentId, setCurrentId] = useState(0);
   //초대받은 대시보드
   const [invitedList, setInvitedList] = useState<DashboardInvitation[]>([]); //초대받은 대시보드 목록
   const [invitedCount, setInvitedCount] = useState<number>(0);
+  const [inviteAccepted, setInviteAccepted] = useState<boolean>(true);
+  const [inviteDenied, setInviteDenied] = useState<boolean>(false);
+  const [invitationId, setInvitationId] = useState<number>(0);
   //검색
   const [searchValue, setSearchValue] = useState("");
-  const [errors, setErrors] = useState<string>("");
 
   const { isShowModal, setIsShowModal } = useInviteStore();
 
@@ -111,7 +114,7 @@ export default function DashBoards() {
     if (pageCount === 1) {
       setNextPageState(true);
     }
-  }, [page, pageCount]);
+  }, [page, pageCount, invitedList]);
 
   // 대시보드 생성 칼럼
   const handleAddDashboardClick = (e: React.MouseEvent) => {
@@ -120,6 +123,18 @@ export default function DashBoards() {
 
   const closeModal = () => {
     setIsShowModal(false);
+  };
+
+  const acceptInvitation = async () => {
+    try {
+      const response = await instance.put(`/invitations/${invitationId}`, {
+        inviteAccepted,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("에러 발생", error);
+      throw error;
+    }
   };
 
   return (
@@ -132,7 +147,7 @@ export default function DashBoards() {
         </Head>
         <section>
           <SideMenu />
-          <Header dashboardId={11370} />
+          <Header dashboardId={currentId !== 0 ? currentId : 11655} />
         </section>
       </section>
       <section className={styles.dashboardContainer}>
@@ -157,6 +172,9 @@ export default function DashBoards() {
                     localStorage.setItem(
                       "currentDashboardId",
                       item.id.toString()
+                    );
+                    setCurrentId(
+                      Number(localStorage.getItem("currentDashboardId"))
                     );
                     router.push(
                       `/dashboards/${localStorage.getItem(
@@ -228,8 +246,26 @@ export default function DashBoards() {
                               {item.inviter.nickname}
                             </div>
                             <div className={styles.dashboard_invitedButtons}>
-                              <PageButton isAccept={true}>수락</PageButton>
-                              <PageButton isDecline={true}>거절</PageButton>
+                              <PageButton
+                                isAccept={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteAccepted,
+                                  });
+                                }}
+                              >
+                                수락
+                              </PageButton>
+                              <PageButton
+                                isDecline={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteDenied,
+                                  });
+                                }}
+                              >
+                                거절
+                              </PageButton>
                             </div>
                           </section>
                         ) : item.dashboard.title.indexOf(searchValue) != -1 ||
@@ -245,8 +281,26 @@ export default function DashBoards() {
                               {item.inviter.nickname}
                             </div>
                             <div className={styles.dashboard_invitedButtons}>
-                              <PageButton isAccept={true}>수락</PageButton>
-                              <PageButton isDecline={true}>거절</PageButton>
+                              <PageButton
+                                isAccept={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteAccepted,
+                                  });
+                                }}
+                              >
+                                수락
+                              </PageButton>
+                              <PageButton
+                                isDecline={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteDenied,
+                                  });
+                                }}
+                              >
+                                거절
+                              </PageButton>
                             </div>
                           </section>
                         ) : (
@@ -279,8 +333,26 @@ export default function DashBoards() {
                                 styles["dashboard_invitedButtons-mobile"]
                               }
                             >
-                              <PageButton isAccept={true}>수락</PageButton>
-                              <PageButton isDecline={true}>거절</PageButton>
+                              <PageButton
+                                isAccept={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteAccepted,
+                                  });
+                                }}
+                              >
+                                수락
+                              </PageButton>
+                              <PageButton
+                                isDecline={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteDenied,
+                                  });
+                                }}
+                              >
+                                거절
+                              </PageButton>
                             </div>
                           </section>
                         ) : item.dashboard.title.indexOf(searchValue) != -1 ||
@@ -306,8 +378,26 @@ export default function DashBoards() {
                                 styles["dashboard_invitedButtons-mobile"]
                               }
                             >
-                              <PageButton isAccept={true}>수락</PageButton>
-                              <PageButton isDecline={true}>거절</PageButton>
+                              <PageButton
+                                isAccept={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteAccepted,
+                                  });
+                                }}
+                              >
+                                수락
+                              </PageButton>
+                              <PageButton
+                                isDecline={true}
+                                onClick={() => {
+                                  instance.put(`/invitations/${item.id}`, {
+                                    inviteDenied,
+                                  });
+                                }}
+                              >
+                                거절
+                              </PageButton>
                             </div>
                           </section>
                         ) : (
