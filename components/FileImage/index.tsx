@@ -5,7 +5,7 @@ import File_input_img from "@/public/icons/file_input_img.svg";
 import { postImage } from "@/lib/modalApi";
 
 interface Props {
-  onImageUpload: (url: string) => void;
+  onImageUpload: (columnId: number, url: string) => void;
   initialImageUrl?: string;
   columnId: number;
 }
@@ -26,7 +26,7 @@ export default function FileInput({
 
       try {
         const response = await postImage(columnId, file); // postImage 함수 호출
-        onImageUpload(response.imageUrl); // 업로드된 이미지 URL을 부모 컴포넌트로 전달
+        onImageUpload(columnId,response.imageUrl); // 업로드된 이미지 URL을 부모 컴포넌트로 전달
       } catch (err) {
         console.error("Image upload failed.");
       }

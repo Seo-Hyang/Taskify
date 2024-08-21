@@ -34,7 +34,7 @@ export default function Column({
 }: Props) {
   const [cardList, setCardList] = useState<Card[]>([]); //카드 목록
   const [totalCount, setTotalCount] = useState(0);
-  const { modals, openModal } = useModalStore();
+  const { openModal } = useModalStore();
 
   async function getCardList() {
     try {
@@ -55,7 +55,7 @@ export default function Column({
   }, []);
 
   const handleCreateCardClick = (e: React.MouseEvent) => {
-    openModal("createCard");
+    openModal(`createCard-${columnId}`);
   };
 
   const handleCardDeleted = (deletedCardId: number) => {
@@ -69,10 +69,10 @@ export default function Column({
     openModal("editColumn");
   };
 
-  // const handleCardCreated = (newCard: Card) => {
-  //   setCardList((prevCards) => [newCard, ...prevCards]);
-  //   setTotalCount((prevCount) => prevCount + 1);
-  // };
+  const handleCardCreated = (newCard: Card) => {
+    setCardList((prevCards) => [newCard, ...prevCards]);
+    setTotalCount((prevCount) => prevCount + 1);
+  };
 
   return (
     <div className={styles.container}>
@@ -108,12 +108,16 @@ export default function Column({
           />
         ))}
       </section>
-      <ToDoCreate dashboardId={dashboardId} columnId={columnId} />
-      {/* <ColumnEdit
+      <ToDoCreate
+        dashboardId={dashboardId}
+        columnId={columnId}
+        onCardCreated={handleCardCreated}
+      />
+      <ColumnEdit
         dashboardId={dashboardId}
         columnId={columnId}
         onUpdateColumns={onUpdateColumns}
-      /> */}
+      />
     </div>
   );
 }
