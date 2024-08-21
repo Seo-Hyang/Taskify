@@ -16,6 +16,7 @@ import { useTagColors } from "@/hooks/useTagColors";
 import Dialog from "../modal";
 import useModalStore from "@/hooks/useModalStore";
 import { useCardStore } from "@/hooks/useCarStore";
+import useEditModalStore from "@/hooks/useEditModalStore";
 
 interface Assignee {
   userId?: number;
@@ -86,7 +87,6 @@ export default function ToDoEdit({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [isTag, setIsTag] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const dropdownAssigneeRef = useRef<HTMLDivElement>(null);
   const dropdownColumnRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState<Columns[]>([]); //드롭다운 했을 때 컬럼 상태들
@@ -107,7 +107,7 @@ export default function ToDoEdit({
       profileImageUrl: "",
     },
   });
-  const { closeModal } = useModalStore();
+  const { editcloseModal } = useEditModalStore();
 
   const toggleColumnDropdown = () => setIsColumnOpen(!isColumnOpen);
   const toggleAssignDropdown = () => setIsAssignOpen(!isAssignOpen);
@@ -188,7 +188,6 @@ export default function ToDoEdit({
           },
         }));
         setStartDate(new Date(response.dueDate));
-        setImgUrl(response.imageUrl);
       } catch (err) {
         console.error("카드 조회에 실패했습니다");
       }
@@ -233,7 +232,7 @@ export default function ToDoEdit({
     } catch (err) {
       console.error("카드 수정에 실패했습니다.");
     }
-    closeModal("editcard");
+    editcloseModal("editcard");
   };
 
   // 담당자 get
@@ -303,10 +302,9 @@ export default function ToDoEdit({
       ...prevValues,
       imageUrl: url,
     }));
-    setImgUrl(url);
   };
   const handleCancelClick = () => {
-    closeModal("editcard");
+    editcloseModal("editcard");
   };
 
   return (
@@ -482,14 +480,6 @@ export default function ToDoEdit({
                 </span>
               ))}
             </div>
-          </div>
-          <div className={styles["todo-create-input-img"]}>
-            <label className={styles["todo-create-auth-label"]}>이미지</label>
-            <FileInput
-              onImageUpload={handleNewImageUpload}
-              initialImageUrl={imgUrl}
-              columnId={columnId}
-            />
           </div>
         </div>
 

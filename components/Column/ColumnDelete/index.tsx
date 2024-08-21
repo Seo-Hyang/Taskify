@@ -17,6 +17,7 @@ export default function ColumnDelete({ columnId }: Props) {
     try {
       await putcolumnDelete(columnId);
       closeModal("deletecolumn");
+      console.log("삭제");
     } catch (err) {
       console.error("해당 칼럼 삭제에 실패했습니다.");
     }

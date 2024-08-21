@@ -15,7 +15,12 @@ import { format } from "date-fns";
 import { useTagColors } from "@/hooks/useTagColors";
 import Dialog from "../modal";
 import useModalStore from "@/hooks/useModalStore";
-import Image from "next/image";
+import { Upload, type UploadProps } from 'antd';
+import instance from "@/lib/axios";
+import { Card } from "@/types/Card";
+
+import Button from "@/components/Button/Button/Button";
+
 
 interface Assignee {
   id: number;
@@ -33,6 +38,7 @@ interface DatePickerProps {
 interface ToDoCreateProps {
   dashboardId: number;
   columnId: number;
+  onCardCreated?:(newCard:Card)=> void;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
@@ -51,7 +57,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ startDate, setStartDate }) => {
   );
 };
 
-export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
+export default function ToDoCreate({ dashboardId, columnId ,onCardCreated}: ToDoCreateProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -61,15 +67,14 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
   const [assignees, setAssignees] = useState<Assignee[]>([]);
   const [selectedAssignee, setSelectedAssignee] = useState<Assignee>();
   const [initiallySelected, setInitiallySelected] = useState(false);
-  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const { tagColors, addTagColor } = useTagColors();
   const { closeModal } = useModalStore();
 
   const [values, setValues] = useState({
     assigneeUserId: selectedAssignee?.userId,
-    dashboardId: 0,
-    columnId: 0,
+    dashboardId,
+    columnId,
     title: "",
     description: "",
     dueDate: "",
@@ -118,12 +123,12 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
     }
   };
 
-  const handleImageUpload = (url: string) => {
+  const handleImageUpload = (columnId:number, url: string) => {
+
     setValues((prevValues) => ({
       ...prevValues,
       imageUrl: url,
-    }));
-    setImgUrl(url);
+    }))
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -138,7 +143,7 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      await postCards(
+     await postCards(
         values.assigneeUserId,
         dashboardId,
         columnId,
@@ -148,13 +153,16 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
         values.tags,
         values.imageUrl || ""
       );
+      closeModal("createCard");
+      values.imageUrl="";
     } catch (error) {
       console.error("Error creating card:", error);
     }
   };
   useEffect(() => {
-    const { assigneeUserId, title, description } = values;
-    if (assigneeUserId && title && description) {
+    const { assigneeUserId, title, description, tags, dueDate, imageUrl } =
+      values;
+    if (assigneeUserId && title && description && tags && dueDate && imageUrl) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
@@ -196,10 +204,38 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
 
   const handleCancelClick = () => {
     closeModal("createCard");
+    values.imageUrl="";
   };
 
+  const customRequest = async ({ file, onSuccess, onError }: any) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await instance.post(`/columns/${columnId}/card-image`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      // 업로드 성공 시 이미지 URL을 상태에 저장
+      handleImageUpload(columnId, response.data.imageUrl);
+    } catch (error) {
+      onError(new Error('업로드 실패'));
+    }
+  };
+
+  const props: UploadProps = {
+    name: 'file',
+    customRequest,
+    onChange(info) {
+      // 성공 여부에 따라 토스트 등의 컨트롤
+    },
+  };
+
+
   return (
-    <Dialog id="createCard" className={styles["dialog-container"]}>
+    <Dialog id={`createCard-${columnId}`} className={styles["dialog-container"]}>
+      
       <div className={styles["todo-create"]}>
         <h1 className={styles["todo-create-h1"]}>할일 생성</h1>
         <div className={styles["todo-create-input-section"]}>
@@ -284,11 +320,11 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
             />
           </div>
           <div className={styles["todo-create-input-auth"]}>
-            <label className={styles["todo-create-auth-label"]}>마감일</label>
+            <label className={styles["todo-create-auth-label"]}>마감일 *</label>
             <DatePicker startDate={startDate} setStartDate={setStartDate} />
           </div>
           <div className={styles["todo-create-input-auth"]}>
-            <label className={styles["todo-create-auth-label"]}>태그</label>
+            <label className={styles["todo-create-auth-label"]}>태그 *</label>
             <Input
               name="tag"
               value={isTag}
@@ -313,12 +349,17 @@ export default function ToDoCreate({ dashboardId, columnId }: ToDoCreateProps) {
             </div>
           </div>
           <div className={styles["todo-create-input-img"]}>
-            <label className={styles["todo-create-auth-label"]}>이미지</label>
+            <label className={styles["todo-create-auth-label"]}>
+              이미지 (변경 불가능한 항목입니다)
+            </label>
             <FileInput
               onImageUpload={handleImageUpload}
-              initialImageUrl={imgUrl}
+              initialImageUrl={values.imageUrl}
               columnId={columnId}
             />
+          <Upload {...props}>
+            <Button >Click to Upload</Button>
+          </Upload>
           </div>
         </div>
         <div className={styles["todo-create-button-container"]}>

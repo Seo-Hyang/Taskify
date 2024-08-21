@@ -1,3 +1,4 @@
+// useModalStore
 import { create } from "zustand";
 
 interface State {
@@ -8,13 +9,14 @@ interface State {
 
 const useModalStore = create<State>((set) => ({
   modals: {},
-  openModal: (id: string) =>
-    set((state) => ({
-      modals: { ...state.modals, [id]: true },
-    })),
+  openModal: (id: string) => {
+    return set((state) => ({
+      modals: { [id]: true },
+    }));
+  },
   closeModal: (id: string) =>
     set((state) => ({
-      modals: { ...state.modals, [id]: false },
+      modals: { [id]: false },
     })),
 }));
 

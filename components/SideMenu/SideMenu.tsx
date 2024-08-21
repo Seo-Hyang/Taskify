@@ -30,15 +30,19 @@ export default function SideMenu() {
   const [nextPageState, setNextPageState] = useState(false);
 
   async function getDashboardList() {
-    const res = await instance.get(
-      `/dashboards?navigationMethod=pagination&page=${page}&size=${pageSize}`
-    );
-    const nextDashboardList = res.data;
-    const { dashboards, totalCount, cursorId } = nextDashboardList;
+    try {
+      const res = await instance.get(
+        `/dashboards?navigationMethod=pagination&page=${page}&size=${pageSize}`
+      );
+      const nextDashboardList = res.data;
+      const { dashboards, totalCount, cursorId } = nextDashboardList;
 
-    const pageCnt = Math.ceil(totalCount / pageSize);
-    setPageCount(pageCnt);
-    setDashboardList(dashboards);
+      const pageCnt = Math.trunc(totalCount / pageSize) + 1;
+      setPageCount(pageCnt);
+      setDashboardList(dashboards);
+    } catch (err) {
+      console.log("목록 조회에 실패했습니다.");
+    }
   }
 
   //이전 페이지로

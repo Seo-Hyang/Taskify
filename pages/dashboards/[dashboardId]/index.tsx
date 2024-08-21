@@ -17,8 +17,6 @@ import ColumnInvite from "@/components/Column/ColumnInvite";
 import useInviteStore from "@/hooks/useInviteStore";
 import useModalStore from "@/hooks/useModalStore";
 import ColumnAdd from "@/components/Column/ColumnAdd";
-import ToDoCreate from "@/components/Modal/ToDoCreate";
-import ToDoModal from "@/components/Modal/TodoModal";
 
 export type Column = {
   id: number;

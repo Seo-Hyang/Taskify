@@ -48,17 +48,26 @@ export default function DashBoards() {
   const { openModal } = useModalStore();
 
   async function getDashboardList() {
-    const res = await instance.get(
-      `/dashboards?navigationMethod=pagination&page=${page}&size=${pageSize}`
-    );
-    const nextDashboardList = res.data;
-    const { dashboards, totalCount, cursorId } = nextDashboardList;
+    if (page === 1) {
+      setPageSize(5);
+    } else {
+      setPageSize(6);
+    }
+    try {
+      const res = await instance.get(
+        `/dashboards?navigationMethod=pagination&page=${page}&size=${pageSize}`
+      );
+      const nextDashboardList = res.data;
+      const { dashboards, totalCount, cursorId } = nextDashboardList;
 
-    const pageCnt = Math.ceil(totalCount / 6);
+    const pageCnt = Math.trunc(totalCount / pageSize) + 1;
 
-    setDashboardList(dashboards);
-    setDashboardTotalCount(totalCount);
-    setPageCount(pageCnt);
+      setDashboardList(dashboards);
+      setDashboardTotalCount(totalCount);
+      setPageCount(pageCnt);
+    } catch (err) {
+      console.log("데이터 조회에 실패했습니다");
+    }
   }
 
   //이전 페이지로
@@ -81,13 +90,17 @@ export default function DashBoards() {
   };
 
   async function getInvitedList() {
-    const res = await instance.get(`/invitations?size=${pageSize}`);
-    const nextDashboardList = res.data;
-    const { invitations, cursorId } = nextDashboardList;
-    const invitationCount = invitations.length;
+    try {
+      const res = await instance.get(`/invitations?size=${pageSize}`);
+      const nextDashboardList = res.data;
+      const { invitations, cursorId } = nextDashboardList;
+      const invitationCount = invitations.length;
 
-    setInvitedList(invitations);
-    setInvitedCount(invitationCount);
+      setInvitedList(invitations);
+      setInvitedCount(invitationCount);
+    } catch (err) {
+      console.log("데이터 조회에 실패했습니다");
+    }
   }
 
   function handleChange(e: any) {

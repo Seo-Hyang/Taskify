@@ -1,5 +1,5 @@
+// next.config.mjs
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
@@ -16,6 +16,15 @@ const nextConfig = {
       "ui-avatars.com",
     ],
   },
+  transpilePackages: [
+    "antd",
+    "@ant-design",
+    "rc-util",
+    "zustand",
+    "rc-pagination",
+    "rc-picker",
+    "rc-notification",
+  ],
 };
 
 export default nextConfig;

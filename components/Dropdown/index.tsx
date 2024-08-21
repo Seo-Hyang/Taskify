@@ -4,6 +4,7 @@ import More_vert from "@/public/icons/more_vert_icon.svg";
 import useModalStore from "@/hooks/useModalStore";
 import ToDoEdit from "../Modal/ToDoEdit";
 import CardDelete from "../Column/CardDelete";
+import useEditModalStore from "@/hooks/useEditModalStore";
 
 interface Assignee {
   userId?: number;
@@ -35,12 +36,12 @@ export default function Dropdown({
   columnId,
   dashboardId,
   onCardDeleted,
-  onUpdate
+  onUpdate,
 }: Props) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<"edit" | "delete">();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { openModal } = useModalStore();
+  const { editopenModal } = useEditModalStore();
 
   const toggleDropdown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -49,12 +50,12 @@ export default function Dropdown({
 
   const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setActiveButton("edit");
-    openModal("editcard");
+    editopenModal("editcard");
   };
 
   const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setActiveButton("delete");
-    openModal("deletecard");
+    editopenModal("deletecard");
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -75,7 +76,7 @@ export default function Dropdown({
 
   return (
     <div ref={dropdownRef} className={styles["dropdown-container"]}>
-      <ToDoEdit cardId={cardId} columnId={columnId} dashboardId={dashboardId} />
+      {/* <ToDoEdit cardId={cardId} columnId={columnId} dashboardId={dashboardId} /> */}
       <CardDelete cardId={cardId} onCardDeleted={onCardDeleted} />
       <button className={styles["dropdown-button"]} onClick={toggleDropdown}>
         <More_vert width="28" height="28" />
